@@ -126,4 +126,5 @@ Using dict
     response = payfac_legalEntity.post_by_legalEntity(request)
 
 ''',
+    long_description_content_type='text/markdown',
 )
