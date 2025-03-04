@@ -44,6 +44,17 @@ class TestSubMerchant(unittest.TestCase):
         eCheck.set_eCheckBillingDescriptor("978555222")
         eCheck.set_enabled("true")
         subMerchantUpdateRequest.set_eCheck(eCheck)
+        categoryCode = generatedClass.merchantCategoryTypesType.factory()
+        categoryCode.add_categoryType("GC")
+        # categoryCode.add_categoryType("CLEAR")  #to validate other scenario
+        subMerchantUpdateRequest.set_merchantCategoryTypes(categoryCode)
+
+        methodOfPayments = generatedClass.methodOfPaymentsType.factory()
+        method = generatedClass.methodType.factory()
+        method.set_selectedTransactionType("DEPOSITS_ONLY")
+        method.set_paymentType("AMERICAN_EXPRESS")
+        methodOfPayments.add_method(method)
+        subMerchantUpdateRequest.set_methodOfPayments(methodOfPayments)
 
         response = payfac_submerchant.put_by_subMerchantId("2018","123456", subMerchantUpdateRequest)
         self.assertIsNotNone(response["transactionId"])
@@ -100,6 +111,11 @@ class TestSubMerchant(unittest.TestCase):
         subMerchantCreateRequest.set_subMerchantFunding(submerchantFunding)
 
         subMerchantCreateRequest.set_settlementCurrency("USD")
+
+        categoryCode = generatedClass.merchantCategoryTypesType.factory()
+        categoryCode.add_categoryType("GC")
+        # categoryCode.add_categoryType("CLEAR")  #to validate other scenario
+        subMerchantCreateRequest.set_merchantCategoryTypes(categoryCode)
 
         response = payfac_submerchant.post_by_legalEntity("2018",subMerchantCreateRequest)
         self.assertIsNotNone(response["subMerchantId"])

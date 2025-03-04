@@ -2,38 +2,40 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Thu Apr 23 10:59:30 2020 by generateDS.py version 2.35.20.
-# Python 2.7.14 (default, Apr 23 2020, 08:59:37)  [GCC 4.8.5 20150623 (Red Hat 4.8.5-39)]
+# Generated Tue Mar  4 07:03:38 2025 by generateDS.py version 2.44.3.
+# Python 3.11.11 (main, Dec  9 2024, 15:32:27) [GCC 8.5.0 20210514 (Red Hat 8.5.0-22)]
 #
 # Command line options:
 #   ('--namespacedef', 'xmlns:http://payfac.vantivcnp.com/api/merchant/onboard')
 #   ('-o', 'generatedClass.py')
 #
 # Command line arguments:
-#   /usr/local/litle-home/aviano/git/payfac-mp-sdk-python/payfacMPSdk/schema/merchant-onboard-api-v13.1.xsd
+#   /usr/local/litle-home/jbhosale/mp-sdk-python-v14/payfacMPSdk/schema/merchant-onboard-api-v14.xsd
 #
 # Command line:
-#   /usr/local/litle-home/aviano/git/payfac-mp-sdk-python/env27/bin/generateDS.py --namespacedef="xmlns:http://payfac.vantivcnp.com/api/merchant/onboard" -o "generatedClass.py" /usr/local/litle-home/aviano/git/payfac-mp-sdk-python/payfacMPSdk/schema/merchant-onboard-api-v13.1.xsd
+#   /usr/local/litle-home/jbhosale/mp-sdk-python-v14/.venv/bin/generateDS.py --namespacedef="xmlns:http://payfac.vantivcnp.com/api/merchant/onboard" -o "generatedClass.py" /usr/local/litle-home/jbhosale/mp-sdk-python-v14/payfacMPSdk/schema/merchant-onboard-api-v14.xsd
 #
 # Current working directory (os.getcwd()):
-#   payfac-mp-sdk-python
+#   tools
 #
 
+import sys
+try:
+    ModulenotfoundExp_ = ModuleNotFoundError
+except NameError:
+    ModulenotfoundExp_ = ImportError
 from six.moves import zip_longest
 import os
-import sys
 import re as re_
 import base64
 import datetime as datetime_
 import decimal as decimal_
-try:
-    from lxml import etree as etree_
-except ImportError:
-    from xml.etree import ElementTree as etree_
+from lxml import etree as etree_
 
 
 Validate_simpletypes_ = True
 SaveElementTreeNode = True
+TagNamePrefix = ""
 if sys.version_info.major == 2:
     BaseStrType_ = basestring
 else:
@@ -92,7 +94,7 @@ def parsexmlstring_(instring, parser=None, **kwargs):
 # Additionally, the generatedsnamespaces module can contain a python
 # dictionary named GenerateDSNamespaceTypePrefixes that associates element
 # types with the namespace prefixes that are to be added to the
-# "xsi:type" attribute value.  See the exportAttributes method of
+# "xsi:type" attribute value.  See the _exportAttributes method of
 # any generated element type and the generation of "xsi:type" for an
 # example of the use of this table.
 # An example table:
@@ -107,11 +109,11 @@ def parsexmlstring_(instring, parser=None, **kwargs):
 
 try:
     from generatedsnamespaces import GenerateDSNamespaceDefs as GenerateDSNamespaceDefs_
-except ImportError:
+except ModulenotfoundExp_ :
     GenerateDSNamespaceDefs_ = {}
 try:
     from generatedsnamespaces import GenerateDSNamespaceTypePrefixes as GenerateDSNamespaceTypePrefixes_
-except ImportError:
+except ModulenotfoundExp_ :
     GenerateDSNamespaceTypePrefixes_ = {}
 
 #
@@ -122,7 +124,7 @@ except ImportError:
 #
 try:
     from generatedscollector import GdsCollector as GdsCollector_
-except ImportError:
+except ModulenotfoundExp_ :
 
     class GdsCollector_(object):
 
@@ -156,7 +158,7 @@ except ImportError:
 
 try:
     from enum import Enum
-except ImportError:
+except ModulenotfoundExp_ :
     Enum = object
 
 #
@@ -168,11 +170,16 @@ except ImportError:
 
 try:
     from generatedssuper import GeneratedsSuper
-except ImportError as exp:
+except ModulenotfoundExp_ as exp:
+    try:
+        from generatedssupersuper import GeneratedsSuperSuper
+    except ModulenotfoundExp_ as exp:
+        class GeneratedsSuperSuper(object):
+            pass
     
-    class GeneratedsSuper(object):
+    class GeneratedsSuper(GeneratedsSuperSuper):
         __hash__ = object.__hash__
-        tzoff_pattern = re_.compile(r'(\+|-)((0\d|1[0-3]):[0-5]\d|14:00)$')
+        tzoff_pattern = re_.compile('(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)$')
         class _FixedOffsetTZ(datetime_.tzinfo):
             def __init__(self, offset, name):
                 self.__offset = datetime_.timedelta(minutes=offset)
@@ -183,6 +190,33 @@ except ImportError as exp:
                 return self.__name
             def dst(self, dt):
                 return None
+        def __str__(self):
+            settings = {
+                'str_pretty_print': True,
+                'str_indent_level': 0,
+                'str_namespaceprefix': '',
+                'str_name': self.__class__.__name__,
+                'str_namespacedefs': '',
+            }
+            for n in settings:
+                if hasattr(self, n):
+                    settings[n] = getattr(self, n)
+            if sys.version_info.major == 2:
+                from StringIO import StringIO
+            else:
+                from io import StringIO
+            output = StringIO()
+            self.export(
+                output,
+                settings['str_indent_level'],
+                pretty_print=settings['str_pretty_print'],
+                namespaceprefix_=settings['str_namespaceprefix'],
+                name_=settings['str_name'],
+                namespacedef_=settings['str_namespacedefs']
+            )
+            strval = output.getvalue()
+            output.close()
+            return strval
         def gds_format_string(self, input_data, input_name=''):
             return input_data
         def gds_parse_string(self, input_data, node=None, input_name=''):
@@ -193,11 +227,11 @@ except ImportError as exp:
             else:
                 return input_data
         def gds_format_base64(self, input_data, input_name=''):
-            return base64.b64encode(input_data)
+            return base64.b64encode(input_data).decode('ascii')
         def gds_validate_base64(self, input_data, node=None, input_name=''):
             return input_data
         def gds_format_integer(self, input_data, input_name=''):
-            return '%d' % input_data
+            return '%d' % int(input_data)
         def gds_parse_integer(self, input_data, node=None, input_name=''):
             try:
                 ival = int(input_data)
@@ -211,6 +245,8 @@ except ImportError as exp:
                 raise_parse_error(node, 'Requires integer value')
             return value
         def gds_format_integer_list(self, input_data, input_name=''):
+            if len(input_data) > 0 and not isinstance(input_data[0], BaseStrType_):
+                input_data = [str(s) for s in input_data]
             return '%s' % ' '.join(input_data)
         def gds_validate_integer_list(
                 self, input_data, node=None, input_name=''):
@@ -219,10 +255,14 @@ except ImportError as exp:
                 try:
                     int(value)
                 except (TypeError, ValueError):
-                    raise_parse_error(node, 'Requires sequence of integer valuess')
+                    raise_parse_error(node, 'Requires sequence of integer values')
             return values
         def gds_format_float(self, input_data, input_name=''):
-            return ('%.15f' % input_data).rstrip('0')
+            value = ('%.15f' % float(input_data)).rstrip('0')
+            if value.endswith('.'):
+                value += '0'
+            return value
+    
         def gds_parse_float(self, input_data, node=None, input_name=''):
             try:
                 fval_ = float(input_data)
@@ -236,6 +276,8 @@ except ImportError as exp:
                 raise_parse_error(node, 'Requires float value')
             return value
         def gds_format_float_list(self, input_data, input_name=''):
+            if len(input_data) > 0 and not isinstance(input_data[0], BaseStrType_):
+                input_data = [str(s) for s in input_data]
             return '%s' % ' '.join(input_data)
         def gds_validate_float_list(
                 self, input_data, node=None, input_name=''):
@@ -247,7 +289,12 @@ except ImportError as exp:
                     raise_parse_error(node, 'Requires sequence of float values')
             return values
         def gds_format_decimal(self, input_data, input_name=''):
-            return ('%s' % input_data).rstrip('0')
+            return_value = '%s' % input_data
+            if '.' in return_value:
+                return_value = return_value.rstrip('0')
+                if return_value.endswith('.'):
+                    return_value = return_value.rstrip('.')
+            return return_value
         def gds_parse_decimal(self, input_data, node=None, input_name=''):
             try:
                 decimal_value = decimal_.Decimal(input_data)
@@ -261,7 +308,9 @@ except ImportError as exp:
                 raise_parse_error(node, 'Requires decimal value')
             return value
         def gds_format_decimal_list(self, input_data, input_name=''):
-            return '%s' % ' '.join(input_data)
+            if len(input_data) > 0 and not isinstance(input_data[0], BaseStrType_):
+                input_data = [str(s) for s in input_data]
+            return ' '.join([self.gds_format_decimal(item) for item in input_data])
         def gds_validate_decimal_list(
                 self, input_data, node=None, input_name=''):
             values = input_data.split()
@@ -272,7 +321,7 @@ except ImportError as exp:
                     raise_parse_error(node, 'Requires sequence of decimal values')
             return values
         def gds_format_double(self, input_data, input_name=''):
-            return '%e' % input_data
+            return '%s' % input_data
         def gds_parse_double(self, input_data, node=None, input_name=''):
             try:
                 fval_ = float(input_data)
@@ -286,6 +335,8 @@ except ImportError as exp:
                 raise_parse_error(node, 'Requires double or float value')
             return value
         def gds_format_double_list(self, input_data, input_name=''):
+            if len(input_data) > 0 and not isinstance(input_data[0], BaseStrType_):
+                input_data = [str(s) for s in input_data]
             return '%s' % ' '.join(input_data)
         def gds_validate_double_list(
                 self, input_data, node=None, input_name=''):
@@ -300,6 +351,7 @@ except ImportError as exp:
         def gds_format_boolean(self, input_data, input_name=''):
             return ('%s' % input_data).lower()
         def gds_parse_boolean(self, input_data, node=None, input_name=''):
+            input_data = input_data.strip()
             if input_data in ('true', '1'):
                 bval = True
             elif input_data in ('false', '0'):
@@ -315,11 +367,14 @@ except ImportError as exp:
                     '(one of True, 1, False, 0)')
             return input_data
         def gds_format_boolean_list(self, input_data, input_name=''):
+            if len(input_data) > 0 and not isinstance(input_data[0], BaseStrType_):
+                input_data = [str(s) for s in input_data]
             return '%s' % ' '.join(input_data)
         def gds_validate_boolean_list(
                 self, input_data, node=None, input_name=''):
             values = input_data.split()
             for value in values:
+                value = self.gds_parse_boolean(value, node, input_name)
                 if value not in (True, 1, False, 0, ):
                     raise_parse_error(
                         node,
@@ -476,6 +531,7 @@ except ImportError as exp:
             # The target value must match at least one of the patterns
             # in order for the test to succeed.
             found1 = True
+            target = str(target)
             for patterns1 in patterns:
                 found2 = False
                 for patterns2 in patterns1:
@@ -561,7 +617,7 @@ except ImportError as exp:
             path_list.reverse()
             path = '/'.join(path_list)
             return path
-        Tag_strip_pattern_ = re_.compile(r'\{.*\}')
+        Tag_strip_pattern_ = re_.compile(r'{.*}')
         def get_path_list_(self, node, path_list):
             if node is None:
                 return
@@ -721,6 +777,7 @@ def quote_attrib(inStr):
     s1 = s1.replace('&', '&amp;')
     s1 = s1.replace('<', '&lt;')
     s1 = s1.replace('>', '&gt;')
+    s1 = s1.replace('\n', '&#10;')
     if '"' in s1:
         if "'" in s1:
             s1 = '"%s"' % s1.replace('"', "&quot;")
@@ -766,7 +823,10 @@ def find_attr_value_(attr_name, node):
         value = attrs.get(attr_name)
     elif len(attr_parts) == 2:
         prefix, name = attr_parts
-        namespace = node.nsmap.get(prefix)
+        if prefix == 'xml':
+            namespace = 'http://www.w3.org/XML/1998/namespace'
+        else:
+            namespace = node.nsmap.get(prefix)
         if namespace is not None:
             value = attrs.get('{%s}%s' % (namespace, name, ))
     return value
@@ -847,7 +907,7 @@ class MixedContainer:
                 self.name,
                 base64.b64encode(self.value),
                 self.name))
-    def to_etree(self, element, mapping_=None, nsmap_=None):
+    def to_etree(self, element, mapping_=None, reverse_mapping_=None, nsmap_=None):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
@@ -867,7 +927,7 @@ class MixedContainer:
             subelement.text = self.to_etree_simple()
         else:    # category == MixedContainer.CategoryComplex
             self.value.to_etree(element)
-    def to_etree_simple(self, mapping_=None, nsmap_=None):
+    def to_etree_simple(self, mapping_=None, reverse_mapping_=None, nsmap_=None):
         if self.content_type == MixedContainer.TypeString:
             text = self.value
         elif (self.content_type == MixedContainer.TypeInteger or
@@ -940,12 +1000,11 @@ def _cast(typ, value):
         return value
     return typ(value)
 
-#
-# Data representation classes.
-#
 
-
-class businessNameAddressPhoneAssociationCode(Enum):
+#
+# Start enum classes
+#
+class businessNameAddressPhoneAssociationCode(str, Enum):
     NOT_VERIFIED='NOT_VERIFIED'
     WRONG_PHONE='WRONG_PHONE'
     NAME_OR_ADDRESS='NAME_OR_ADDRESS'
@@ -957,7 +1016,7 @@ class businessNameAddressPhoneAssociationCode(Enum):
     NAME_ADDRESS_PHONE='NAME_ADDRESS_PHONE'
 
 
-class businessOverallScore(Enum):
+class businessOverallScore(str, Enum):
     _0='0'
     _1_0='10'
     _2_0='20'
@@ -966,7 +1025,7 @@ class businessOverallScore(Enum):
     _5_0='50'
 
 
-class businessToPrincipalScore(Enum):
+class businessToPrincipalScore(str, Enum):
     _0='0'
     _1_0='10'
     _2_0='20'
@@ -975,16 +1034,16 @@ class businessToPrincipalScore(Enum):
     _5_0='50'
 
 
-class legalEntityAgreementType(Enum):
+class legalEntityAgreementType(str, Enum):
     MERCHANT_AGREEMENT='MERCHANT_AGREEMENT'
 
 
-class legalEntityOwnershipType(Enum):
+class legalEntityOwnershipType(str, Enum):
     PUBLIC='PUBLIC'
     PRIVATE='PRIVATE'
 
 
-class legalEntityType(Enum):
+class legalEntityType(str, Enum):
     INDIVIDUAL_SOLE_PROPRIETORSHIP='INDIVIDUAL_SOLE_PROPRIETORSHIP'
     CORPORATION='CORPORATION'
     LIMITED_LIABILITY_COMPANY='LIMITED_LIABILITY_COMPANY'
@@ -995,7 +1054,7 @@ class legalEntityType(Enum):
     GOVERNMENT_AGENCY='GOVERNMENT_AGENCY'
 
 
-class nameAddressSsnAssociationCode(Enum):
+class nameAddressSsnAssociationCode(str, Enum):
     NOTHING='NOTHING'
     WRONG_SSN='WRONG_SSN'
     FIRST_LAST='FIRST_LAST'
@@ -1011,7 +1070,7 @@ class nameAddressSsnAssociationCode(Enum):
     FIRST_LAST_ADDRESS_SSN='FIRST_LAST_ADDRESS_SSN'
 
 
-class nameAddressTaxIdAssociationCode(Enum):
+class nameAddressTaxIdAssociationCode(str, Enum):
     NOT_VERIFIED='NOT_VERIFIED'
     WRONG_TAX_ID='WRONG_TAX_ID'
     NAME_OR_ADDRESS='NAME_OR_ADDRESS'
@@ -1023,7 +1082,7 @@ class nameAddressTaxIdAssociationCode(Enum):
     NAME_ADDRESS_TAX_ID='NAME_ADDRESS_TAX_ID'
 
 
-class principalNameAddressPhoneAssociationCode(Enum):
+class principalNameAddressPhoneAssociationCode(str, Enum):
     NOTHING='NOTHING'
     WRONG_PHONE='WRONG_PHONE'
     FIRST_LAST='FIRST_LAST'
@@ -1039,7 +1098,7 @@ class principalNameAddressPhoneAssociationCode(Enum):
     FIRST_LAST_ADDRESS_PHONE='FIRST_LAST_ADDRESS_PHONE'
 
 
-class principalOverallScore(Enum):
+class principalOverallScore(str, Enum):
     _0='0'
     _1_0='10'
     _2_0='20'
@@ -1048,7 +1107,7 @@ class principalOverallScore(Enum):
     _5_0='50'
 
 
-class riskIndicatorCode(Enum):
+class riskIndicatorCode(str, Enum):
     UNKNOWN='UNKNOWN'
     SSN_DECEASED='SSN_DECEASED'
     SSN_PRIOR_TO_DOB='SSN_PRIOR_TO_DOB'
@@ -1144,6 +1203,9 @@ class riskIndicatorCode(Enum):
     IP_ADDRESS_NON_ROUTABLE='IP_ADDRESS_NON_ROUTABLE'
 
 
+#
+# Start data representation classes
+#
 class legalEntityCreateRequest(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -1153,42 +1215,42 @@ class legalEntityCreateRequest(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.legalEntityName = legalEntityName
         self.validate_legalEntityNameType(self.legalEntityName)
-        self.legalEntityName_nsprefix_ = None
+        self.legalEntityName_nsprefix_ = "tns"
         self.legalEntityType = legalEntityType
         self.validate_legalEntityType(self.legalEntityType)
-        self.legalEntityType_nsprefix_ = None
+        self.legalEntityType_nsprefix_ = "tns"
         self.legalEntityOwnershipType = legalEntityOwnershipType
         self.validate_legalEntityOwnershipType(self.legalEntityOwnershipType)
-        self.legalEntityOwnershipType_nsprefix_ = None
+        self.legalEntityOwnershipType_nsprefix_ = "tns"
         self.doingBusinessAs = doingBusinessAs
         self.validate_doingBusinessAsType(self.doingBusinessAs)
-        self.doingBusinessAs_nsprefix_ = None
+        self.doingBusinessAs_nsprefix_ = "tns"
         self.taxId = taxId
         self.validate_taxIdType(self.taxId)
-        self.taxId_nsprefix_ = None
+        self.taxId_nsprefix_ = "tns"
         self.contactPhone = contactPhone
         self.validate_contactPhoneType(self.contactPhone)
-        self.contactPhone_nsprefix_ = None
+        self.contactPhone_nsprefix_ = "tns"
         self.annualCreditCardSalesVolume = annualCreditCardSalesVolume
-        self.annualCreditCardSalesVolume_nsprefix_ = None
+        self.annualCreditCardSalesVolume_nsprefix_ = "tns"
         self.hasAcceptedCreditCards = hasAcceptedCreditCards
-        self.hasAcceptedCreditCards_nsprefix_ = None
+        self.hasAcceptedCreditCards_nsprefix_ = "tns"
         self.address = address
-        self.address_nsprefix_ = None
+        self.address_nsprefix_ = "tns"
         self.principal = principal
-        self.principal_nsprefix_ = None
+        self.principal_nsprefix_ = "tns"
         self.yearsInBusiness = yearsInBusiness
         self.validate_yearsInBusinessType(self.yearsInBusiness)
-        self.yearsInBusiness_nsprefix_ = None
+        self.yearsInBusiness_nsprefix_ = "tns"
         self.sdkVersion = sdkVersion
         self.validate_sdkVersionType(self.sdkVersion)
-        self.sdkVersion_nsprefix_ = None
+        self.sdkVersion_nsprefix_ = "tns"
         self.language = language
         self.validate_languageType(self.language)
-        self.language_nsprefix_ = None
+        self.language_nsprefix_ = "tns"
         self.extensiontype_ = extensiontype_
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
@@ -1280,7 +1342,7 @@ class legalEntityCreateRequest(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_legalEntityNameType_patterns_, ))
                 result = False
         return result
-    validate_legalEntityNameType_patterns_ = [[u'^([\x00-\x7f]*)$']]
+    validate_legalEntityNameType_patterns_ = [['^(\x00-\x7f*)$']]
     def validate_legalEntityType(self, value):
         result = True
         # Validate type legalEntityType, a restriction on xs:string.
@@ -1383,7 +1445,7 @@ class legalEntityCreateRequest(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_yearsInBusinessType_patterns_, ))
                 result = False
         return result
-    validate_yearsInBusinessType_patterns_ = [[u'^([0-9]{0,3})$']]
+    validate_yearsInBusinessType_patterns_ = [['^([0-9]{0,3})$']]
     def validate_sdkVersionType(self, value):
         result = True
         # Validate type sdkVersionType, a restriction on xs:string.
@@ -1405,7 +1467,7 @@ class legalEntityCreateRequest(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_sdkVersionType_patterns_, ))
                 result = False
         return result
-    validate_sdkVersionType_patterns_ = [[u'^([\x00-\x7f]*)$']]
+    validate_sdkVersionType_patterns_ = [['^(\x00-\x7f*)$']]
     def validate_languageType(self, value):
         result = True
         # Validate type languageType, a restriction on xs:string.
@@ -1427,8 +1489,8 @@ class legalEntityCreateRequest(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_languageType_patterns_, ))
                 result = False
         return result
-    validate_languageType_patterns_ = [[u'^([\x00-\x7f]*)$']]
-    def hasContent_(self):
+    validate_languageType_patterns_ = [['^(\x00-\x7f*)$']]
+    def has__content(self):
         if (
             self.legalEntityName is not None or
             self.legalEntityType is not None or
@@ -1462,15 +1524,15 @@ class legalEntityCreateRequest(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityCreateRequest')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityCreateRequest')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='legalEntityCreateRequest', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='legalEntityCreateRequest', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='legalEntityCreateRequest'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='legalEntityCreateRequest'):
         if self.extensiontype_ is not None and 'xsi:type' not in already_processed:
             already_processed.add('xsi:type')
             outfile.write(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
@@ -1480,7 +1542,7 @@ class legalEntityCreateRequest(GeneratedsSuper):
             else:
                 outfile.write(' xsi:type="%s"' % self.extensiontype_)
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='legalEntityCreateRequest', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='legalEntityCreateRequest', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -1541,17 +1603,17 @@ class legalEntityCreateRequest(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('xsi:type', node)
         if value is not None and 'xsi:type' not in already_processed:
             already_processed.add('xsi:type')
             self.extensiontype_ = value
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'legalEntityName':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'legalEntityName')
@@ -1658,25 +1720,25 @@ class address(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.streetAddress1 = streetAddress1
         self.validate_streetAddress1Type(self.streetAddress1)
-        self.streetAddress1_nsprefix_ = None
+        self.streetAddress1_nsprefix_ = "tns"
         self.streetAddress2 = streetAddress2
         self.validate_streetAddress2Type(self.streetAddress2)
-        self.streetAddress2_nsprefix_ = None
+        self.streetAddress2_nsprefix_ = "tns"
         self.city = city
         self.validate_cityType(self.city)
-        self.city_nsprefix_ = None
+        self.city_nsprefix_ = "tns"
         self.stateProvince = stateProvince
         self.validate_stateProvinceType(self.stateProvince)
-        self.stateProvince_nsprefix_ = None
+        self.stateProvince_nsprefix_ = "tns"
         self.postalCode = postalCode
         self.validate_postalCodeType(self.postalCode)
-        self.postalCode_nsprefix_ = None
+        self.postalCode_nsprefix_ = "tns"
         self.countryCode = countryCode
         self.validate_countryCodeType(self.countryCode)
-        self.countryCode_nsprefix_ = None
+        self.countryCode_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1818,7 +1880,7 @@ class address(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on countryCodeType' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.streetAddress1 is not None or
             self.streetAddress2 is not None or
@@ -1845,17 +1907,17 @@ class address(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='address')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='address')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='address', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='address', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='address'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='address'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='address', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='address', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -1890,14 +1952,14 @@ class address(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'streetAddress1':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'streetAddress1')
@@ -1958,46 +2020,46 @@ class legalEntityPrincipal(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.principalId = principalId
-        self.principalId_nsprefix_ = None
+        self.principalId_nsprefix_ = "tns"
         self.title = title
         self.validate_titleType(self.title)
-        self.title_nsprefix_ = None
+        self.title_nsprefix_ = "tns"
         self.firstName = firstName
         self.validate_firstNameType(self.firstName)
-        self.firstName_nsprefix_ = None
+        self.firstName_nsprefix_ = "tns"
         self.lastName = lastName
         self.validate_lastNameType(self.lastName)
-        self.lastName_nsprefix_ = None
+        self.lastName_nsprefix_ = "tns"
         self.emailAddress = emailAddress
         self.validate_emailAddressType(self.emailAddress)
-        self.emailAddress_nsprefix_ = None
+        self.emailAddress_nsprefix_ = "tns"
         self.ssn = ssn
         self.validate_ssnType(self.ssn)
-        self.ssn_nsprefix_ = None
+        self.ssn_nsprefix_ = "tns"
         self.contactPhone = contactPhone
         self.validate_contactPhoneType1(self.contactPhone)
-        self.contactPhone_nsprefix_ = None
+        self.contactPhone_nsprefix_ = "tns"
         if isinstance(dateOfBirth, BaseStrType_):
             initvalue_ = datetime_.datetime.strptime(dateOfBirth, '%Y-%m-%d').date()
         else:
             initvalue_ = dateOfBirth
         self.dateOfBirth = initvalue_
-        self.dateOfBirth_nsprefix_ = None
+        self.dateOfBirth_nsprefix_ = "tns"
         self.driversLicense = driversLicense
         self.validate_driversLicenseType(self.driversLicense)
-        self.driversLicense_nsprefix_ = None
+        self.driversLicense_nsprefix_ = "tns"
         self.driversLicenseState = driversLicenseState
         self.validate_driversLicenseStateType(self.driversLicenseState)
-        self.driversLicenseState_nsprefix_ = None
+        self.driversLicenseState_nsprefix_ = "tns"
         self.address = address
-        self.address_nsprefix_ = None
+        self.address_nsprefix_ = "tns"
         self.stakePercent = stakePercent
         self.validate_stakePercentType(self.stakePercent)
-        self.stakePercent_nsprefix_ = None
+        self.stakePercent_nsprefix_ = "tns"
         self.principal = principal
-        self.principal_nsprefix_ = None
+        self.principal_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2218,7 +2280,7 @@ class legalEntityPrincipal(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxInclusive restriction on stakePercentType' % {"value": value, "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.principalId is not None or
             self.title is not None or
@@ -2252,17 +2314,17 @@ class legalEntityPrincipal(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityPrincipal')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityPrincipal')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='legalEntityPrincipal', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='legalEntityPrincipal', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='legalEntityPrincipal'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='legalEntityPrincipal'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='legalEntityPrincipal', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='legalEntityPrincipal', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -2323,14 +2385,14 @@ class legalEntityPrincipal(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'principalId' and child_.text:
             sval_ = child_.text
             ival_ = self.gds_parse_integer(sval_, node, 'principalId')
@@ -2436,25 +2498,25 @@ class principalAddress(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.streetAddress1 = streetAddress1
         self.validate_streetAddress1Type2(self.streetAddress1)
-        self.streetAddress1_nsprefix_ = None
+        self.streetAddress1_nsprefix_ = "tns"
         self.streetAddress2 = streetAddress2
         self.validate_streetAddress2Type3(self.streetAddress2)
-        self.streetAddress2_nsprefix_ = None
+        self.streetAddress2_nsprefix_ = "tns"
         self.city = city
         self.validate_cityType4(self.city)
-        self.city_nsprefix_ = None
+        self.city_nsprefix_ = "tns"
         self.stateProvince = stateProvince
         self.validate_stateProvinceType5(self.stateProvince)
-        self.stateProvince_nsprefix_ = None
+        self.stateProvince_nsprefix_ = "tns"
         self.postalCode = postalCode
         self.validate_postalCodeType6(self.postalCode)
-        self.postalCode_nsprefix_ = None
+        self.postalCode_nsprefix_ = "tns"
         self.countryCode = countryCode
         self.validate_countryCodeType7(self.countryCode)
-        self.countryCode_nsprefix_ = None
+        self.countryCode_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2596,7 +2658,7 @@ class principalAddress(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on countryCodeType7' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.streetAddress1 is not None or
             self.streetAddress2 is not None or
@@ -2623,17 +2685,17 @@ class principalAddress(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='principalAddress')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='principalAddress')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='principalAddress', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='principalAddress', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='principalAddress'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='principalAddress'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='principalAddress', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='principalAddress', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -2668,14 +2730,14 @@ class principalAddress(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'streetAddress1':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'streetAddress1')
@@ -2736,9 +2798,9 @@ class response(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.transactionId = transactionId
-        self.transactionId_nsprefix_ = None
+        self.transactionId_nsprefix_ = "tns"
         self.extensiontype_ = extensiontype_
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
@@ -2761,7 +2823,7 @@ class response(GeneratedsSuper):
         self.transactionId = transactionId
     def get_extensiontype_(self): return self.extensiontype_
     def set_extensiontype_(self, extensiontype_): self.extensiontype_ = extensiontype_
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.transactionId is not None
         ):
@@ -2783,15 +2845,15 @@ class response(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='response')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='response')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='response', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='response', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='response'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='response'):
         if self.extensiontype_ is not None and 'xsi:type' not in already_processed:
             already_processed.add('xsi:type')
             outfile.write(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
@@ -2801,7 +2863,7 @@ class response(GeneratedsSuper):
             else:
                 outfile.write(' xsi:type="%s"' % self.extensiontype_)
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='response', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='response', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -2816,17 +2878,17 @@ class response(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('xsi:type', node)
         if value is not None and 'xsi:type' not in already_processed:
             already_processed.add('xsi:type')
             self.extensiontype_ = value
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'transactionId' and child_.text:
             sval_ = child_.text
             ival_ = self.gds_parse_integer(sval_, node, 'transactionId')
@@ -2845,15 +2907,15 @@ class legalEntityPrincipalCreateRequest(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.principal = principal
-        self.principal_nsprefix_ = None
+        self.principal_nsprefix_ = "tns"
         self.sdkVersion = sdkVersion
         self.validate_sdkVersionType8(self.sdkVersion)
-        self.sdkVersion_nsprefix_ = None
+        self.sdkVersion_nsprefix_ = "tns"
         self.language = language
         self.validate_languageType9(self.language)
-        self.language_nsprefix_ = None
+        self.language_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2902,7 +2964,7 @@ class legalEntityPrincipalCreateRequest(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_sdkVersionType8_patterns_, ))
                 result = False
         return result
-    validate_sdkVersionType8_patterns_ = [[u'^([\x00-\x7f]*)$']]
+    validate_sdkVersionType8_patterns_ = [['^(\x00-\x7f*)$']]
     def validate_languageType9(self, value):
         result = True
         # Validate type languageType9, a restriction on xs:string.
@@ -2924,8 +2986,8 @@ class legalEntityPrincipalCreateRequest(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_languageType9_patterns_, ))
                 result = False
         return result
-    validate_languageType9_patterns_ = [[u'^([\x00-\x7f]*)$']]
-    def hasContent_(self):
+    validate_languageType9_patterns_ = [['^(\x00-\x7f*)$']]
+    def has__content(self):
         if (
             self.principal is not None or
             self.sdkVersion is not None or
@@ -2949,17 +3011,17 @@ class legalEntityPrincipalCreateRequest(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityPrincipalCreateRequest')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityPrincipalCreateRequest')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='legalEntityPrincipalCreateRequest', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='legalEntityPrincipalCreateRequest', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='legalEntityPrincipalCreateRequest'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='legalEntityPrincipalCreateRequest'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='legalEntityPrincipalCreateRequest', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='legalEntityPrincipalCreateRequest', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -2981,14 +3043,14 @@ class legalEntityPrincipalCreateRequest(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'principal':
             obj_ = legalEntityPrincipal.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
@@ -3022,16 +3084,16 @@ class legalEntityPrincipalCreateResponse(response):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
-        super(legalEntityPrincipalCreateResponse, self).__init__(transactionId,  **kwargs_)
+        self.ns_prefix_ = "tns"
+        super(globals().get("legalEntityPrincipalCreateResponse"), self).__init__(transactionId,  **kwargs_)
         self.principalId = principalId
-        self.principalId_nsprefix_ = None
+        self.principalId_nsprefix_ = "tns"
         self.firstName = firstName
         self.validate_firstNameType10(self.firstName)
-        self.firstName_nsprefix_ = None
+        self.firstName_nsprefix_ = "tns"
         self.lastName = lastName
         self.validate_lastNameType11(self.lastName)
-        self.lastName_nsprefix_ = None
+        self.lastName_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3093,12 +3155,12 @@ class legalEntityPrincipalCreateResponse(response):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on lastNameType11' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.principalId is not None or
             self.firstName is not None or
             self.lastName is not None or
-            super(legalEntityPrincipalCreateResponse, self).hasContent_()
+            super(legalEntityPrincipalCreateResponse, self).has__content()
         ):
             return True
         else:
@@ -3118,18 +3180,18 @@ class legalEntityPrincipalCreateResponse(response):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityPrincipalCreateResponse')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityPrincipalCreateResponse')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='legalEntityPrincipalCreateResponse', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='legalEntityPrincipalCreateResponse', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='legalEntityPrincipalCreateResponse'):
-        super(legalEntityPrincipalCreateResponse, self).exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityPrincipalCreateResponse')
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='legalEntityPrincipalCreateResponse', fromsubclass_=False, pretty_print=True):
-        super(legalEntityPrincipalCreateResponse, self).exportChildren(outfile, level, namespaceprefix_, namespacedef_, name_, True, pretty_print=pretty_print)
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='legalEntityPrincipalCreateResponse'):
+        super(legalEntityPrincipalCreateResponse, self)._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityPrincipalCreateResponse')
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='legalEntityPrincipalCreateResponse', fromsubclass_=False, pretty_print=True):
+        super(legalEntityPrincipalCreateResponse, self)._exportChildren(outfile, level, namespaceprefix_, namespacedef_, name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
@@ -3152,14 +3214,14 @@ class legalEntityPrincipalCreateResponse(response):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
-        super(legalEntityPrincipalCreateResponse, self).buildAttributes(node, attrs, already_processed)
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildAttributes(self, node, attrs, already_processed):
+        super(legalEntityPrincipalCreateResponse, self)._buildAttributes(node, attrs, already_processed)
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'principalId' and child_.text:
             sval_ = child_.text
             ival_ = self.gds_parse_integer(sval_, node, 'principalId')
@@ -3182,7 +3244,7 @@ class legalEntityPrincipalCreateResponse(response):
             self.lastName_nsprefix_ = child_.prefix
             # validate type lastNameType11
             self.validate_lastNameType11(self.lastName)
-        super(legalEntityPrincipalCreateResponse, self).buildChildren(child_, node, nodeName_, True)
+        super(legalEntityPrincipalCreateResponse, self)._buildChildren(child_, node, nodeName_, True)
 # end class legalEntityPrincipalCreateResponse
 
 
@@ -3195,42 +3257,42 @@ class legalEntityRetrievalResponse(legalEntityCreateRequest):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
-        super(legalEntityRetrievalResponse, self).__init__(legalEntityName, legalEntityType, legalEntityOwnershipType, doingBusinessAs, taxId, contactPhone, annualCreditCardSalesVolume, hasAcceptedCreditCards, address, principal, yearsInBusiness, sdkVersion, language,  **kwargs_)
+        self.ns_prefix_ = "tns"
+        super(globals().get("legalEntityRetrievalResponse"), self).__init__(legalEntityName, legalEntityType, legalEntityOwnershipType, doingBusinessAs, taxId, contactPhone, annualCreditCardSalesVolume, hasAcceptedCreditCards, address, principal, yearsInBusiness, sdkVersion, language,  **kwargs_)
         self.overallStatus = _cast(None, overallStatus)
         self.overallStatus_nsprefix_ = None
         self.legalEntityPrincipal = legalEntityPrincipal
-        self.legalEntityPrincipal_nsprefix_ = None
+        self.legalEntityPrincipal_nsprefix_ = "tns"
         self.legalEntityId = legalEntityId
         self.validate_legalEntityIdType12(self.legalEntityId)
-        self.legalEntityId_nsprefix_ = None
+        self.legalEntityId_nsprefix_ = "tns"
         self.responseCode = responseCode
-        self.responseCode_nsprefix_ = None
+        self.responseCode_nsprefix_ = "tns"
         self.responseDescription = responseDescription
         self.validate_responseDescriptionType13(self.responseDescription)
-        self.responseDescription_nsprefix_ = None
+        self.responseDescription_nsprefix_ = "tns"
         self.backgroundCheckResults = backgroundCheckResults
-        self.backgroundCheckResults_nsprefix_ = None
+        self.backgroundCheckResults_nsprefix_ = "tns"
         self.transactionId = transactionId
         self.validate_transactionIdType(self.transactionId)
-        self.transactionId_nsprefix_ = None
+        self.transactionId_nsprefix_ = "tns"
         if isinstance(updateDate, BaseStrType_):
             initvalue_ = datetime_.datetime.strptime(updateDate, '%Y-%m-%dT%H:%M:%S')
         else:
             initvalue_ = updateDate
         self.updateDate = initvalue_
-        self.updateDate_nsprefix_ = None
+        self.updateDate_nsprefix_ = "tns"
         if isinstance(decisionDate, BaseStrType_):
             initvalue_ = datetime_.datetime.strptime(decisionDate, '%Y-%m-%dT%H:%M:%S')
         else:
             initvalue_ = decisionDate
         self.decisionDate = initvalue_
-        self.decisionDate_nsprefix_ = None
+        self.decisionDate_nsprefix_ = "tns"
         self.tinValidationStatus = tinValidationStatus
         self.validate_tinValidationStatusType(self.tinValidationStatus)
-        self.tinValidationStatus_nsprefix_ = None
+        self.tinValidationStatus_nsprefix_ = "tns"
         self.sub_merchant_processing_status = sub_merchant_processing_status
-        self.sub_merchant_processing_status_nsprefix_ = None
+        self.sub_merchant_processing_status_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3358,7 +3420,22 @@ class legalEntityRetrievalResponse(legalEntityCreateRequest):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on tinValidationStatusType' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def validate_overallStatusType(self, value):
+        # Validate type overallStatusType, a restriction on xs:string.
+        if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
+            if not isinstance(value, str):
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
+                return False
+            if len(value) > 100:
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on overallStatusType' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                result = False
+            if len(value) < 1:
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on overallStatusType' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                result = False
+    def has__content(self):
         if (
             self.legalEntityPrincipal is not None or
             self.legalEntityId is not None or
@@ -3370,7 +3447,7 @@ class legalEntityRetrievalResponse(legalEntityCreateRequest):
             self.decisionDate is not None or
             self.tinValidationStatus is not None or
             self.sub_merchant_processing_status is not None or
-            super(legalEntityRetrievalResponse, self).hasContent_()
+            super(legalEntityRetrievalResponse, self).has__content()
         ):
             return True
         else:
@@ -3390,21 +3467,21 @@ class legalEntityRetrievalResponse(legalEntityCreateRequest):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityRetrievalResponse')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityRetrievalResponse')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='legalEntityRetrievalResponse', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='legalEntityRetrievalResponse', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='legalEntityRetrievalResponse'):
-        super(legalEntityRetrievalResponse, self).exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityRetrievalResponse')
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='legalEntityRetrievalResponse'):
+        super(legalEntityRetrievalResponse, self)._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityRetrievalResponse')
         if self.overallStatus is not None and 'overallStatus' not in already_processed:
             already_processed.add('overallStatus')
             outfile.write(' overallStatus=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.overallStatus), input_name='overallStatus')), ))
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='legalEntityRetrievalResponse', fromsubclass_=False, pretty_print=True):
-        super(legalEntityRetrievalResponse, self).exportChildren(outfile, level, namespaceprefix_, namespacedef_, name_, True, pretty_print=pretty_print)
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='legalEntityRetrievalResponse', fromsubclass_=False, pretty_print=True):
+        super(legalEntityRetrievalResponse, self)._exportChildren(outfile, level, namespaceprefix_, namespacedef_, name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
@@ -3453,18 +3530,19 @@ class legalEntityRetrievalResponse(legalEntityCreateRequest):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('overallStatus', node)
         if value is not None and 'overallStatus' not in already_processed:
             already_processed.add('overallStatus')
             self.overallStatus = value
-        super(legalEntityRetrievalResponse, self).buildAttributes(node, attrs, already_processed)
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+            self.validate_overallStatusType(self.overallStatus)    # validate type overallStatusType
+        super(legalEntityRetrievalResponse, self)._buildAttributes(node, attrs, already_processed)
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'legalEntityPrincipal':
             obj_ = legalEntityPrincipal.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
@@ -3529,7 +3607,7 @@ class legalEntityRetrievalResponse(legalEntityCreateRequest):
             ival_ = self.gds_validate_boolean(ival_, node, 'sub_merchant_processing_status')
             self.sub_merchant_processing_status = ival_
             self.sub_merchant_processing_status_nsprefix_ = child_.prefix
-        super(legalEntityRetrievalResponse, self).buildChildren(child_, node, nodeName_, True)
+        super(legalEntityRetrievalResponse, self)._buildChildren(child_, node, nodeName_, True)
 # end class legalEntityRetrievalResponse
 
 
@@ -3542,20 +3620,20 @@ class backgroundCheckResults(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.business = business
-        self.business_nsprefix_ = None
+        self.business_nsprefix_ = "tns"
         self.principal = principal
-        self.principal_nsprefix_ = None
+        self.principal_nsprefix_ = "tns"
         self.businessToPrincipalAssociation = businessToPrincipalAssociation
-        self.businessToPrincipalAssociation_nsprefix_ = None
+        self.businessToPrincipalAssociation_nsprefix_ = "tns"
         self.backgroundCheckDecisionNotes = backgroundCheckDecisionNotes
         self.validate_backgroundCheckDecisionNotesType(self.backgroundCheckDecisionNotes)
-        self.backgroundCheckDecisionNotes_nsprefix_ = None
+        self.backgroundCheckDecisionNotes_nsprefix_ = "tns"
         self.bankruptcyData = bankruptcyData
-        self.bankruptcyData_nsprefix_ = None
+        self.bankruptcyData_nsprefix_ = "tns"
         self.lienResult = lienResult
-        self.lienResult_nsprefix_ = None
+        self.lienResult_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3612,7 +3690,7 @@ class backgroundCheckResults(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on backgroundCheckDecisionNotesType' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.business is not None or
             self.principal is not None or
@@ -3639,17 +3717,17 @@ class backgroundCheckResults(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='backgroundCheckResults')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='backgroundCheckResults')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='backgroundCheckResults', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='backgroundCheckResults', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='backgroundCheckResults'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='backgroundCheckResults'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='backgroundCheckResults', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='backgroundCheckResults', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -3679,14 +3757,14 @@ class backgroundCheckResults(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'business':
             obj_ = businessResult.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
@@ -3732,9 +3810,9 @@ class businessResult(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.verificationResult = verificationResult
-        self.verificationResult_nsprefix_ = None
+        self.verificationResult_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3754,7 +3832,7 @@ class businessResult(GeneratedsSuper):
         return self.verificationResult
     def set_verificationResult(self, verificationResult):
         self.verificationResult = verificationResult
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.verificationResult is not None
         ):
@@ -3776,17 +3854,17 @@ class businessResult(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='businessResult')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='businessResult')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='businessResult', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='businessResult', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='businessResult'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='businessResult'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='businessResult', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='businessResult', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -3800,14 +3878,14 @@ class businessResult(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'verificationResult':
             obj_ = businessVerificationResult.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
@@ -3825,17 +3903,17 @@ class businessVerificationResult(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.overallScore = overallScore
-        self.overallScore_nsprefix_ = None
+        self.overallScore_nsprefix_ = "tns"
         self.nameAddressTaxIdAssociation = nameAddressTaxIdAssociation
-        self.nameAddressTaxIdAssociation_nsprefix_ = None
+        self.nameAddressTaxIdAssociation_nsprefix_ = "tns"
         self.nameAddressPhoneAssociation = nameAddressPhoneAssociation
-        self.nameAddressPhoneAssociation_nsprefix_ = None
+        self.nameAddressPhoneAssociation_nsprefix_ = "tns"
         self.verificationIndicators = verificationIndicators
-        self.verificationIndicators_nsprefix_ = None
+        self.verificationIndicators_nsprefix_ = "tns"
         self.riskIndicators = riskIndicators
-        self.riskIndicators_nsprefix_ = None
+        self.riskIndicators_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3871,7 +3949,7 @@ class businessVerificationResult(GeneratedsSuper):
         return self.riskIndicators
     def set_riskIndicators(self, riskIndicators):
         self.riskIndicators = riskIndicators
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.overallScore is not None or
             self.nameAddressTaxIdAssociation is not None or
@@ -3897,17 +3975,17 @@ class businessVerificationResult(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='businessVerificationResult')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='businessVerificationResult')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='businessVerificationResult', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='businessVerificationResult', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='businessVerificationResult'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='businessVerificationResult'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='businessVerificationResult', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='businessVerificationResult', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -3933,14 +4011,14 @@ class businessVerificationResult(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'overallScore':
             obj_ = businessScore.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
@@ -3978,13 +4056,13 @@ class businessScore(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.score = score
         self.validate_businessOverallScore(self.score)
-        self.score_nsprefix_ = None
+        self.score_nsprefix_ = "tns"
         self.description = description
         self.validate_descriptionType(self.description)
-        self.description_nsprefix_ = None
+        self.description_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4040,7 +4118,7 @@ class businessScore(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on descriptionType' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.score is not None or
             self.description is not None
@@ -4063,17 +4141,17 @@ class businessScore(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='businessScore')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='businessScore')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='businessScore', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='businessScore', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='businessScore'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='businessScore'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='businessScore', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='businessScore', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -4092,14 +4170,14 @@ class businessScore(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'score' and child_.text:
             sval_ = child_.text
             ival_ = self.gds_parse_integer(sval_, node, 'score')
@@ -4128,13 +4206,13 @@ class nameAddressTaxIdAssociation(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.code = code
         self.validate_nameAddressTaxIdAssociationCode(self.code)
-        self.code_nsprefix_ = None
+        self.code_nsprefix_ = "tns"
         self.description = description
         self.validate_descriptionType14(self.description)
-        self.description_nsprefix_ = None
+        self.description_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4190,7 +4268,7 @@ class nameAddressTaxIdAssociation(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on descriptionType14' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.code is not None or
             self.description is not None
@@ -4213,17 +4291,17 @@ class nameAddressTaxIdAssociation(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='nameAddressTaxIdAssociation')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='nameAddressTaxIdAssociation')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='nameAddressTaxIdAssociation', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='nameAddressTaxIdAssociation', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='nameAddressTaxIdAssociation'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='nameAddressTaxIdAssociation'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='nameAddressTaxIdAssociation', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='nameAddressTaxIdAssociation', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -4242,14 +4320,14 @@ class nameAddressTaxIdAssociation(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'code':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'code')
@@ -4278,13 +4356,13 @@ class businessNameAddressPhoneAssociation(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.code = code
         self.validate_businessNameAddressPhoneAssociationCode(self.code)
-        self.code_nsprefix_ = None
+        self.code_nsprefix_ = "tns"
         self.description = description
         self.validate_descriptionType15(self.description)
-        self.description_nsprefix_ = None
+        self.description_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4340,7 +4418,7 @@ class businessNameAddressPhoneAssociation(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on descriptionType15' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.code is not None or
             self.description is not None
@@ -4363,17 +4441,17 @@ class businessNameAddressPhoneAssociation(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='businessNameAddressPhoneAssociation')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='businessNameAddressPhoneAssociation')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='businessNameAddressPhoneAssociation', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='businessNameAddressPhoneAssociation', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='businessNameAddressPhoneAssociation'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='businessNameAddressPhoneAssociation'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='businessNameAddressPhoneAssociation', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='businessNameAddressPhoneAssociation', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -4392,14 +4470,14 @@ class businessNameAddressPhoneAssociation(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'code':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'code')
@@ -4428,21 +4506,21 @@ class businessVerificationIndicators(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.nameVerified = nameVerified
-        self.nameVerified_nsprefix_ = None
+        self.nameVerified_nsprefix_ = "tns"
         self.addressVerified = addressVerified
-        self.addressVerified_nsprefix_ = None
+        self.addressVerified_nsprefix_ = "tns"
         self.cityVerified = cityVerified
-        self.cityVerified_nsprefix_ = None
+        self.cityVerified_nsprefix_ = "tns"
         self.stateVerified = stateVerified
-        self.stateVerified_nsprefix_ = None
+        self.stateVerified_nsprefix_ = "tns"
         self.zipVerified = zipVerified
-        self.zipVerified_nsprefix_ = None
+        self.zipVerified_nsprefix_ = "tns"
         self.phoneVerified = phoneVerified
-        self.phoneVerified_nsprefix_ = None
+        self.phoneVerified_nsprefix_ = "tns"
         self.taxIdVerified = taxIdVerified
-        self.taxIdVerified_nsprefix_ = None
+        self.taxIdVerified_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4486,7 +4564,7 @@ class businessVerificationIndicators(GeneratedsSuper):
         return self.taxIdVerified
     def set_taxIdVerified(self, taxIdVerified):
         self.taxIdVerified = taxIdVerified
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.nameVerified is not None or
             self.addressVerified is not None or
@@ -4514,17 +4592,17 @@ class businessVerificationIndicators(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='businessVerificationIndicators')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='businessVerificationIndicators')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='businessVerificationIndicators', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='businessVerificationIndicators', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='businessVerificationIndicators'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='businessVerificationIndicators'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='businessVerificationIndicators', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='businessVerificationIndicators', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -4563,14 +4641,14 @@ class businessVerificationIndicators(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'nameVerified':
             sval_ = child_.text
             ival_ = self.gds_parse_boolean(sval_, node, 'nameVerified')
@@ -4625,13 +4703,13 @@ class potentialRiskIndicator(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.code = code
         self.validate_riskIndicatorCode(self.code)
-        self.code_nsprefix_ = None
+        self.code_nsprefix_ = "tns"
         self.description = description
         self.validate_descriptionType16(self.description)
-        self.description_nsprefix_ = None
+        self.description_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4687,7 +4765,7 @@ class potentialRiskIndicator(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on descriptionType16' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.code is not None or
             self.description is not None
@@ -4710,17 +4788,17 @@ class potentialRiskIndicator(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='potentialRiskIndicator')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='potentialRiskIndicator')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='potentialRiskIndicator', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='potentialRiskIndicator', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='potentialRiskIndicator'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='potentialRiskIndicator'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='potentialRiskIndicator', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='potentialRiskIndicator', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -4739,14 +4817,14 @@ class potentialRiskIndicator(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'code':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'code')
@@ -4775,12 +4853,12 @@ class principalResult(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.verificationResult = verificationResult
-        self.verificationResult_nsprefix_ = None
+        self.verificationResult_nsprefix_ = "tns"
         self.backgroundCheckDecisionNotes = backgroundCheckDecisionNotes
         self.validate_backgroundCheckDecisionNotesType17(self.backgroundCheckDecisionNotes)
-        self.backgroundCheckDecisionNotes_nsprefix_ = None
+        self.backgroundCheckDecisionNotes_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4821,7 +4899,7 @@ class principalResult(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on backgroundCheckDecisionNotesType17' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.verificationResult is not None or
             self.backgroundCheckDecisionNotes is not None
@@ -4844,17 +4922,17 @@ class principalResult(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='principalResult')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='principalResult')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='principalResult', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='principalResult', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='principalResult'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='principalResult'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='principalResult', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='principalResult', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -4872,14 +4950,14 @@ class principalResult(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'verificationResult':
             obj_ = principalVerificationResult.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
@@ -4905,17 +4983,17 @@ class principalVerificationResult(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.overallScore = overallScore
-        self.overallScore_nsprefix_ = None
+        self.overallScore_nsprefix_ = "tns"
         self.nameAddressSsnAssociation = nameAddressSsnAssociation
-        self.nameAddressSsnAssociation_nsprefix_ = None
+        self.nameAddressSsnAssociation_nsprefix_ = "tns"
         self.nameAddressPhoneAssociation = nameAddressPhoneAssociation
-        self.nameAddressPhoneAssociation_nsprefix_ = None
+        self.nameAddressPhoneAssociation_nsprefix_ = "tns"
         self.verificationIndicators = verificationIndicators
-        self.verificationIndicators_nsprefix_ = None
+        self.verificationIndicators_nsprefix_ = "tns"
         self.riskIndicators = riskIndicators
-        self.riskIndicators_nsprefix_ = None
+        self.riskIndicators_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4951,7 +5029,7 @@ class principalVerificationResult(GeneratedsSuper):
         return self.riskIndicators
     def set_riskIndicators(self, riskIndicators):
         self.riskIndicators = riskIndicators
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.overallScore is not None or
             self.nameAddressSsnAssociation is not None or
@@ -4977,17 +5055,17 @@ class principalVerificationResult(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='principalVerificationResult')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='principalVerificationResult')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='principalVerificationResult', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='principalVerificationResult', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='principalVerificationResult'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='principalVerificationResult'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='principalVerificationResult', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='principalVerificationResult', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -5013,14 +5091,14 @@ class principalVerificationResult(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'overallScore':
             obj_ = principalScore.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
@@ -5058,13 +5136,13 @@ class principalScore(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.score = score
         self.validate_principalOverallScore(self.score)
-        self.score_nsprefix_ = None
+        self.score_nsprefix_ = "tns"
         self.description = description
         self.validate_descriptionType19(self.description)
-        self.description_nsprefix_ = None
+        self.description_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -5120,7 +5198,7 @@ class principalScore(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on descriptionType19' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.score is not None or
             self.description is not None
@@ -5143,17 +5221,17 @@ class principalScore(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='principalScore')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='principalScore')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='principalScore', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='principalScore', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='principalScore'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='principalScore'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='principalScore', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='principalScore', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -5172,14 +5250,14 @@ class principalScore(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'score' and child_.text:
             sval_ = child_.text
             ival_ = self.gds_parse_integer(sval_, node, 'score')
@@ -5208,13 +5286,13 @@ class nameAddressSsnAssociation(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.code = code
         self.validate_nameAddressSsnAssociationCode(self.code)
-        self.code_nsprefix_ = None
+        self.code_nsprefix_ = "tns"
         self.description = description
         self.validate_descriptionType20(self.description)
-        self.description_nsprefix_ = None
+        self.description_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -5270,7 +5348,7 @@ class nameAddressSsnAssociation(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on descriptionType20' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.code is not None or
             self.description is not None
@@ -5293,17 +5371,17 @@ class nameAddressSsnAssociation(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='nameAddressSsnAssociation')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='nameAddressSsnAssociation')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='nameAddressSsnAssociation', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='nameAddressSsnAssociation', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='nameAddressSsnAssociation'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='nameAddressSsnAssociation'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='nameAddressSsnAssociation', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='nameAddressSsnAssociation', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -5322,14 +5400,14 @@ class nameAddressSsnAssociation(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'code':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'code')
@@ -5358,13 +5436,13 @@ class principalNameAddressPhoneAssociation(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.code = code
         self.validate_principalNameAddressPhoneAssociationCode(self.code)
-        self.code_nsprefix_ = None
+        self.code_nsprefix_ = "tns"
         self.description = description
         self.validate_descriptionType21(self.description)
-        self.description_nsprefix_ = None
+        self.description_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -5420,7 +5498,7 @@ class principalNameAddressPhoneAssociation(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on descriptionType21' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.code is not None or
             self.description is not None
@@ -5443,17 +5521,17 @@ class principalNameAddressPhoneAssociation(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='principalNameAddressPhoneAssociation')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='principalNameAddressPhoneAssociation')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='principalNameAddressPhoneAssociation', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='principalNameAddressPhoneAssociation', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='principalNameAddressPhoneAssociation'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='principalNameAddressPhoneAssociation'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='principalNameAddressPhoneAssociation', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='principalNameAddressPhoneAssociation', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -5472,14 +5550,14 @@ class principalNameAddressPhoneAssociation(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'code':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'code')
@@ -5508,17 +5586,17 @@ class principalVerificationIndicators(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.nameVerified = nameVerified
-        self.nameVerified_nsprefix_ = None
+        self.nameVerified_nsprefix_ = "tns"
         self.addressVerified = addressVerified
-        self.addressVerified_nsprefix_ = None
+        self.addressVerified_nsprefix_ = "tns"
         self.phoneVerified = phoneVerified
-        self.phoneVerified_nsprefix_ = None
+        self.phoneVerified_nsprefix_ = "tns"
         self.ssnVerified = ssnVerified
-        self.ssnVerified_nsprefix_ = None
+        self.ssnVerified_nsprefix_ = "tns"
         self.dobVerified = dobVerified
-        self.dobVerified_nsprefix_ = None
+        self.dobVerified_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -5554,7 +5632,7 @@ class principalVerificationIndicators(GeneratedsSuper):
         return self.dobVerified
     def set_dobVerified(self, dobVerified):
         self.dobVerified = dobVerified
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.nameVerified is not None or
             self.addressVerified is not None or
@@ -5580,17 +5658,17 @@ class principalVerificationIndicators(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='principalVerificationIndicators')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='principalVerificationIndicators')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='principalVerificationIndicators', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='principalVerificationIndicators', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='principalVerificationIndicators'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='principalVerificationIndicators'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='principalVerificationIndicators', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='principalVerificationIndicators', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -5621,14 +5699,14 @@ class principalVerificationIndicators(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'nameVerified':
             sval_ = child_.text
             ival_ = self.gds_parse_boolean(sval_, node, 'nameVerified')
@@ -5671,13 +5749,13 @@ class businessToPrincipalAssociation(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.score = score
         self.validate_businessToPrincipalScore(self.score)
-        self.score_nsprefix_ = None
+        self.score_nsprefix_ = "tns"
         self.description = description
         self.validate_descriptionType22(self.description)
-        self.description_nsprefix_ = None
+        self.description_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -5733,7 +5811,7 @@ class businessToPrincipalAssociation(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on descriptionType22' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.score is not None or
             self.description is not None
@@ -5756,17 +5834,17 @@ class businessToPrincipalAssociation(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='businessToPrincipalAssociation')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='businessToPrincipalAssociation')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='businessToPrincipalAssociation', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='businessToPrincipalAssociation', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='businessToPrincipalAssociation'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='businessToPrincipalAssociation'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='businessToPrincipalAssociation', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='businessToPrincipalAssociation', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -5785,14 +5863,14 @@ class businessToPrincipalAssociation(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'score' and child_.text:
             sval_ = child_.text
             ival_ = self.gds_parse_integer(sval_, node, 'score')
@@ -5821,39 +5899,39 @@ class bankruptcyResult(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.bankruptcyType = bankruptcyType
         self.validate_bankruptcyTypeType(self.bankruptcyType)
-        self.bankruptcyType_nsprefix_ = None
+        self.bankruptcyType_nsprefix_ = "tns"
         self.bankruptcyCount = bankruptcyCount
-        self.bankruptcyCount_nsprefix_ = None
+        self.bankruptcyCount_nsprefix_ = "tns"
         self.companyName = companyName
         self.validate_companyNameType(self.companyName)
-        self.companyName_nsprefix_ = None
+        self.companyName_nsprefix_ = "tns"
         self.streetAddress1 = streetAddress1
         self.validate_streetAddress1Type23(self.streetAddress1)
-        self.streetAddress1_nsprefix_ = None
+        self.streetAddress1_nsprefix_ = "tns"
         self.streetAddress2 = streetAddress2
         self.validate_streetAddress2Type24(self.streetAddress2)
-        self.streetAddress2_nsprefix_ = None
+        self.streetAddress2_nsprefix_ = "tns"
         self.city = city
         self.validate_cityType25(self.city)
-        self.city_nsprefix_ = None
+        self.city_nsprefix_ = "tns"
         self.state = state
         self.validate_stateType(self.state)
-        self.state_nsprefix_ = None
+        self.state_nsprefix_ = "tns"
         self.zip = zip
         self.validate_zipType(self.zip)
-        self.zip_nsprefix_ = None
+        self.zip_nsprefix_ = "tns"
         self.zip4 = zip4
         self.validate_zip4Type(self.zip4)
-        self.zip4_nsprefix_ = None
+        self.zip4_nsprefix_ = "tns"
         if isinstance(filingDate, BaseStrType_):
             initvalue_ = datetime_.datetime.strptime(filingDate, '%Y-%m-%d').date()
         else:
             initvalue_ = filingDate
         self.filingDate = initvalue_
-        self.filingDate_nsprefix_ = None
+        self.filingDate_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -6045,7 +6123,7 @@ class bankruptcyResult(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on zip4Type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.bankruptcyType is not None or
             self.bankruptcyCount is not None or
@@ -6076,17 +6154,17 @@ class bankruptcyResult(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='bankruptcyResult')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='bankruptcyResult')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='bankruptcyResult', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='bankruptcyResult', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='bankruptcyResult'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='bankruptcyResult'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='bankruptcyResult', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='bankruptcyResult', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -6137,14 +6215,14 @@ class bankruptcyResult(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'bankruptcyType':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'bankruptcyType')
@@ -6232,41 +6310,41 @@ class lienResult(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.lienType = lienType
         self.validate_lienTypeType(self.lienType)
-        self.lienType_nsprefix_ = None
+        self.lienType_nsprefix_ = "tns"
         self.releasedCount = releasedCount
-        self.releasedCount_nsprefix_ = None
+        self.releasedCount_nsprefix_ = "tns"
         self.unreleasedCount = unreleasedCount
-        self.unreleasedCount_nsprefix_ = None
+        self.unreleasedCount_nsprefix_ = "tns"
         self.companyName = companyName
         self.validate_companyNameType26(self.companyName)
-        self.companyName_nsprefix_ = None
+        self.companyName_nsprefix_ = "tns"
         self.streetAddress1 = streetAddress1
         self.validate_streetAddress1Type27(self.streetAddress1)
-        self.streetAddress1_nsprefix_ = None
+        self.streetAddress1_nsprefix_ = "tns"
         self.streetAddress2 = streetAddress2
         self.validate_streetAddress2Type28(self.streetAddress2)
-        self.streetAddress2_nsprefix_ = None
+        self.streetAddress2_nsprefix_ = "tns"
         self.city = city
         self.validate_cityType29(self.city)
-        self.city_nsprefix_ = None
+        self.city_nsprefix_ = "tns"
         self.state = state
         self.validate_stateType30(self.state)
-        self.state_nsprefix_ = None
+        self.state_nsprefix_ = "tns"
         self.zip = zip
         self.validate_zipType31(self.zip)
-        self.zip_nsprefix_ = None
+        self.zip_nsprefix_ = "tns"
         self.zip4 = zip4
         self.validate_zip4Type32(self.zip4)
-        self.zip4_nsprefix_ = None
+        self.zip4_nsprefix_ = "tns"
         if isinstance(filingDate, BaseStrType_):
             initvalue_ = datetime_.datetime.strptime(filingDate, '%Y-%m-%d').date()
         else:
             initvalue_ = filingDate
         self.filingDate = initvalue_
-        self.filingDate_nsprefix_ = None
+        self.filingDate_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -6462,7 +6540,7 @@ class lienResult(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on zip4Type32' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.lienType is not None or
             self.releasedCount is not None or
@@ -6494,17 +6572,17 @@ class lienResult(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='lienResult')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='lienResult')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='lienResult', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='lienResult', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='lienResult'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='lienResult'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='lienResult', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='lienResult', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -6559,14 +6637,14 @@ class lienResult(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'lienType':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'lienType')
@@ -6660,29 +6738,29 @@ class legalEntityUpdateRequest(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.address = address
-        self.address_nsprefix_ = None
+        self.address_nsprefix_ = "tns"
         self.contactPhone = contactPhone
         self.validate_contactPhoneType33(self.contactPhone)
-        self.contactPhone_nsprefix_ = None
+        self.contactPhone_nsprefix_ = "tns"
         self.doingBusinessAs = doingBusinessAs
         self.validate_doingBusinessAsType34(self.doingBusinessAs)
-        self.doingBusinessAs_nsprefix_ = None
+        self.doingBusinessAs_nsprefix_ = "tns"
         self.annualCreditCardSalesVolume = annualCreditCardSalesVolume
-        self.annualCreditCardSalesVolume_nsprefix_ = None
+        self.annualCreditCardSalesVolume_nsprefix_ = "tns"
         self.hasAcceptedCreditCards = hasAcceptedCreditCards
-        self.hasAcceptedCreditCards_nsprefix_ = None
+        self.hasAcceptedCreditCards_nsprefix_ = "tns"
         self.principal = principal
-        self.principal_nsprefix_ = None
+        self.principal_nsprefix_ = "tns"
         self.backgroundCheckFields = backgroundCheckFields
-        self.backgroundCheckFields_nsprefix_ = None
+        self.backgroundCheckFields_nsprefix_ = "tns"
         self.legalEntityOwnershipType = legalEntityOwnershipType
         self.validate_legalEntityOwnershipType(self.legalEntityOwnershipType)
-        self.legalEntityOwnershipType_nsprefix_ = None
+        self.legalEntityOwnershipType_nsprefix_ = "tns"
         self.yearsInBusiness = yearsInBusiness
         self.validate_yearsInBusinessType35(self.yearsInBusiness)
-        self.yearsInBusiness_nsprefix_ = None
+        self.yearsInBusiness_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -6804,8 +6882,8 @@ class legalEntityUpdateRequest(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_yearsInBusinessType35_patterns_, ))
                 result = False
         return result
-    validate_yearsInBusinessType35_patterns_ = [[u'^([0-9]{0,3})$']]
-    def hasContent_(self):
+    validate_yearsInBusinessType35_patterns_ = [['^([0-9]{0,3})$']]
+    def has__content(self):
         if (
             self.address is not None or
             self.contactPhone is not None or
@@ -6835,17 +6913,17 @@ class legalEntityUpdateRequest(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityUpdateRequest')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityUpdateRequest')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='legalEntityUpdateRequest', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='legalEntityUpdateRequest', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='legalEntityUpdateRequest'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='legalEntityUpdateRequest'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='legalEntityUpdateRequest', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='legalEntityUpdateRequest', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -6889,14 +6967,14 @@ class legalEntityUpdateRequest(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'address':
             obj_ = addressUpdatable.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
@@ -6968,25 +7046,25 @@ class addressUpdatable(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.streetAddress1 = streetAddress1
         self.validate_streetAddress1Type36(self.streetAddress1)
-        self.streetAddress1_nsprefix_ = None
+        self.streetAddress1_nsprefix_ = "tns"
         self.streetAddress2 = streetAddress2
         self.validate_streetAddress2Type37(self.streetAddress2)
-        self.streetAddress2_nsprefix_ = None
+        self.streetAddress2_nsprefix_ = "tns"
         self.city = city
         self.validate_cityType38(self.city)
-        self.city_nsprefix_ = None
+        self.city_nsprefix_ = "tns"
         self.stateProvince = stateProvince
         self.validate_stateProvinceType39(self.stateProvince)
-        self.stateProvince_nsprefix_ = None
+        self.stateProvince_nsprefix_ = "tns"
         self.postalCode = postalCode
         self.validate_postalCodeType40(self.postalCode)
-        self.postalCode_nsprefix_ = None
+        self.postalCode_nsprefix_ = "tns"
         self.countryCode = countryCode
         self.validate_countryCodeType41(self.countryCode)
-        self.countryCode_nsprefix_ = None
+        self.countryCode_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -7128,7 +7206,7 @@ class addressUpdatable(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on countryCodeType41' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.streetAddress1 is not None or
             self.streetAddress2 is not None or
@@ -7155,17 +7233,17 @@ class addressUpdatable(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='addressUpdatable')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='addressUpdatable')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='addressUpdatable', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='addressUpdatable', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='addressUpdatable'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='addressUpdatable'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='addressUpdatable', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='addressUpdatable', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -7200,14 +7278,14 @@ class addressUpdatable(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'streetAddress1':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'streetAddress1')
@@ -7268,25 +7346,25 @@ class legalEntityPrincipalUpdatable(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.principalId = principalId
-        self.principalId_nsprefix_ = None
+        self.principalId_nsprefix_ = "tns"
         self.title = title
         self.validate_titleType42(self.title)
-        self.title_nsprefix_ = None
+        self.title_nsprefix_ = "tns"
         self.emailAddress = emailAddress
         self.validate_emailAddressType43(self.emailAddress)
-        self.emailAddress_nsprefix_ = None
+        self.emailAddress_nsprefix_ = "tns"
         self.contactPhone = contactPhone
         self.validate_contactPhoneType44(self.contactPhone)
-        self.contactPhone_nsprefix_ = None
+        self.contactPhone_nsprefix_ = "tns"
         self.address = address
-        self.address_nsprefix_ = None
+        self.address_nsprefix_ = "tns"
         self.stakePercent = stakePercent
         self.validate_stakePercentType45(self.stakePercent)
-        self.stakePercent_nsprefix_ = None
+        self.stakePercent_nsprefix_ = "tns"
         self.backgroundCheckFields = backgroundCheckFields
-        self.backgroundCheckFields_nsprefix_ = None
+        self.backgroundCheckFields_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -7398,7 +7476,7 @@ class legalEntityPrincipalUpdatable(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxInclusive restriction on stakePercentType45' % {"value": value, "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.principalId is not None or
             self.title is not None or
@@ -7426,17 +7504,17 @@ class legalEntityPrincipalUpdatable(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityPrincipalUpdatable')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityPrincipalUpdatable')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='legalEntityPrincipalUpdatable', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='legalEntityPrincipalUpdatable', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='legalEntityPrincipalUpdatable'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='legalEntityPrincipalUpdatable'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='legalEntityPrincipalUpdatable', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='legalEntityPrincipalUpdatable', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -7473,14 +7551,14 @@ class legalEntityPrincipalUpdatable(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'principalId' and child_.text:
             sval_ = child_.text
             ival_ = self.gds_parse_integer(sval_, node, 'principalId')
@@ -7541,28 +7619,28 @@ class principalBackgroundCheckFields(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.firstName = firstName
         self.validate_firstNameType46(self.firstName)
-        self.firstName_nsprefix_ = None
+        self.firstName_nsprefix_ = "tns"
         self.lastName = lastName
         self.validate_lastNameType47(self.lastName)
-        self.lastName_nsprefix_ = None
+        self.lastName_nsprefix_ = "tns"
         self.ssn = ssn
         self.validate_ssnType48(self.ssn)
-        self.ssn_nsprefix_ = None
+        self.ssn_nsprefix_ = "tns"
         if isinstance(dateOfBirth, BaseStrType_):
             initvalue_ = datetime_.datetime.strptime(dateOfBirth, '%Y-%m-%d').date()
         else:
             initvalue_ = dateOfBirth
         self.dateOfBirth = initvalue_
-        self.dateOfBirth_nsprefix_ = None
+        self.dateOfBirth_nsprefix_ = "tns"
         self.driversLicense = driversLicense
         self.validate_driversLicenseType49(self.driversLicense)
-        self.driversLicense_nsprefix_ = None
+        self.driversLicense_nsprefix_ = "tns"
         self.driversLicenseState = driversLicenseState
         self.validate_driversLicenseStateType50(self.driversLicenseState)
-        self.driversLicenseState_nsprefix_ = None
+        self.driversLicenseState_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -7687,7 +7765,7 @@ class principalBackgroundCheckFields(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on driversLicenseStateType50' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.firstName is not None or
             self.lastName is not None or
@@ -7714,17 +7792,17 @@ class principalBackgroundCheckFields(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='principalBackgroundCheckFields')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='principalBackgroundCheckFields')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='principalBackgroundCheckFields', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='principalBackgroundCheckFields', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='principalBackgroundCheckFields'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='principalBackgroundCheckFields'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='principalBackgroundCheckFields', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='principalBackgroundCheckFields', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -7759,14 +7837,14 @@ class principalBackgroundCheckFields(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'firstName':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'firstName')
@@ -7824,16 +7902,16 @@ class legalEntityBackgroundCheckFields(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.legalEntityName = legalEntityName
         self.validate_legalEntityNameType51(self.legalEntityName)
-        self.legalEntityName_nsprefix_ = None
+        self.legalEntityName_nsprefix_ = "tns"
         self.legalEntityType = legalEntityType
         self.validate_legalEntityType(self.legalEntityType)
-        self.legalEntityType_nsprefix_ = None
+        self.legalEntityType_nsprefix_ = "tns"
         self.taxId = taxId
         self.validate_taxIdType52(self.taxId)
-        self.taxId_nsprefix_ = None
+        self.taxId_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -7882,7 +7960,7 @@ class legalEntityBackgroundCheckFields(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_legalEntityNameType51_patterns_, ))
                 result = False
         return result
-    validate_legalEntityNameType51_patterns_ = [[u'^([\x00-\x7f]*)$']]
+    validate_legalEntityNameType51_patterns_ = [['^(\x00-\x7f*)$']]
     def validate_legalEntityType(self, value):
         result = True
         # Validate type legalEntityType, a restriction on xs:string.
@@ -7915,7 +7993,7 @@ class legalEntityBackgroundCheckFields(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on taxIdType52' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.legalEntityName is not None or
             self.legalEntityType is not None or
@@ -7939,17 +8017,17 @@ class legalEntityBackgroundCheckFields(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityBackgroundCheckFields')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityBackgroundCheckFields')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='legalEntityBackgroundCheckFields', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='legalEntityBackgroundCheckFields', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='legalEntityBackgroundCheckFields'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='legalEntityBackgroundCheckFields'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='legalEntityBackgroundCheckFields', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='legalEntityBackgroundCheckFields', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -7972,14 +8050,14 @@ class legalEntityBackgroundCheckFields(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'legalEntityName':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'legalEntityName')
@@ -8011,75 +8089,79 @@ class subMerchantCreateRequest(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, merchantName=None, amexMid=None, discoverConveyedMid=None, url=None, customerServiceNumber=None, hardCodedBillingDescriptor=None, maxTransactionAmount=None, purchaseCurrency=None, merchantCategoryCode=None, taxAuthority=None, taxAuthorityState=None, bankRoutingNumber=None, bankAccountNumber=None, pspMerchantId=None, fraud=None, amexAcquired=None, address=None, primaryContact=None, createCredentials=None, eCheck=None, subMerchantFunding=None, settlementCurrency=None, sdkVersion=None, language=None, extensiontype_=None, gds_collector_=None, **kwargs_):
+    def __init__(self, merchantName=None, amexMid=None, discoverConveyedMid=None, url=None, customerServiceNumber=None, hardCodedBillingDescriptor=None, maxTransactionAmount=None, purchaseCurrency=None, merchantCategoryCode=None, taxAuthority=None, taxAuthorityState=None, bankRoutingNumber=None, bankAccountNumber=None, pspMerchantId=None, fraud=None, amexAcquired=None, address=None, primaryContact=None, createCredentials=None, eCheck=None, subMerchantFunding=None, settlementCurrency=None, merchantCategoryTypes=None, methodOfPayments=None, sdkVersion=None, language=None, extensiontype_=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.merchantName = merchantName
         self.validate_merchantNameType(self.merchantName)
-        self.merchantName_nsprefix_ = None
+        self.merchantName_nsprefix_ = "tns"
         self.amexMid = amexMid
         self.validate_amexMidType(self.amexMid)
-        self.amexMid_nsprefix_ = None
+        self.amexMid_nsprefix_ = "tns"
         self.discoverConveyedMid = discoverConveyedMid
         self.validate_discoverConveyedMidType(self.discoverConveyedMid)
-        self.discoverConveyedMid_nsprefix_ = None
+        self.discoverConveyedMid_nsprefix_ = "tns"
         self.url = url
         self.validate_urlType(self.url)
-        self.url_nsprefix_ = None
+        self.url_nsprefix_ = "tns"
         self.customerServiceNumber = customerServiceNumber
         self.validate_customerServiceNumberType(self.customerServiceNumber)
-        self.customerServiceNumber_nsprefix_ = None
+        self.customerServiceNumber_nsprefix_ = "tns"
         self.hardCodedBillingDescriptor = hardCodedBillingDescriptor
         self.validate_hardCodedBillingDescriptorType(self.hardCodedBillingDescriptor)
-        self.hardCodedBillingDescriptor_nsprefix_ = None
+        self.hardCodedBillingDescriptor_nsprefix_ = "tns"
         self.maxTransactionAmount = maxTransactionAmount
         self.validate_maxTransactionAmountType(self.maxTransactionAmount)
-        self.maxTransactionAmount_nsprefix_ = None
+        self.maxTransactionAmount_nsprefix_ = "tns"
         self.purchaseCurrency = purchaseCurrency
         self.validate_purchaseCurrencyType(self.purchaseCurrency)
-        self.purchaseCurrency_nsprefix_ = None
+        self.purchaseCurrency_nsprefix_ = "tns"
         self.merchantCategoryCode = merchantCategoryCode
         self.validate_merchantCategoryCodeType(self.merchantCategoryCode)
-        self.merchantCategoryCode_nsprefix_ = None
+        self.merchantCategoryCode_nsprefix_ = "tns"
         self.taxAuthority = taxAuthority
-        self.taxAuthority_nsprefix_ = None
+        self.taxAuthority_nsprefix_ = "tns"
         self.taxAuthorityState = taxAuthorityState
-        self.taxAuthorityState_nsprefix_ = None
+        self.taxAuthorityState_nsprefix_ = "tns"
         self.bankRoutingNumber = bankRoutingNumber
         self.validate_bankRoutingNumberType(self.bankRoutingNumber)
-        self.bankRoutingNumber_nsprefix_ = None
+        self.bankRoutingNumber_nsprefix_ = "tns"
         self.bankAccountNumber = bankAccountNumber
         self.validate_bankAccountNumberType(self.bankAccountNumber)
-        self.bankAccountNumber_nsprefix_ = None
+        self.bankAccountNumber_nsprefix_ = "tns"
         self.pspMerchantId = pspMerchantId
         self.validate_pspMerchantIdType(self.pspMerchantId)
-        self.pspMerchantId_nsprefix_ = None
+        self.pspMerchantId_nsprefix_ = "tns"
         self.fraud = fraud
-        self.fraud_nsprefix_ = None
+        self.fraud_nsprefix_ = "tns"
         self.amexAcquired = amexAcquired
-        self.amexAcquired_nsprefix_ = None
+        self.amexAcquired_nsprefix_ = "tns"
         self.address = address
-        self.address_nsprefix_ = None
+        self.address_nsprefix_ = "tns"
         self.primaryContact = primaryContact
-        self.primaryContact_nsprefix_ = None
+        self.primaryContact_nsprefix_ = "tns"
         self.createCredentials = createCredentials
-        self.createCredentials_nsprefix_ = None
+        self.createCredentials_nsprefix_ = "tns"
         self.eCheck = eCheck
-        self.eCheck_nsprefix_ = None
+        self.eCheck_nsprefix_ = "tns"
         self.subMerchantFunding = subMerchantFunding
-        self.subMerchantFunding_nsprefix_ = None
+        self.subMerchantFunding_nsprefix_ = "tns"
         self.settlementCurrency = settlementCurrency
         self.validate_settlementCurrencyType(self.settlementCurrency)
-        self.settlementCurrency_nsprefix_ = None
+        self.settlementCurrency_nsprefix_ = "tns"
+        self.merchantCategoryTypes = merchantCategoryTypes
+        self.merchantCategoryTypes_nsprefix_ = "tns"
+        self.methodOfPayments = methodOfPayments
+        self.methodOfPayments_nsprefix_ = "tns"
         self.sdkVersion = sdkVersion
         self.validate_sdkVersionType53(self.sdkVersion)
-        self.sdkVersion_nsprefix_ = None
+        self.sdkVersion_nsprefix_ = "tns"
         self.language = language
         self.validate_languageType54(self.language)
-        self.language_nsprefix_ = None
+        self.language_nsprefix_ = "tns"
         self.extensiontype_ = extensiontype_
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
@@ -8184,6 +8266,14 @@ class subMerchantCreateRequest(GeneratedsSuper):
         return self.settlementCurrency
     def set_settlementCurrency(self, settlementCurrency):
         self.settlementCurrency = settlementCurrency
+    def get_merchantCategoryTypes(self):
+        return self.merchantCategoryTypes
+    def set_merchantCategoryTypes(self, merchantCategoryTypes):
+        self.merchantCategoryTypes = merchantCategoryTypes
+    def get_methodOfPayments(self):
+        return self.methodOfPayments
+    def set_methodOfPayments(self, methodOfPayments):
+        self.methodOfPayments = methodOfPayments
     def get_sdkVersion(self):
         return self.sdkVersion
     def set_sdkVersion(self, sdkVersion):
@@ -8432,7 +8522,7 @@ class subMerchantCreateRequest(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_sdkVersionType53_patterns_, ))
                 result = False
         return result
-    validate_sdkVersionType53_patterns_ = [[u'^([\x00-\x7f]*)$']]
+    validate_sdkVersionType53_patterns_ = [['^(\x00-\x7f*)$']]
     def validate_languageType54(self, value):
         result = True
         # Validate type languageType54, a restriction on xs:string.
@@ -8454,8 +8544,8 @@ class subMerchantCreateRequest(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_languageType54_patterns_, ))
                 result = False
         return result
-    validate_languageType54_patterns_ = [[u'^([\x00-\x7f]*)$']]
-    def hasContent_(self):
+    validate_languageType54_patterns_ = [['^(\x00-\x7f*)$']]
+    def has__content(self):
         if (
             self.merchantName is not None or
             self.amexMid is not None or
@@ -8479,6 +8569,8 @@ class subMerchantCreateRequest(GeneratedsSuper):
             self.eCheck is not None or
             self.subMerchantFunding is not None or
             self.settlementCurrency is not None or
+            self.merchantCategoryTypes is not None or
+            self.methodOfPayments is not None or
             self.sdkVersion is not None or
             self.language is not None
         ):
@@ -8500,15 +8592,15 @@ class subMerchantCreateRequest(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='subMerchantCreateRequest')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='subMerchantCreateRequest')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='subMerchantCreateRequest', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='subMerchantCreateRequest', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='subMerchantCreateRequest'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='subMerchantCreateRequest'):
         if self.extensiontype_ is not None and 'xsi:type' not in already_processed:
             already_processed.add('xsi:type')
             outfile.write(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
@@ -8518,7 +8610,7 @@ class subMerchantCreateRequest(GeneratedsSuper):
             else:
                 outfile.write(' xsi:type="%s"' % self.extensiontype_)
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='subMerchantCreateRequest', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='subMerchantCreateRequest', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -8605,6 +8697,12 @@ class subMerchantCreateRequest(GeneratedsSuper):
             namespaceprefix_ = self.settlementCurrency_nsprefix_ + ':' if (UseCapturedNS_ and self.settlementCurrency_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
             outfile.write('<%ssettlementCurrency>%s</%ssettlementCurrency>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.settlementCurrency), input_name='settlementCurrency')), namespaceprefix_ , eol_))
+        if self.merchantCategoryTypes is not None:
+            namespaceprefix_ = self.merchantCategoryTypes_nsprefix_ + ':' if (UseCapturedNS_ and self.merchantCategoryTypes_nsprefix_) else ''
+            self.merchantCategoryTypes.export(outfile, level, namespaceprefix_, namespacedef_='', name_='merchantCategoryTypes', pretty_print=pretty_print)
+        if self.methodOfPayments is not None:
+            namespaceprefix_ = self.methodOfPayments_nsprefix_ + ':' if (UseCapturedNS_ and self.methodOfPayments_nsprefix_) else ''
+            self.methodOfPayments.export(outfile, level, namespaceprefix_, namespacedef_='', name_='methodOfPayments', pretty_print=pretty_print)
         if self.sdkVersion is not None:
             namespaceprefix_ = self.sdkVersion_nsprefix_ + ':' if (UseCapturedNS_ and self.sdkVersion_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
@@ -8619,17 +8717,17 @@ class subMerchantCreateRequest(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('xsi:type', node)
         if value is not None and 'xsi:type' not in already_processed:
             already_processed.add('xsi:type')
             self.extensiontype_ = value
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'merchantName':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'merchantName')
@@ -8782,6 +8880,16 @@ class subMerchantCreateRequest(GeneratedsSuper):
             self.settlementCurrency_nsprefix_ = child_.prefix
             # validate type settlementCurrencyType
             self.validate_settlementCurrencyType(self.settlementCurrency)
+        elif nodeName_ == 'merchantCategoryTypes':
+            obj_ = merchantCategoryTypesType.factory(parent_object_=self)
+            obj_.build(child_, gds_collector_=gds_collector_)
+            self.merchantCategoryTypes = obj_
+            obj_.original_tagname_ = 'merchantCategoryTypes'
+        elif nodeName_ == 'methodOfPayments':
+            obj_ = methodOfPaymentsType.factory(parent_object_=self)
+            obj_.build(child_, gds_collector_=gds_collector_)
+            self.methodOfPayments = obj_
+            obj_.original_tagname_ = 'methodOfPayments'
         elif nodeName_ == 'sdkVersion':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'sdkVersion')
@@ -8810,7 +8918,7 @@ class subMerchantFraudFeature(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.enabled = _cast(bool, enabled)
         self.enabled_nsprefix_ = None
     def factory(*args_, **kwargs_):
@@ -8832,7 +8940,7 @@ class subMerchantFraudFeature(GeneratedsSuper):
         return self.enabled
     def set_enabled(self, enabled):
         self.enabled = enabled
-    def hasContent_(self):
+    def has__content(self):
         if (
 
         ):
@@ -8854,18 +8962,18 @@ class subMerchantFraudFeature(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='subMerchantFraudFeature')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='subMerchantFraudFeature')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='subMerchantFraudFeature', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='subMerchantFraudFeature', pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='subMerchantFraudFeature'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='subMerchantFraudFeature'):
         if self.enabled is not None and 'enabled' not in already_processed:
             already_processed.add('enabled')
             outfile.write(' enabled="%s"' % self.gds_format_boolean(self.enabled, input_name='enabled'))
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='subMerchantFraudFeature', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='subMerchantFraudFeature', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
@@ -8873,12 +8981,12 @@ class subMerchantFraudFeature(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('enabled', node)
         if value is not None and 'enabled' not in already_processed:
             already_processed.add('enabled')
@@ -8888,7 +8996,7 @@ class subMerchantFraudFeature(GeneratedsSuper):
                 self.enabled = False
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
 # end class subMerchantFraudFeature
 
@@ -8902,7 +9010,7 @@ class subMerchantAmexAcquiredFeature(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.enabled = _cast(bool, enabled)
         self.enabled_nsprefix_ = None
     def factory(*args_, **kwargs_):
@@ -8924,7 +9032,7 @@ class subMerchantAmexAcquiredFeature(GeneratedsSuper):
         return self.enabled
     def set_enabled(self, enabled):
         self.enabled = enabled
-    def hasContent_(self):
+    def has__content(self):
         if (
 
         ):
@@ -8946,18 +9054,18 @@ class subMerchantAmexAcquiredFeature(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='subMerchantAmexAcquiredFeature')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='subMerchantAmexAcquiredFeature')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='subMerchantAmexAcquiredFeature', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='subMerchantAmexAcquiredFeature', pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='subMerchantAmexAcquiredFeature'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='subMerchantAmexAcquiredFeature'):
         if self.enabled is not None and 'enabled' not in already_processed:
             already_processed.add('enabled')
             outfile.write(' enabled="%s"' % self.gds_format_boolean(self.enabled, input_name='enabled'))
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='subMerchantAmexAcquiredFeature', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='subMerchantAmexAcquiredFeature', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
@@ -8965,12 +9073,12 @@ class subMerchantAmexAcquiredFeature(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('enabled', node)
         if value is not None and 'enabled' not in already_processed:
             already_processed.add('enabled')
@@ -8980,7 +9088,7 @@ class subMerchantAmexAcquiredFeature(GeneratedsSuper):
                 self.enabled = False
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
 # end class subMerchantAmexAcquiredFeature
 
@@ -8994,19 +9102,19 @@ class subMerchantPrimaryContact(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.firstName = firstName
         self.validate_firstNameType55(self.firstName)
-        self.firstName_nsprefix_ = None
+        self.firstName_nsprefix_ = "tns"
         self.lastName = lastName
         self.validate_lastNameType56(self.lastName)
-        self.lastName_nsprefix_ = None
+        self.lastName_nsprefix_ = "tns"
         self.emailAddress = emailAddress
         self.validate_emailAddressType57(self.emailAddress)
-        self.emailAddress_nsprefix_ = None
+        self.emailAddress_nsprefix_ = "tns"
         self.phone = phone
         self.validate_phoneType(self.phone)
-        self.phone_nsprefix_ = None
+        self.phone_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -9106,7 +9214,7 @@ class subMerchantPrimaryContact(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on phoneType' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.firstName is not None or
             self.lastName is not None or
@@ -9131,17 +9239,17 @@ class subMerchantPrimaryContact(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='subMerchantPrimaryContact')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='subMerchantPrimaryContact')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='subMerchantPrimaryContact', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='subMerchantPrimaryContact', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='subMerchantPrimaryContact'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='subMerchantPrimaryContact'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='subMerchantPrimaryContact', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='subMerchantPrimaryContact', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -9168,14 +9276,14 @@ class subMerchantPrimaryContact(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'firstName':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'firstName')
@@ -9220,15 +9328,15 @@ class subMerchantECheckFeature(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.enabled = _cast(bool, enabled)
         self.enabled_nsprefix_ = None
         self.eCheckCompanyName = eCheckCompanyName
         self.validate_eCheckCompanyNameType(self.eCheckCompanyName)
-        self.eCheckCompanyName_nsprefix_ = None
+        self.eCheckCompanyName_nsprefix_ = "tns"
         self.eCheckBillingDescriptor = eCheckBillingDescriptor
         self.validate_eCheckBillingDescriptorType(self.eCheckBillingDescriptor)
-        self.eCheckBillingDescriptor_nsprefix_ = None
+        self.eCheckBillingDescriptor_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -9290,7 +9398,7 @@ class subMerchantECheckFeature(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on eCheckBillingDescriptorType' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.eCheckCompanyName is not None or
             self.eCheckBillingDescriptor is not None
@@ -9313,19 +9421,19 @@ class subMerchantECheckFeature(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='subMerchantECheckFeature')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='subMerchantECheckFeature')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='subMerchantECheckFeature', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='subMerchantECheckFeature', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='subMerchantECheckFeature'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='subMerchantECheckFeature'):
         if self.enabled is not None and 'enabled' not in already_processed:
             already_processed.add('enabled')
             outfile.write(' enabled="%s"' % self.gds_format_boolean(self.enabled, input_name='enabled'))
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='subMerchantECheckFeature', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='subMerchantECheckFeature', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -9344,12 +9452,12 @@ class subMerchantECheckFeature(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('enabled', node)
         if value is not None and 'enabled' not in already_processed:
             already_processed.add('enabled')
@@ -9359,7 +9467,7 @@ class subMerchantECheckFeature(GeneratedsSuper):
                 self.enabled = False
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'eCheckCompanyName':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'eCheckCompanyName')
@@ -9388,15 +9496,15 @@ class subMerchantFunding(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.enabled = _cast(bool, enabled)
         self.enabled_nsprefix_ = None
         self.feeProfile = feeProfile
         self.validate_feeProfileType(self.feeProfile)
-        self.feeProfile_nsprefix_ = None
+        self.feeProfile_nsprefix_ = "tns"
         self.fundingSubmerchantId = fundingSubmerchantId
         self.validate_fundingSubmerchantIdType(self.fundingSubmerchantId)
-        self.fundingSubmerchantId_nsprefix_ = None
+        self.fundingSubmerchantId_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -9458,7 +9566,7 @@ class subMerchantFunding(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on fundingSubmerchantIdType' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.feeProfile is not None or
             self.fundingSubmerchantId is not None
@@ -9481,19 +9589,19 @@ class subMerchantFunding(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='subMerchantFunding')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='subMerchantFunding')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='subMerchantFunding', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='subMerchantFunding', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='subMerchantFunding'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='subMerchantFunding'):
         if self.enabled is not None and 'enabled' not in already_processed:
             already_processed.add('enabled')
             outfile.write(' enabled="%s"' % self.gds_format_boolean(self.enabled, input_name='enabled'))
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='subMerchantFunding', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='subMerchantFunding', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -9512,12 +9620,12 @@ class subMerchantFunding(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('enabled', node)
         if value is not None and 'enabled' not in already_processed:
             already_processed.add('enabled')
@@ -9527,7 +9635,7 @@ class subMerchantFunding(GeneratedsSuper):
                 self.enabled = False
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'feeProfile':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'feeProfile')
@@ -9556,25 +9664,25 @@ class subMerchantCreateResponse(response):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
-        super(subMerchantCreateResponse, self).__init__(transactionId,  **kwargs_)
+        self.ns_prefix_ = "tns"
+        super(globals().get("subMerchantCreateResponse"), self).__init__(transactionId,  **kwargs_)
         self.duplicate = _cast(bool, duplicate)
         self.duplicate_nsprefix_ = None
         self.subMerchantId = subMerchantId
         self.validate_subMerchantIdType(self.subMerchantId)
-        self.subMerchantId_nsprefix_ = None
+        self.subMerchantId_nsprefix_ = "tns"
         self.merchantIdentString = merchantIdentString
         self.validate_merchantIdentStringType(self.merchantIdentString)
-        self.merchantIdentString_nsprefix_ = None
+        self.merchantIdentString_nsprefix_ = "tns"
         self.originalSubMerchant = originalSubMerchant
-        self.originalSubMerchant_nsprefix_ = None
+        self.originalSubMerchant_nsprefix_ = "tns"
         self.credentials = credentials
-        self.credentials_nsprefix_ = None
+        self.credentials_nsprefix_ = "tns"
         self.paypageCredentials = paypageCredentials
-        self.paypageCredentials_nsprefix_ = None
+        self.paypageCredentials_nsprefix_ = "tns"
         self.amexSellerId = amexSellerId
         self.validate_amexSellerIdType(self.amexSellerId)
-        self.amexSellerId_nsprefix_ = None
+        self.amexSellerId_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -9669,7 +9777,7 @@ class subMerchantCreateResponse(response):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on amexSellerIdType' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.subMerchantId is not None or
             self.merchantIdentString is not None or
@@ -9677,7 +9785,7 @@ class subMerchantCreateResponse(response):
             self.credentials is not None or
             self.paypageCredentials is not None or
             self.amexSellerId is not None or
-            super(subMerchantCreateResponse, self).hasContent_()
+            super(subMerchantCreateResponse, self).has__content()
         ):
             return True
         else:
@@ -9697,21 +9805,21 @@ class subMerchantCreateResponse(response):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='subMerchantCreateResponse')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='subMerchantCreateResponse')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='subMerchantCreateResponse', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='subMerchantCreateResponse', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='subMerchantCreateResponse'):
-        super(subMerchantCreateResponse, self).exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='subMerchantCreateResponse')
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='subMerchantCreateResponse'):
+        super(subMerchantCreateResponse, self)._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='subMerchantCreateResponse')
         if self.duplicate is not None and 'duplicate' not in already_processed:
             already_processed.add('duplicate')
             outfile.write(' duplicate="%s"' % self.gds_format_boolean(self.duplicate, input_name='duplicate'))
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='subMerchantCreateResponse', fromsubclass_=False, pretty_print=True):
-        super(subMerchantCreateResponse, self).exportChildren(outfile, level, namespaceprefix_, namespacedef_, name_, True, pretty_print=pretty_print)
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='subMerchantCreateResponse', fromsubclass_=False, pretty_print=True):
+        super(subMerchantCreateResponse, self)._exportChildren(outfile, level, namespaceprefix_, namespacedef_, name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
@@ -9743,12 +9851,12 @@ class subMerchantCreateResponse(response):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('duplicate', node)
         if value is not None and 'duplicate' not in already_processed:
             already_processed.add('duplicate')
@@ -9758,8 +9866,8 @@ class subMerchantCreateResponse(response):
                 self.duplicate = False
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
-        super(subMerchantCreateResponse, self).buildAttributes(node, attrs, already_processed)
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+        super(subMerchantCreateResponse, self)._buildAttributes(node, attrs, already_processed)
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'subMerchantId':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'subMerchantId')
@@ -9799,7 +9907,7 @@ class subMerchantCreateResponse(response):
             self.amexSellerId_nsprefix_ = child_.prefix
             # validate type amexSellerIdType
             self.validate_amexSellerIdType(self.amexSellerId)
-        super(subMerchantCreateResponse, self).buildChildren(child_, node, nodeName_, True)
+        super(subMerchantCreateResponse, self)._buildChildren(child_, node, nodeName_, True)
 # end class subMerchantCreateResponse
 
 
@@ -9807,37 +9915,37 @@ class subMerchantRetrievalResponse(subMerchantCreateRequest):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = subMerchantCreateRequest
-    def __init__(self, merchantName=None, amexMid=None, discoverConveyedMid=None, url=None, customerServiceNumber=None, hardCodedBillingDescriptor=None, maxTransactionAmount=None, purchaseCurrency=None, merchantCategoryCode=None, taxAuthority=None, taxAuthorityState=None, bankRoutingNumber=None, bankAccountNumber=None, pspMerchantId=None, fraud=None, amexAcquired=None, address=None, primaryContact=None, createCredentials=None, eCheck=None, subMerchantFunding=None, settlementCurrency=None, sdkVersion=None, language=None, subMerchantId=None, amexSellerId=None, disabled=None, transactionId=None, merchantIdentString=None, credentials=None, paypageCredentials=None, updateDate=None, gds_collector_=None, **kwargs_):
+    def __init__(self, merchantName=None, amexMid=None, discoverConveyedMid=None, url=None, customerServiceNumber=None, hardCodedBillingDescriptor=None, maxTransactionAmount=None, purchaseCurrency=None, merchantCategoryCode=None, taxAuthority=None, taxAuthorityState=None, bankRoutingNumber=None, bankAccountNumber=None, pspMerchantId=None, fraud=None, amexAcquired=None, address=None, primaryContact=None, createCredentials=None, eCheck=None, subMerchantFunding=None, settlementCurrency=None, merchantCategoryTypes=None, methodOfPayments=None, sdkVersion=None, language=None, subMerchantId=None, amexSellerId=None, disabled=None, transactionId=None, merchantIdentString=None, credentials=None, paypageCredentials=None, updateDate=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
-        super(subMerchantRetrievalResponse, self).__init__(merchantName, amexMid, discoverConveyedMid, url, customerServiceNumber, hardCodedBillingDescriptor, maxTransactionAmount, purchaseCurrency, merchantCategoryCode, taxAuthority, taxAuthorityState, bankRoutingNumber, bankAccountNumber, pspMerchantId, fraud, amexAcquired, address, primaryContact, createCredentials, eCheck, subMerchantFunding, settlementCurrency, sdkVersion, language,  **kwargs_)
+        self.ns_prefix_ = "tns"
+        super(globals().get("subMerchantRetrievalResponse"), self).__init__(merchantName, amexMid, discoverConveyedMid, url, customerServiceNumber, hardCodedBillingDescriptor, maxTransactionAmount, purchaseCurrency, merchantCategoryCode, taxAuthority, taxAuthorityState, bankRoutingNumber, bankAccountNumber, pspMerchantId, fraud, amexAcquired, address, primaryContact, createCredentials, eCheck, subMerchantFunding, settlementCurrency, merchantCategoryTypes, methodOfPayments, sdkVersion, language,  **kwargs_)
         self.subMerchantId = subMerchantId
         self.validate_subMerchantIdType58(self.subMerchantId)
-        self.subMerchantId_nsprefix_ = None
+        self.subMerchantId_nsprefix_ = "tns"
         self.amexSellerId = amexSellerId
         self.validate_amexSellerIdType59(self.amexSellerId)
-        self.amexSellerId_nsprefix_ = None
+        self.amexSellerId_nsprefix_ = "tns"
         self.disabled = disabled
-        self.disabled_nsprefix_ = None
+        self.disabled_nsprefix_ = "tns"
         self.transactionId = transactionId
         self.validate_transactionIdType60(self.transactionId)
-        self.transactionId_nsprefix_ = None
+        self.transactionId_nsprefix_ = "tns"
         self.merchantIdentString = merchantIdentString
         self.validate_merchantIdentStringType61(self.merchantIdentString)
-        self.merchantIdentString_nsprefix_ = None
+        self.merchantIdentString_nsprefix_ = "tns"
         self.credentials = credentials
-        self.credentials_nsprefix_ = None
+        self.credentials_nsprefix_ = "tns"
         self.paypageCredentials = paypageCredentials
-        self.paypageCredentials_nsprefix_ = None
+        self.paypageCredentials_nsprefix_ = "tns"
         if isinstance(updateDate, BaseStrType_):
             initvalue_ = datetime_.datetime.strptime(updateDate, '%Y-%m-%dT%H:%M:%S')
         else:
             initvalue_ = updateDate
         self.updateDate = initvalue_
-        self.updateDate_nsprefix_ = None
+        self.updateDate_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -9953,7 +10061,7 @@ class subMerchantRetrievalResponse(subMerchantCreateRequest):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on merchantIdentStringType61' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.subMerchantId is not None or
             self.amexSellerId is not None or
@@ -9963,7 +10071,7 @@ class subMerchantRetrievalResponse(subMerchantCreateRequest):
             self.credentials is not None or
             self.paypageCredentials is not None or
             self.updateDate is not None or
-            super(subMerchantRetrievalResponse, self).hasContent_()
+            super(subMerchantRetrievalResponse, self).has__content()
         ):
             return True
         else:
@@ -9983,18 +10091,18 @@ class subMerchantRetrievalResponse(subMerchantCreateRequest):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='subMerchantRetrievalResponse')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='subMerchantRetrievalResponse')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='subMerchantRetrievalResponse', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='subMerchantRetrievalResponse', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='subMerchantRetrievalResponse'):
-        super(subMerchantRetrievalResponse, self).exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='subMerchantRetrievalResponse')
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='subMerchantRetrievalResponse', fromsubclass_=False, pretty_print=True):
-        super(subMerchantRetrievalResponse, self).exportChildren(outfile, level, namespaceprefix_, namespacedef_, name_, True, pretty_print=pretty_print)
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='subMerchantRetrievalResponse'):
+        super(subMerchantRetrievalResponse, self)._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='subMerchantRetrievalResponse')
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='subMerchantRetrievalResponse', fromsubclass_=False, pretty_print=True):
+        super(subMerchantRetrievalResponse, self)._exportChildren(outfile, level, namespaceprefix_, namespacedef_, name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
@@ -10035,14 +10143,14 @@ class subMerchantRetrievalResponse(subMerchantCreateRequest):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
-        super(subMerchantRetrievalResponse, self).buildAttributes(node, attrs, already_processed)
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildAttributes(self, node, attrs, already_processed):
+        super(subMerchantRetrievalResponse, self)._buildAttributes(node, attrs, already_processed)
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'subMerchantId':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'subMerchantId')
@@ -10096,7 +10204,7 @@ class subMerchantRetrievalResponse(subMerchantCreateRequest):
             dval_ = self.gds_parse_datetime(sval_)
             self.updateDate = dval_
             self.updateDate_nsprefix_ = child_.prefix
-        super(subMerchantRetrievalResponse, self).buildChildren(child_, node, nodeName_, True)
+        super(subMerchantRetrievalResponse, self)._buildChildren(child_, node, nodeName_, True)
 # end class subMerchantRetrievalResponse
 
 
@@ -10109,19 +10217,19 @@ class subMerchantCredentials(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.username = username
         self.validate_usernameType(self.username)
-        self.username_nsprefix_ = None
+        self.username_nsprefix_ = "tns"
         self.password = password
         self.validate_passwordType(self.password)
-        self.password_nsprefix_ = None
+        self.password_nsprefix_ = "tns"
         if isinstance(passwordExpirationDate, BaseStrType_):
             initvalue_ = datetime_.datetime.strptime(passwordExpirationDate, '%Y-%m-%dT%H:%M:%S')
         else:
             initvalue_ = passwordExpirationDate
         self.passwordExpirationDate = initvalue_
-        self.passwordExpirationDate_nsprefix_ = None
+        self.passwordExpirationDate_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -10183,7 +10291,7 @@ class subMerchantCredentials(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on passwordType' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.username is not None or
             self.password is not None or
@@ -10207,17 +10315,17 @@ class subMerchantCredentials(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='subMerchantCredentials')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='subMerchantCredentials')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='subMerchantCredentials', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='subMerchantCredentials', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='subMerchantCredentials'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='subMerchantCredentials'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='subMerchantCredentials', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='subMerchantCredentials', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -10240,14 +10348,14 @@ class subMerchantCredentials(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'username':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'username')
@@ -10281,13 +10389,13 @@ class paypageCredential(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.username = username
         self.validate_usernameType63(self.username)
-        self.username_nsprefix_ = None
+        self.username_nsprefix_ = "tns"
         self.paypageId = paypageId
         self.validate_paypageIdType(self.paypageId)
-        self.paypageId_nsprefix_ = None
+        self.paypageId_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -10345,7 +10453,7 @@ class paypageCredential(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on paypageIdType' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.username is not None or
             self.paypageId is not None
@@ -10368,17 +10476,17 @@ class paypageCredential(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='paypageCredential')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='paypageCredential')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='paypageCredential', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='paypageCredential', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='paypageCredential'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='paypageCredential'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='paypageCredential', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='paypageCredential', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -10397,14 +10505,14 @@ class paypageCredential(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'username':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'username')
@@ -10428,63 +10536,67 @@ class subMerchantUpdateRequest(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, merchantName=None, amexMid=None, discoverConveyedMid=None, url=None, customerServiceNumber=None, hardCodedBillingDescriptor=None, maxTransactionAmount=None, bankRoutingNumber=None, bankAccountNumber=None, pspMerchantId=None, purchaseCurrency=None, address=None, primaryContact=None, disable=None, fraud=None, amexAcquired=None, eCheck=None, subMerchantFunding=None, taxAuthority=None, taxAuthorityState=None, gds_collector_=None, **kwargs_):
+    def __init__(self, merchantName=None, amexMid=None, discoverConveyedMid=None, url=None, customerServiceNumber=None, hardCodedBillingDescriptor=None, maxTransactionAmount=None, bankRoutingNumber=None, bankAccountNumber=None, pspMerchantId=None, purchaseCurrency=None, address=None, primaryContact=None, disable=None, fraud=None, amexAcquired=None, eCheck=None, subMerchantFunding=None, taxAuthority=None, taxAuthorityState=None, merchantCategoryTypes=None, methodOfPayments=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.merchantName = merchantName
         self.validate_merchantNameType64(self.merchantName)
-        self.merchantName_nsprefix_ = None
+        self.merchantName_nsprefix_ = "tns"
         self.amexMid = amexMid
         self.validate_amexMidType65(self.amexMid)
-        self.amexMid_nsprefix_ = None
+        self.amexMid_nsprefix_ = "tns"
         self.discoverConveyedMid = discoverConveyedMid
         self.validate_discoverConveyedMidType66(self.discoverConveyedMid)
-        self.discoverConveyedMid_nsprefix_ = None
+        self.discoverConveyedMid_nsprefix_ = "tns"
         self.url = url
         self.validate_urlType67(self.url)
-        self.url_nsprefix_ = None
+        self.url_nsprefix_ = "tns"
         self.customerServiceNumber = customerServiceNumber
         self.validate_customerServiceNumberType68(self.customerServiceNumber)
-        self.customerServiceNumber_nsprefix_ = None
+        self.customerServiceNumber_nsprefix_ = "tns"
         self.hardCodedBillingDescriptor = hardCodedBillingDescriptor
         self.validate_hardCodedBillingDescriptorType69(self.hardCodedBillingDescriptor)
-        self.hardCodedBillingDescriptor_nsprefix_ = None
+        self.hardCodedBillingDescriptor_nsprefix_ = "tns"
         self.maxTransactionAmount = maxTransactionAmount
         self.validate_maxTransactionAmountType70(self.maxTransactionAmount)
-        self.maxTransactionAmount_nsprefix_ = None
+        self.maxTransactionAmount_nsprefix_ = "tns"
         self.bankRoutingNumber = bankRoutingNumber
         self.validate_bankRoutingNumberType71(self.bankRoutingNumber)
-        self.bankRoutingNumber_nsprefix_ = None
+        self.bankRoutingNumber_nsprefix_ = "tns"
         self.bankAccountNumber = bankAccountNumber
         self.validate_bankAccountNumberType72(self.bankAccountNumber)
-        self.bankAccountNumber_nsprefix_ = None
+        self.bankAccountNumber_nsprefix_ = "tns"
         self.pspMerchantId = pspMerchantId
         self.validate_pspMerchantIdType73(self.pspMerchantId)
-        self.pspMerchantId_nsprefix_ = None
+        self.pspMerchantId_nsprefix_ = "tns"
         self.purchaseCurrency = purchaseCurrency
         self.validate_purchaseCurrencyType74(self.purchaseCurrency)
-        self.purchaseCurrency_nsprefix_ = None
+        self.purchaseCurrency_nsprefix_ = "tns"
         self.address = address
-        self.address_nsprefix_ = None
+        self.address_nsprefix_ = "tns"
         self.primaryContact = primaryContact
-        self.primaryContact_nsprefix_ = None
+        self.primaryContact_nsprefix_ = "tns"
         self.disable = disable
-        self.disable_nsprefix_ = None
+        self.disable_nsprefix_ = "tns"
         self.fraud = fraud
-        self.fraud_nsprefix_ = None
+        self.fraud_nsprefix_ = "tns"
         self.amexAcquired = amexAcquired
-        self.amexAcquired_nsprefix_ = None
+        self.amexAcquired_nsprefix_ = "tns"
         self.eCheck = eCheck
-        self.eCheck_nsprefix_ = None
+        self.eCheck_nsprefix_ = "tns"
         self.subMerchantFunding = subMerchantFunding
-        self.subMerchantFunding_nsprefix_ = None
+        self.subMerchantFunding_nsprefix_ = "tns"
         self.taxAuthority = taxAuthority
-        self.taxAuthority_nsprefix_ = None
+        self.taxAuthority_nsprefix_ = "tns"
         self.taxAuthorityState = taxAuthorityState
-        self.taxAuthorityState_nsprefix_ = None
+        self.taxAuthorityState_nsprefix_ = "tns"
+        self.merchantCategoryTypes = merchantCategoryTypes
+        self.merchantCategoryTypes_nsprefix_ = "tns"
+        self.methodOfPayments = methodOfPayments
+        self.methodOfPayments_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -10580,6 +10692,14 @@ class subMerchantUpdateRequest(GeneratedsSuper):
         return self.taxAuthorityState
     def set_taxAuthorityState(self, taxAuthorityState):
         self.taxAuthorityState = taxAuthorityState
+    def get_merchantCategoryTypes(self):
+        return self.merchantCategoryTypes
+    def set_merchantCategoryTypes(self, merchantCategoryTypes):
+        self.merchantCategoryTypes = merchantCategoryTypes
+    def get_methodOfPayments(self):
+        return self.methodOfPayments
+    def set_methodOfPayments(self, methodOfPayments):
+        self.methodOfPayments = methodOfPayments
     def validate_merchantNameType64(self, value):
         result = True
         # Validate type merchantNameType64, a restriction on xs:string.
@@ -10763,7 +10883,7 @@ class subMerchantUpdateRequest(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on purchaseCurrencyType74' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.merchantName is not None or
             self.amexMid is not None or
@@ -10784,7 +10904,9 @@ class subMerchantUpdateRequest(GeneratedsSuper):
             self.eCheck is not None or
             self.subMerchantFunding is not None or
             self.taxAuthority is not None or
-            self.taxAuthorityState is not None
+            self.taxAuthorityState is not None or
+            self.merchantCategoryTypes is not None or
+            self.methodOfPayments is not None
         ):
             return True
         else:
@@ -10804,17 +10926,17 @@ class subMerchantUpdateRequest(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='subMerchantUpdateRequest')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='subMerchantUpdateRequest')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='subMerchantUpdateRequest', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='subMerchantUpdateRequest', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='subMerchantUpdateRequest'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='subMerchantUpdateRequest'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='subMerchantUpdateRequest', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='subMerchantUpdateRequest', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -10893,20 +11015,26 @@ class subMerchantUpdateRequest(GeneratedsSuper):
             namespaceprefix_ = self.taxAuthorityState_nsprefix_ + ':' if (UseCapturedNS_ and self.taxAuthorityState_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
             outfile.write('<%staxAuthorityState>%s</%staxAuthorityState>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.taxAuthorityState), input_name='taxAuthorityState')), namespaceprefix_ , eol_))
+        if self.merchantCategoryTypes is not None:
+            namespaceprefix_ = self.merchantCategoryTypes_nsprefix_ + ':' if (UseCapturedNS_ and self.merchantCategoryTypes_nsprefix_) else ''
+            self.merchantCategoryTypes.export(outfile, level, namespaceprefix_, namespacedef_='', name_='merchantCategoryTypes', pretty_print=pretty_print)
+        if self.methodOfPayments is not None:
+            namespaceprefix_ = self.methodOfPayments_nsprefix_ + ':' if (UseCapturedNS_ and self.methodOfPayments_nsprefix_) else ''
+            self.methodOfPayments.export(outfile, level, namespaceprefix_, namespacedef_='', name_='methodOfPayments', pretty_print=pretty_print)
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
         if SaveElementTreeNode:
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'merchantName':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'merchantName')
@@ -11043,6 +11171,16 @@ class subMerchantUpdateRequest(GeneratedsSuper):
             value_ = self.gds_validate_string(value_, node, 'taxAuthorityState')
             self.taxAuthorityState = value_
             self.taxAuthorityState_nsprefix_ = child_.prefix
+        elif nodeName_ == 'merchantCategoryTypes':
+            obj_ = merchantCategoryTypesType75.factory(parent_object_=self)
+            obj_.build(child_, gds_collector_=gds_collector_)
+            self.merchantCategoryTypes = obj_
+            obj_.original_tagname_ = 'merchantCategoryTypes'
+        elif nodeName_ == 'methodOfPayments':
+            obj_ = methodOfPaymentsType76.factory(parent_object_=self)
+            obj_.build(child_, gds_collector_=gds_collector_)
+            self.methodOfPayments = obj_
+            obj_.original_tagname_ = 'methodOfPayments'
 # end class subMerchantUpdateRequest
 
 
@@ -11055,19 +11193,19 @@ class subMerchantPrimaryContactUpdatable(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.firstName = firstName
-        self.validate_firstNameType75(self.firstName)
-        self.firstName_nsprefix_ = None
+        self.validate_firstNameType78(self.firstName)
+        self.firstName_nsprefix_ = "tns"
         self.lastName = lastName
-        self.validate_lastNameType76(self.lastName)
-        self.lastName_nsprefix_ = None
+        self.validate_lastNameType79(self.lastName)
+        self.lastName_nsprefix_ = "tns"
         self.emailAddress = emailAddress
-        self.validate_emailAddressType77(self.emailAddress)
-        self.emailAddress_nsprefix_ = None
+        self.validate_emailAddressType80(self.emailAddress)
+        self.emailAddress_nsprefix_ = "tns"
         self.phone = phone
-        self.validate_phoneType78(self.phone)
-        self.phone_nsprefix_ = None
+        self.validate_phoneType81(self.phone)
+        self.phone_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -11099,9 +11237,9 @@ class subMerchantPrimaryContactUpdatable(GeneratedsSuper):
         return self.phone
     def set_phone(self, phone):
         self.phone = phone
-    def validate_firstNameType75(self, value):
+    def validate_firstNameType78(self, value):
         result = True
-        # Validate type firstNameType75, a restriction on xs:string.
+        # Validate type firstNameType78, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -11109,16 +11247,16 @@ class subMerchantPrimaryContactUpdatable(GeneratedsSuper):
                 return False
             if len(value) > 20:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on firstNameType75' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on firstNameType78' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if len(value) < 1:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on firstNameType75' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on firstNameType78' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def validate_lastNameType76(self, value):
+    def validate_lastNameType79(self, value):
         result = True
-        # Validate type lastNameType76, a restriction on xs:string.
+        # Validate type lastNameType79, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -11126,16 +11264,16 @@ class subMerchantPrimaryContactUpdatable(GeneratedsSuper):
                 return False
             if len(value) > 20:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on lastNameType76' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on lastNameType79' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if len(value) < 1:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on lastNameType76' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on lastNameType79' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def validate_emailAddressType77(self, value):
+    def validate_emailAddressType80(self, value):
         result = True
-        # Validate type emailAddressType77, a restriction on xs:string.
+        # Validate type emailAddressType80, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -11143,16 +11281,16 @@ class subMerchantPrimaryContactUpdatable(GeneratedsSuper):
                 return False
             if len(value) > 100:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on emailAddressType77' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on emailAddressType80' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if len(value) < 1:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on emailAddressType77' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on emailAddressType80' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def validate_phoneType78(self, value):
+    def validate_phoneType81(self, value):
         result = True
-        # Validate type phoneType78, a restriction on xs:string.
+        # Validate type phoneType81, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -11160,14 +11298,14 @@ class subMerchantPrimaryContactUpdatable(GeneratedsSuper):
                 return False
             if len(value) > 13:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on phoneType78' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on phoneType81' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if len(value) < 1:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on phoneType78' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on phoneType81' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.firstName is not None or
             self.lastName is not None or
@@ -11192,17 +11330,17 @@ class subMerchantPrimaryContactUpdatable(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='subMerchantPrimaryContactUpdatable')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='subMerchantPrimaryContactUpdatable')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='subMerchantPrimaryContactUpdatable', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='subMerchantPrimaryContactUpdatable', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='subMerchantPrimaryContactUpdatable'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='subMerchantPrimaryContactUpdatable'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='subMerchantPrimaryContactUpdatable', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='subMerchantPrimaryContactUpdatable', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -11229,46 +11367,46 @@ class subMerchantPrimaryContactUpdatable(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'firstName':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'firstName')
             value_ = self.gds_validate_string(value_, node, 'firstName')
             self.firstName = value_
             self.firstName_nsprefix_ = child_.prefix
-            # validate type firstNameType75
-            self.validate_firstNameType75(self.firstName)
+            # validate type firstNameType78
+            self.validate_firstNameType78(self.firstName)
         elif nodeName_ == 'lastName':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'lastName')
             value_ = self.gds_validate_string(value_, node, 'lastName')
             self.lastName = value_
             self.lastName_nsprefix_ = child_.prefix
-            # validate type lastNameType76
-            self.validate_lastNameType76(self.lastName)
+            # validate type lastNameType79
+            self.validate_lastNameType79(self.lastName)
         elif nodeName_ == 'emailAddress':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'emailAddress')
             value_ = self.gds_validate_string(value_, node, 'emailAddress')
             self.emailAddress = value_
             self.emailAddress_nsprefix_ = child_.prefix
-            # validate type emailAddressType77
-            self.validate_emailAddressType77(self.emailAddress)
+            # validate type emailAddressType80
+            self.validate_emailAddressType80(self.emailAddress)
         elif nodeName_ == 'phone':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'phone')
             value_ = self.gds_validate_string(value_, node, 'phone')
             self.phone = value_
             self.phone_nsprefix_ = child_.prefix
-            # validate type phoneType78
-            self.validate_phoneType78(self.phone)
+            # validate type phoneType81
+            self.validate_phoneType81(self.phone)
 # end class subMerchantPrimaryContactUpdatable
 
 
@@ -11281,10 +11419,10 @@ class errorResponse(response):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
-        super(errorResponse, self).__init__(transactionId,  **kwargs_)
+        self.ns_prefix_ = "tns"
+        super(globals().get("errorResponse"), self).__init__(transactionId,  **kwargs_)
         self.errors = errors
-        self.errors_nsprefix_ = None
+        self.errors_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -11304,10 +11442,10 @@ class errorResponse(response):
         return self.errors
     def set_errors(self, errors):
         self.errors = errors
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.errors is not None or
-            super(errorResponse, self).hasContent_()
+            super(errorResponse, self).has__content()
         ):
             return True
         else:
@@ -11327,18 +11465,18 @@ class errorResponse(response):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='errorResponse')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='errorResponse')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='errorResponse', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='errorResponse', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='errorResponse'):
-        super(errorResponse, self).exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='errorResponse')
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='errorResponse', fromsubclass_=False, pretty_print=True):
-        super(errorResponse, self).exportChildren(outfile, level, namespaceprefix_, namespacedef_, name_, True, pretty_print=pretty_print)
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='errorResponse'):
+        super(errorResponse, self)._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='errorResponse')
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='errorResponse', fromsubclass_=False, pretty_print=True):
+        super(errorResponse, self)._exportChildren(outfile, level, namespaceprefix_, namespacedef_, name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
@@ -11352,20 +11490,20 @@ class errorResponse(response):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
-        super(errorResponse, self).buildAttributes(node, attrs, already_processed)
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildAttributes(self, node, attrs, already_processed):
+        super(errorResponse, self)._buildAttributes(node, attrs, already_processed)
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'errors':
             obj_ = errorsType.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
             self.errors = obj_
             obj_.original_tagname_ = 'errors'
-        super(errorResponse, self).buildChildren(child_, node, nodeName_, True)
+        super(errorResponse, self)._buildChildren(child_, node, nodeName_, True)
 # end class errorResponse
 
 
@@ -11378,10 +11516,10 @@ class approvedMccResponse(response):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
-        super(approvedMccResponse, self).__init__(transactionId,  **kwargs_)
+        self.ns_prefix_ = "tns"
+        super(globals().get("approvedMccResponse"), self).__init__(transactionId,  **kwargs_)
         self.approvedMccs = approvedMccs
-        self.approvedMccs_nsprefix_ = None
+        self.approvedMccs_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -11401,10 +11539,10 @@ class approvedMccResponse(response):
         return self.approvedMccs
     def set_approvedMccs(self, approvedMccs):
         self.approvedMccs = approvedMccs
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.approvedMccs is not None or
-            super(approvedMccResponse, self).hasContent_()
+            super(approvedMccResponse, self).has__content()
         ):
             return True
         else:
@@ -11424,18 +11562,18 @@ class approvedMccResponse(response):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='approvedMccResponse')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='approvedMccResponse')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='approvedMccResponse', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='approvedMccResponse', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='approvedMccResponse'):
-        super(approvedMccResponse, self).exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='approvedMccResponse')
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='approvedMccResponse', fromsubclass_=False, pretty_print=True):
-        super(approvedMccResponse, self).exportChildren(outfile, level, namespaceprefix_, namespacedef_, name_, True, pretty_print=pretty_print)
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='approvedMccResponse'):
+        super(approvedMccResponse, self)._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='approvedMccResponse')
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='approvedMccResponse', fromsubclass_=False, pretty_print=True):
+        super(approvedMccResponse, self)._exportChildren(outfile, level, namespaceprefix_, namespacedef_, name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
@@ -11449,20 +11587,20 @@ class approvedMccResponse(response):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
-        super(approvedMccResponse, self).buildAttributes(node, attrs, already_processed)
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildAttributes(self, node, attrs, already_processed):
+        super(approvedMccResponse, self)._buildAttributes(node, attrs, already_processed)
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'approvedMccs':
             obj_ = approvedMccsType.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
             self.approvedMccs = obj_
             obj_.original_tagname_ = 'approvedMccs'
-        super(approvedMccResponse, self).buildChildren(child_, node, nodeName_, True)
+        super(approvedMccResponse, self)._buildChildren(child_, node, nodeName_, True)
 # end class approvedMccResponse
 
 
@@ -11475,15 +11613,15 @@ class legalEntityAgreementCreateRequest(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.legalEntityAgreement = legalEntityAgreement
-        self.legalEntityAgreement_nsprefix_ = None
+        self.legalEntityAgreement_nsprefix_ = "tns"
         self.sdkVersion = sdkVersion
-        self.validate_sdkVersionType79(self.sdkVersion)
-        self.sdkVersion_nsprefix_ = None
+        self.validate_sdkVersionType82(self.sdkVersion)
+        self.sdkVersion_nsprefix_ = "tns"
         self.language = language
-        self.validate_languageType80(self.language)
-        self.language_nsprefix_ = None
+        self.validate_languageType83(self.language)
+        self.language_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -11511,9 +11649,9 @@ class legalEntityAgreementCreateRequest(GeneratedsSuper):
         return self.language
     def set_language(self, language):
         self.language = language
-    def validate_sdkVersionType79(self, value):
+    def validate_sdkVersionType82(self, value):
         result = True
-        # Validate type sdkVersionType79, a restriction on xs:string.
+        # Validate type sdkVersionType82, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -11521,21 +11659,21 @@ class legalEntityAgreementCreateRequest(GeneratedsSuper):
                 return False
             if len(value) > 60:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on sdkVersionType79' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on sdkVersionType82' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if len(value) < 1:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on sdkVersionType79' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on sdkVersionType82' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if not self.gds_validate_simple_patterns(
-                    self.validate_sdkVersionType79_patterns_, value):
-                self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_sdkVersionType79_patterns_, ))
+                    self.validate_sdkVersionType82_patterns_, value):
+                self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_sdkVersionType82_patterns_, ))
                 result = False
         return result
-    validate_sdkVersionType79_patterns_ = [[u'^([\x00-\x7f]*)$']]
-    def validate_languageType80(self, value):
+    validate_sdkVersionType82_patterns_ = [['^(\x00-\x7f*)$']]
+    def validate_languageType83(self, value):
         result = True
-        # Validate type languageType80, a restriction on xs:string.
+        # Validate type languageType83, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -11543,19 +11681,19 @@ class legalEntityAgreementCreateRequest(GeneratedsSuper):
                 return False
             if len(value) > 60:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on languageType80' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on languageType83' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if len(value) < 1:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on languageType80' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on languageType83' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if not self.gds_validate_simple_patterns(
-                    self.validate_languageType80_patterns_, value):
-                self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_languageType80_patterns_, ))
+                    self.validate_languageType83_patterns_, value):
+                self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_languageType83_patterns_, ))
                 result = False
         return result
-    validate_languageType80_patterns_ = [[u'^([\x00-\x7f]*)$']]
-    def hasContent_(self):
+    validate_languageType83_patterns_ = [['^(\x00-\x7f*)$']]
+    def has__content(self):
         if (
             self.legalEntityAgreement is not None or
             self.sdkVersion is not None or
@@ -11579,17 +11717,17 @@ class legalEntityAgreementCreateRequest(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityAgreementCreateRequest')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityAgreementCreateRequest')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='legalEntityAgreementCreateRequest', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='legalEntityAgreementCreateRequest', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='legalEntityAgreementCreateRequest'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='legalEntityAgreementCreateRequest'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='legalEntityAgreementCreateRequest', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='legalEntityAgreementCreateRequest', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -11611,14 +11749,14 @@ class legalEntityAgreementCreateRequest(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'legalEntityAgreement':
             obj_ = legalEntityAgreement.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
@@ -11630,16 +11768,16 @@ class legalEntityAgreementCreateRequest(GeneratedsSuper):
             value_ = self.gds_validate_string(value_, node, 'sdkVersion')
             self.sdkVersion = value_
             self.sdkVersion_nsprefix_ = child_.prefix
-            # validate type sdkVersionType79
-            self.validate_sdkVersionType79(self.sdkVersion)
+            # validate type sdkVersionType82
+            self.validate_sdkVersionType82(self.sdkVersion)
         elif nodeName_ == 'language':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'language')
             value_ = self.gds_validate_string(value_, node, 'language')
             self.language = value_
             self.language_nsprefix_ = child_.prefix
-            # validate type languageType80
-            self.validate_languageType80(self.language)
+            # validate type languageType83
+            self.validate_languageType83(self.language)
 # end class legalEntityAgreementCreateRequest
 
 
@@ -11652,30 +11790,30 @@ class legalEntityAgreement(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.legalEntityAgreementType = legalEntityAgreementType
         self.validate_legalEntityAgreementType(self.legalEntityAgreementType)
-        self.legalEntityAgreementType_nsprefix_ = None
+        self.legalEntityAgreementType_nsprefix_ = "tns"
         self.agreementVersion = agreementVersion
         self.validate_agreementVersionType(self.agreementVersion)
-        self.agreementVersion_nsprefix_ = None
+        self.agreementVersion_nsprefix_ = "tns"
         self.userFullName = userFullName
         self.validate_userFullNameType(self.userFullName)
-        self.userFullName_nsprefix_ = None
+        self.userFullName_nsprefix_ = "tns"
         self.userSystemName = userSystemName
         self.validate_userSystemNameType(self.userSystemName)
-        self.userSystemName_nsprefix_ = None
+        self.userSystemName_nsprefix_ = "tns"
         self.userIPAddress = userIPAddress
         self.validate_userIPAddressType(self.userIPAddress)
-        self.userIPAddress_nsprefix_ = None
+        self.userIPAddress_nsprefix_ = "tns"
         self.manuallyEntered = manuallyEntered
-        self.manuallyEntered_nsprefix_ = None
+        self.manuallyEntered_nsprefix_ = "tns"
         if isinstance(acceptanceDateTime, BaseStrType_):
             initvalue_ = datetime_.datetime.strptime(acceptanceDateTime, '%Y-%m-%dT%H:%M:%S')
         else:
             initvalue_ = acceptanceDateTime
         self.acceptanceDateTime = initvalue_
-        self.acceptanceDateTime_nsprefix_ = None
+        self.acceptanceDateTime_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -11806,8 +11944,8 @@ class legalEntityAgreement(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_userIPAddressType_patterns_, ))
                 result = False
         return result
-    validate_userIPAddressType_patterns_ = [[u'^(([a-zA-Z0-9.:])*)$']]
-    def hasContent_(self):
+    validate_userIPAddressType_patterns_ = [['^(([a-zA-Z0-9.:])*)$']]
+    def has__content(self):
         if (
             self.legalEntityAgreementType is not None or
             self.agreementVersion is not None or
@@ -11835,17 +11973,17 @@ class legalEntityAgreement(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityAgreement')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityAgreement')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='legalEntityAgreement', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='legalEntityAgreement', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='legalEntityAgreement'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='legalEntityAgreement'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='legalEntityAgreement', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='legalEntityAgreement', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -11884,14 +12022,14 @@ class legalEntityAgreement(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'legalEntityAgreementType':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'legalEntityAgreementType')
@@ -11955,8 +12093,8 @@ class legalEntityAgreementCreateResponse(response):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
-        super(legalEntityAgreementCreateResponse, self).__init__(transactionId,  **kwargs_)
+        self.ns_prefix_ = "tns"
+        super(globals().get("legalEntityAgreementCreateResponse"), self).__init__(transactionId,  **kwargs_)
         self.duplicate = _cast(bool, duplicate)
         self.duplicate_nsprefix_ = None
     def factory(*args_, **kwargs_):
@@ -11978,9 +12116,9 @@ class legalEntityAgreementCreateResponse(response):
         return self.duplicate
     def set_duplicate(self, duplicate):
         self.duplicate = duplicate
-    def hasContent_(self):
+    def has__content(self):
         if (
-            super(legalEntityAgreementCreateResponse, self).hasContent_()
+            super(legalEntityAgreementCreateResponse, self).has__content()
         ):
             return True
         else:
@@ -12000,33 +12138,33 @@ class legalEntityAgreementCreateResponse(response):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityAgreementCreateResponse')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityAgreementCreateResponse')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='legalEntityAgreementCreateResponse', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='legalEntityAgreementCreateResponse', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='legalEntityAgreementCreateResponse'):
-        super(legalEntityAgreementCreateResponse, self).exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityAgreementCreateResponse')
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='legalEntityAgreementCreateResponse'):
+        super(legalEntityAgreementCreateResponse, self)._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityAgreementCreateResponse')
         if self.duplicate is not None and 'duplicate' not in already_processed:
             already_processed.add('duplicate')
             outfile.write(' duplicate="%s"' % self.gds_format_boolean(self.duplicate, input_name='duplicate'))
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='legalEntityAgreementCreateResponse', fromsubclass_=False, pretty_print=True):
-        super(legalEntityAgreementCreateResponse, self).exportChildren(outfile, level, namespaceprefix_, namespacedef_, name_, True, pretty_print=pretty_print)
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='legalEntityAgreementCreateResponse', fromsubclass_=False, pretty_print=True):
+        super(legalEntityAgreementCreateResponse, self)._exportChildren(outfile, level, namespaceprefix_, namespacedef_, name_, True, pretty_print=pretty_print)
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
         if SaveElementTreeNode:
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('duplicate', node)
         if value is not None and 'duplicate' not in already_processed:
             already_processed.add('duplicate')
@@ -12036,9 +12174,9 @@ class legalEntityAgreementCreateResponse(response):
                 self.duplicate = False
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
-        super(legalEntityAgreementCreateResponse, self).buildAttributes(node, attrs, already_processed)
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
-        super(legalEntityAgreementCreateResponse, self).buildChildren(child_, node, nodeName_, True)
+        super(legalEntityAgreementCreateResponse, self)._buildAttributes(node, attrs, already_processed)
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+        super(legalEntityAgreementCreateResponse, self)._buildChildren(child_, node, nodeName_, True)
         pass
 # end class legalEntityAgreementCreateResponse
 
@@ -12052,14 +12190,14 @@ class legalEntityAgreementRetrievalResponse(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.legalEntityId = legalEntityId
-        self.validate_legalEntityIdType81(self.legalEntityId)
-        self.legalEntityId_nsprefix_ = None
+        self.validate_legalEntityIdType84(self.legalEntityId)
+        self.legalEntityId_nsprefix_ = "tns"
         self.transactionId = transactionId
-        self.transactionId_nsprefix_ = None
+        self.transactionId_nsprefix_ = "tns"
         self.agreements = agreements
-        self.agreements_nsprefix_ = None
+        self.agreements_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -12087,9 +12225,9 @@ class legalEntityAgreementRetrievalResponse(GeneratedsSuper):
         return self.agreements
     def set_agreements(self, agreements):
         self.agreements = agreements
-    def validate_legalEntityIdType81(self, value):
+    def validate_legalEntityIdType84(self, value):
         result = True
-        # Validate type legalEntityIdType81, a restriction on xs:string.
+        # Validate type legalEntityIdType84, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -12097,14 +12235,14 @@ class legalEntityAgreementRetrievalResponse(GeneratedsSuper):
                 return False
             if len(value) > 19:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on legalEntityIdType81' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on legalEntityIdType84' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if len(value) < 1:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on legalEntityIdType81' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on legalEntityIdType84' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.legalEntityId is not None or
             self.transactionId is not None or
@@ -12128,17 +12266,17 @@ class legalEntityAgreementRetrievalResponse(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityAgreementRetrievalResponse')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityAgreementRetrievalResponse')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='legalEntityAgreementRetrievalResponse', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='legalEntityAgreementRetrievalResponse', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='legalEntityAgreementRetrievalResponse'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='legalEntityAgreementRetrievalResponse'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='legalEntityAgreementRetrievalResponse', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='legalEntityAgreementRetrievalResponse', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -12160,22 +12298,22 @@ class legalEntityAgreementRetrievalResponse(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'legalEntityId':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'legalEntityId')
             value_ = self.gds_validate_string(value_, node, 'legalEntityId')
             self.legalEntityId = value_
             self.legalEntityId_nsprefix_ = child_.prefix
-            # validate type legalEntityIdType81
-            self.validate_legalEntityIdType81(self.legalEntityId)
+            # validate type legalEntityIdType84
+            self.validate_legalEntityIdType84(self.legalEntityId)
         elif nodeName_ == 'transactionId' and child_.text:
             sval_ = child_.text
             ival_ = self.gds_parse_integer(sval_, node, 'transactionId')
@@ -12199,16 +12337,16 @@ class legalEntityPrincipalDeleteResponse(response):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
-        super(legalEntityPrincipalDeleteResponse, self).__init__(transactionId,  **kwargs_)
+        self.ns_prefix_ = "tns"
+        super(globals().get("legalEntityPrincipalDeleteResponse"), self).__init__(transactionId,  **kwargs_)
         self.legalEntityId = legalEntityId
-        self.validate_legalEntityIdType82(self.legalEntityId)
-        self.legalEntityId_nsprefix_ = None
+        self.validate_legalEntityIdType85(self.legalEntityId)
+        self.legalEntityId_nsprefix_ = "tns"
         self.principalId = principalId
-        self.principalId_nsprefix_ = None
+        self.principalId_nsprefix_ = "tns"
         self.responseDescription = responseDescription
-        self.validate_responseDescriptionType83(self.responseDescription)
-        self.responseDescription_nsprefix_ = None
+        self.validate_responseDescriptionType86(self.responseDescription)
+        self.responseDescription_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -12236,9 +12374,9 @@ class legalEntityPrincipalDeleteResponse(response):
         return self.responseDescription
     def set_responseDescription(self, responseDescription):
         self.responseDescription = responseDescription
-    def validate_legalEntityIdType82(self, value):
+    def validate_legalEntityIdType85(self, value):
         result = True
-        # Validate type legalEntityIdType82, a restriction on xs:string.
+        # Validate type legalEntityIdType85, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -12246,16 +12384,16 @@ class legalEntityPrincipalDeleteResponse(response):
                 return False
             if len(value) > 19:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on legalEntityIdType82' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on legalEntityIdType85' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if len(value) < 1:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on legalEntityIdType82' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on legalEntityIdType85' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def validate_responseDescriptionType83(self, value):
+    def validate_responseDescriptionType86(self, value):
         result = True
-        # Validate type responseDescriptionType83, a restriction on xs:string.
+        # Validate type responseDescriptionType86, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -12263,19 +12401,19 @@ class legalEntityPrincipalDeleteResponse(response):
                 return False
             if len(value) > 100:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on responseDescriptionType83' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on responseDescriptionType86' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if len(value) < 1:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on responseDescriptionType83' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on responseDescriptionType86' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.legalEntityId is not None or
             self.principalId is not None or
             self.responseDescription is not None or
-            super(legalEntityPrincipalDeleteResponse, self).hasContent_()
+            super(legalEntityPrincipalDeleteResponse, self).has__content()
         ):
             return True
         else:
@@ -12295,18 +12433,18 @@ class legalEntityPrincipalDeleteResponse(response):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityPrincipalDeleteResponse')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityPrincipalDeleteResponse')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='legalEntityPrincipalDeleteResponse', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='legalEntityPrincipalDeleteResponse', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='legalEntityPrincipalDeleteResponse'):
-        super(legalEntityPrincipalDeleteResponse, self).exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityPrincipalDeleteResponse')
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='legalEntityPrincipalDeleteResponse', fromsubclass_=False, pretty_print=True):
-        super(legalEntityPrincipalDeleteResponse, self).exportChildren(outfile, level, namespaceprefix_, namespacedef_, name_, True, pretty_print=pretty_print)
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='legalEntityPrincipalDeleteResponse'):
+        super(legalEntityPrincipalDeleteResponse, self)._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityPrincipalDeleteResponse')
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='legalEntityPrincipalDeleteResponse', fromsubclass_=False, pretty_print=True):
+        super(legalEntityPrincipalDeleteResponse, self)._exportChildren(outfile, level, namespaceprefix_, namespacedef_, name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
@@ -12329,22 +12467,22 @@ class legalEntityPrincipalDeleteResponse(response):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
-        super(legalEntityPrincipalDeleteResponse, self).buildAttributes(node, attrs, already_processed)
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildAttributes(self, node, attrs, already_processed):
+        super(legalEntityPrincipalDeleteResponse, self)._buildAttributes(node, attrs, already_processed)
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'legalEntityId':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'legalEntityId')
             value_ = self.gds_validate_string(value_, node, 'legalEntityId')
             self.legalEntityId = value_
             self.legalEntityId_nsprefix_ = child_.prefix
-            # validate type legalEntityIdType82
-            self.validate_legalEntityIdType82(self.legalEntityId)
+            # validate type legalEntityIdType85
+            self.validate_legalEntityIdType85(self.legalEntityId)
         elif nodeName_ == 'principalId' and child_.text:
             sval_ = child_.text
             ival_ = self.gds_parse_integer(sval_, node, 'principalId')
@@ -12357,9 +12495,9 @@ class legalEntityPrincipalDeleteResponse(response):
             value_ = self.gds_validate_string(value_, node, 'responseDescription')
             self.responseDescription = value_
             self.responseDescription_nsprefix_ = child_.prefix
-            # validate type responseDescriptionType83
-            self.validate_responseDescriptionType83(self.responseDescription)
-        super(legalEntityPrincipalDeleteResponse, self).buildChildren(child_, node, nodeName_, True)
+            # validate type responseDescriptionType86
+            self.validate_responseDescriptionType86(self.responseDescription)
+        super(legalEntityPrincipalDeleteResponse, self)._buildChildren(child_, node, nodeName_, True)
 # end class legalEntityPrincipalDeleteResponse
 
 
@@ -12372,20 +12510,20 @@ class legalEntityPrincipalCreateResponseWithResponseFields(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.principalId = principalId
-        self.principalId_nsprefix_ = None
+        self.principalId_nsprefix_ = "tns"
         self.firstName = firstName
-        self.validate_firstNameType84(self.firstName)
-        self.firstName_nsprefix_ = None
+        self.validate_firstNameType87(self.firstName)
+        self.firstName_nsprefix_ = "tns"
         self.lastName = lastName
-        self.validate_lastNameType85(self.lastName)
-        self.lastName_nsprefix_ = None
+        self.validate_lastNameType88(self.lastName)
+        self.lastName_nsprefix_ = "tns"
         self.responseCode = responseCode
-        self.responseCode_nsprefix_ = None
+        self.responseCode_nsprefix_ = "tns"
         self.responseDescription = responseDescription
-        self.validate_responseDescriptionType86(self.responseDescription)
-        self.responseDescription_nsprefix_ = None
+        self.validate_responseDescriptionType89(self.responseDescription)
+        self.responseDescription_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -12421,9 +12559,9 @@ class legalEntityPrincipalCreateResponseWithResponseFields(GeneratedsSuper):
         return self.responseDescription
     def set_responseDescription(self, responseDescription):
         self.responseDescription = responseDescription
-    def validate_firstNameType84(self, value):
+    def validate_firstNameType87(self, value):
         result = True
-        # Validate type firstNameType84, a restriction on xs:string.
+        # Validate type firstNameType87, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -12431,16 +12569,16 @@ class legalEntityPrincipalCreateResponseWithResponseFields(GeneratedsSuper):
                 return False
             if len(value) > 20:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on firstNameType84' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on firstNameType87' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if len(value) < 1:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on firstNameType84' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on firstNameType87' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def validate_lastNameType85(self, value):
+    def validate_lastNameType88(self, value):
         result = True
-        # Validate type lastNameType85, a restriction on xs:string.
+        # Validate type lastNameType88, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -12448,16 +12586,16 @@ class legalEntityPrincipalCreateResponseWithResponseFields(GeneratedsSuper):
                 return False
             if len(value) > 20:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on lastNameType85' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on lastNameType88' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if len(value) < 1:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on lastNameType85' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on lastNameType88' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def validate_responseDescriptionType86(self, value):
+    def validate_responseDescriptionType89(self, value):
         result = True
-        # Validate type responseDescriptionType86, a restriction on xs:string.
+        # Validate type responseDescriptionType89, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -12465,14 +12603,14 @@ class legalEntityPrincipalCreateResponseWithResponseFields(GeneratedsSuper):
                 return False
             if len(value) > 100:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on responseDescriptionType86' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on responseDescriptionType89' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if len(value) < 1:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on responseDescriptionType86' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on responseDescriptionType89' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.principalId is not None or
             self.firstName is not None or
@@ -12498,17 +12636,17 @@ class legalEntityPrincipalCreateResponseWithResponseFields(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityPrincipalCreateResponseWithResponseFields')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityPrincipalCreateResponseWithResponseFields')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='legalEntityPrincipalCreateResponseWithResponseFields', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='legalEntityPrincipalCreateResponseWithResponseFields', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='legalEntityPrincipalCreateResponseWithResponseFields'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='legalEntityPrincipalCreateResponseWithResponseFields'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='legalEntityPrincipalCreateResponseWithResponseFields', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='legalEntityPrincipalCreateResponseWithResponseFields', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -12539,14 +12677,14 @@ class legalEntityPrincipalCreateResponseWithResponseFields(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'principalId' and child_.text:
             sval_ = child_.text
             ival_ = self.gds_parse_integer(sval_, node, 'principalId')
@@ -12559,16 +12697,16 @@ class legalEntityPrincipalCreateResponseWithResponseFields(GeneratedsSuper):
             value_ = self.gds_validate_string(value_, node, 'firstName')
             self.firstName = value_
             self.firstName_nsprefix_ = child_.prefix
-            # validate type firstNameType84
-            self.validate_firstNameType84(self.firstName)
+            # validate type firstNameType87
+            self.validate_firstNameType87(self.firstName)
         elif nodeName_ == 'lastName':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'lastName')
             value_ = self.gds_validate_string(value_, node, 'lastName')
             self.lastName = value_
             self.lastName_nsprefix_ = child_.prefix
-            # validate type lastNameType85
-            self.validate_lastNameType85(self.lastName)
+            # validate type lastNameType88
+            self.validate_lastNameType88(self.lastName)
         elif nodeName_ == 'responseCode' and child_.text:
             sval_ = child_.text
             ival_ = self.gds_parse_integer(sval_, node, 'responseCode')
@@ -12581,8 +12719,8 @@ class legalEntityPrincipalCreateResponseWithResponseFields(GeneratedsSuper):
             value_ = self.gds_validate_string(value_, node, 'responseDescription')
             self.responseDescription = value_
             self.responseDescription_nsprefix_ = child_.prefix
-            # validate type responseDescriptionType86
-            self.validate_responseDescriptionType86(self.responseDescription)
+            # validate type responseDescriptionType89
+            self.validate_responseDescriptionType89(self.responseDescription)
 # end class legalEntityPrincipalCreateResponseWithResponseFields
 
 
@@ -12595,14 +12733,14 @@ class principalCreateResponse(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.legalEntityId = legalEntityId
-        self.validate_legalEntityIdType87(self.legalEntityId)
-        self.legalEntityId_nsprefix_ = None
+        self.validate_legalEntityIdType90(self.legalEntityId)
+        self.legalEntityId_nsprefix_ = "tns"
         self.principal = principal
-        self.principal_nsprefix_ = None
+        self.principal_nsprefix_ = "tns"
         self.transactionId = transactionId
-        self.transactionId_nsprefix_ = None
+        self.transactionId_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -12630,9 +12768,9 @@ class principalCreateResponse(GeneratedsSuper):
         return self.transactionId
     def set_transactionId(self, transactionId):
         self.transactionId = transactionId
-    def validate_legalEntityIdType87(self, value):
+    def validate_legalEntityIdType90(self, value):
         result = True
-        # Validate type legalEntityIdType87, a restriction on xs:string.
+        # Validate type legalEntityIdType90, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -12640,14 +12778,14 @@ class principalCreateResponse(GeneratedsSuper):
                 return False
             if len(value) > 19:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on legalEntityIdType87' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on legalEntityIdType90' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if len(value) < 1:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on legalEntityIdType87' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on legalEntityIdType90' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.legalEntityId is not None or
             self.principal is not None or
@@ -12671,17 +12809,17 @@ class principalCreateResponse(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='principalCreateResponse')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='principalCreateResponse')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='principalCreateResponse', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='principalCreateResponse', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='principalCreateResponse'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='principalCreateResponse'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='principalCreateResponse', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='principalCreateResponse', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -12703,22 +12841,22 @@ class principalCreateResponse(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'legalEntityId':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'legalEntityId')
             value_ = self.gds_validate_string(value_, node, 'legalEntityId')
             self.legalEntityId = value_
             self.legalEntityId_nsprefix_ = child_.prefix
-            # validate type legalEntityIdType87
-            self.validate_legalEntityIdType87(self.legalEntityId)
+            # validate type legalEntityIdType90
+            self.validate_legalEntityIdType90(self.legalEntityId)
         elif nodeName_ == 'principal':
             obj_ = legalEntityPrincipalCreateResponseWithResponseFields.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
@@ -12742,17 +12880,17 @@ class principalDeleteResponse(GeneratedsSuper):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
+        self.ns_prefix_ = "tns"
         self.transactionId = transactionId
-        self.transactionId_nsprefix_ = None
+        self.transactionId_nsprefix_ = "tns"
         self.legalEntityId = legalEntityId
-        self.validate_legalEntityIdType88(self.legalEntityId)
-        self.legalEntityId_nsprefix_ = None
+        self.validate_legalEntityIdType91(self.legalEntityId)
+        self.legalEntityId_nsprefix_ = "tns"
         self.principalId = principalId
-        self.principalId_nsprefix_ = None
+        self.principalId_nsprefix_ = "tns"
         self.responseDescription = responseDescription
-        self.validate_responseDescriptionType89(self.responseDescription)
-        self.responseDescription_nsprefix_ = None
+        self.validate_responseDescriptionType92(self.responseDescription)
+        self.responseDescription_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -12784,9 +12922,9 @@ class principalDeleteResponse(GeneratedsSuper):
         return self.responseDescription
     def set_responseDescription(self, responseDescription):
         self.responseDescription = responseDescription
-    def validate_legalEntityIdType88(self, value):
+    def validate_legalEntityIdType91(self, value):
         result = True
-        # Validate type legalEntityIdType88, a restriction on xs:string.
+        # Validate type legalEntityIdType91, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -12794,16 +12932,16 @@ class principalDeleteResponse(GeneratedsSuper):
                 return False
             if len(value) > 19:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on legalEntityIdType88' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on legalEntityIdType91' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if len(value) < 1:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on legalEntityIdType88' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on legalEntityIdType91' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def validate_responseDescriptionType89(self, value):
+    def validate_responseDescriptionType92(self, value):
         result = True
-        # Validate type responseDescriptionType89, a restriction on xs:string.
+        # Validate type responseDescriptionType92, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -12811,14 +12949,14 @@ class principalDeleteResponse(GeneratedsSuper):
                 return False
             if len(value) > 100:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on responseDescriptionType89' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on responseDescriptionType92' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if len(value) < 1:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on responseDescriptionType89' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on responseDescriptionType92' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.transactionId is not None or
             self.legalEntityId is not None or
@@ -12843,17 +12981,17 @@ class principalDeleteResponse(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='principalDeleteResponse')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='principalDeleteResponse')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='principalDeleteResponse', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='principalDeleteResponse', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='principalDeleteResponse'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='principalDeleteResponse'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='principalDeleteResponse', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='principalDeleteResponse', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -12880,14 +13018,14 @@ class principalDeleteResponse(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'transactionId' and child_.text:
             sval_ = child_.text
             ival_ = self.gds_parse_integer(sval_, node, 'transactionId')
@@ -12900,8 +13038,8 @@ class principalDeleteResponse(GeneratedsSuper):
             value_ = self.gds_validate_string(value_, node, 'legalEntityId')
             self.legalEntityId = value_
             self.legalEntityId_nsprefix_ = child_.prefix
-            # validate type legalEntityIdType88
-            self.validate_legalEntityIdType88(self.legalEntityId)
+            # validate type legalEntityIdType91
+            self.validate_legalEntityIdType91(self.legalEntityId)
         elif nodeName_ == 'principalId' and child_.text:
             sval_ = child_.text
             ival_ = self.gds_parse_integer(sval_, node, 'principalId')
@@ -12914,8 +13052,8 @@ class principalDeleteResponse(GeneratedsSuper):
             value_ = self.gds_validate_string(value_, node, 'responseDescription')
             self.responseDescription = value_
             self.responseDescription_nsprefix_ = child_.prefix
-            # validate type responseDescriptionType89
-            self.validate_responseDescriptionType89(self.responseDescription)
+            # validate type responseDescriptionType92
+            self.validate_responseDescriptionType92(self.responseDescription)
 # end class principalDeleteResponse
 
 
@@ -12959,7 +13097,7 @@ class riskIndicatorsType(GeneratedsSuper):
         self.riskIndicator.insert(index, value)
     def replace_riskIndicator_at(self, index, value):
         self.riskIndicator[index] = value
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.riskIndicator
         ):
@@ -12981,17 +13119,17 @@ class riskIndicatorsType(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='riskIndicatorsType')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='riskIndicatorsType')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='riskIndicatorsType', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='riskIndicatorsType', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='riskIndicatorsType'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='riskIndicatorsType'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='riskIndicatorsType', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='riskIndicatorsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -13005,14 +13143,14 @@ class riskIndicatorsType(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'riskIndicator':
             obj_ = potentialRiskIndicator.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
@@ -13061,7 +13199,7 @@ class riskIndicatorsType18(GeneratedsSuper):
         self.riskIndicator.insert(index, value)
     def replace_riskIndicator_at(self, index, value):
         self.riskIndicator[index] = value
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.riskIndicator
         ):
@@ -13083,17 +13221,17 @@ class riskIndicatorsType18(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='riskIndicatorsType18')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='riskIndicatorsType18')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='riskIndicatorsType18', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='riskIndicatorsType18', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='riskIndicatorsType18'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='riskIndicatorsType18'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='riskIndicatorsType18', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='riskIndicatorsType18', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -13107,20 +13245,355 @@ class riskIndicatorsType18(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'riskIndicator':
             obj_ = potentialRiskIndicator.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
             self.riskIndicator.append(obj_)
             obj_.original_tagname_ = 'riskIndicator'
 # end class riskIndicatorsType18
+
+
+class merchantCategoryTypesType(GeneratedsSuper):
+    __hash__ = GeneratedsSuper.__hash__
+    subclass = None
+    superclass = None
+    def __init__(self, categoryType=None, gds_collector_=None, **kwargs_):
+        self.gds_collector_ = gds_collector_
+        self.gds_elementtree_node_ = None
+        self.original_tagname_ = None
+        self.parent_object_ = kwargs_.get('parent_object_')
+        self.ns_prefix_ = None
+        if categoryType is None:
+            self.categoryType = []
+        else:
+            self.categoryType = categoryType
+        self.categoryType_nsprefix_ = None
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, merchantCategoryTypesType)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if merchantCategoryTypesType.subclass:
+            return merchantCategoryTypesType.subclass(*args_, **kwargs_)
+        else:
+            return merchantCategoryTypesType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_ns_prefix_(self):
+        return self.ns_prefix_
+    def set_ns_prefix_(self, ns_prefix):
+        self.ns_prefix_ = ns_prefix
+    def get_categoryType(self):
+        return self.categoryType
+    def set_categoryType(self, categoryType):
+        self.categoryType = categoryType
+    def add_categoryType(self, value):
+        self.categoryType.append(value)
+    def insert_categoryType_at(self, index, value):
+        self.categoryType.insert(index, value)
+    def replace_categoryType_at(self, index, value):
+        self.categoryType[index] = value
+    def has__content(self):
+        if (
+            self.categoryType
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='merchantCategoryTypesType', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('merchantCategoryTypesType')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None and name_ == 'merchantCategoryTypesType':
+            name_ = self.original_tagname_
+        if UseCapturedNS_ and self.ns_prefix_:
+            namespaceprefix_ = self.ns_prefix_ + ':'
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='merchantCategoryTypesType')
+        if self.has__content():
+            outfile.write('>%s' % (eol_, ))
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='merchantCategoryTypesType', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='merchantCategoryTypesType'):
+        pass
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='merchantCategoryTypesType', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        for categoryType_ in self.categoryType:
+            namespaceprefix_ = self.categoryType_nsprefix_ + ':' if (UseCapturedNS_ and self.categoryType_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%scategoryType>%s</%scategoryType>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(categoryType_), input_name='categoryType')), namespaceprefix_ , eol_))
+    def build(self, node, gds_collector_=None):
+        self.gds_collector_ = gds_collector_
+        if SaveElementTreeNode:
+            self.gds_elementtree_node_ = node
+        already_processed = set()
+        self.ns_prefix_ = node.prefix
+        self._buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+        return self
+    def _buildAttributes(self, node, attrs, already_processed):
+        pass
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+        if nodeName_ == 'categoryType':
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'categoryType')
+            value_ = self.gds_validate_string(value_, node, 'categoryType')
+            self.categoryType.append(value_)
+            self.categoryType_nsprefix_ = child_.prefix
+# end class merchantCategoryTypesType
+
+
+class methodOfPaymentsType(GeneratedsSuper):
+    __hash__ = GeneratedsSuper.__hash__
+    subclass = None
+    superclass = None
+    def __init__(self, method=None, gds_collector_=None, **kwargs_):
+        self.gds_collector_ = gds_collector_
+        self.gds_elementtree_node_ = None
+        self.original_tagname_ = None
+        self.parent_object_ = kwargs_.get('parent_object_')
+        self.ns_prefix_ = None
+        if method is None:
+            self.method = []
+        else:
+            self.method = method
+        self.method_nsprefix_ = None
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, methodOfPaymentsType)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if methodOfPaymentsType.subclass:
+            return methodOfPaymentsType.subclass(*args_, **kwargs_)
+        else:
+            return methodOfPaymentsType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_ns_prefix_(self):
+        return self.ns_prefix_
+    def set_ns_prefix_(self, ns_prefix):
+        self.ns_prefix_ = ns_prefix
+    def get_method(self):
+        return self.method
+    def set_method(self, method):
+        self.method = method
+    def add_method(self, value):
+        self.method.append(value)
+    def insert_method_at(self, index, value):
+        self.method.insert(index, value)
+    def replace_method_at(self, index, value):
+        self.method[index] = value
+    def has__content(self):
+        if (
+            self.method
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='methodOfPaymentsType', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('methodOfPaymentsType')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None and name_ == 'methodOfPaymentsType':
+            name_ = self.original_tagname_
+        if UseCapturedNS_ and self.ns_prefix_:
+            namespaceprefix_ = self.ns_prefix_ + ':'
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='methodOfPaymentsType')
+        if self.has__content():
+            outfile.write('>%s' % (eol_, ))
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='methodOfPaymentsType', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='methodOfPaymentsType'):
+        pass
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='methodOfPaymentsType', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        for method_ in self.method:
+            namespaceprefix_ = self.method_nsprefix_ + ':' if (UseCapturedNS_ and self.method_nsprefix_) else ''
+            method_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='method', pretty_print=pretty_print)
+    def build(self, node, gds_collector_=None):
+        self.gds_collector_ = gds_collector_
+        if SaveElementTreeNode:
+            self.gds_elementtree_node_ = node
+        already_processed = set()
+        self.ns_prefix_ = node.prefix
+        self._buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+        return self
+    def _buildAttributes(self, node, attrs, already_processed):
+        pass
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+        if nodeName_ == 'method':
+            obj_ = methodType.factory(parent_object_=self)
+            obj_.build(child_, gds_collector_=gds_collector_)
+            self.method.append(obj_)
+            obj_.original_tagname_ = 'method'
+# end class methodOfPaymentsType
+
+
+class methodType(GeneratedsSuper):
+    __hash__ = GeneratedsSuper.__hash__
+    subclass = None
+    superclass = None
+    def __init__(self, paymentType=None, selectedTransactionType=None, allowedTransactionTypes=None, gds_collector_=None, **kwargs_):
+        self.gds_collector_ = gds_collector_
+        self.gds_elementtree_node_ = None
+        self.original_tagname_ = None
+        self.parent_object_ = kwargs_.get('parent_object_')
+        self.ns_prefix_ = None
+        self.paymentType = paymentType
+        self.paymentType_nsprefix_ = None
+        self.selectedTransactionType = selectedTransactionType
+        self.selectedTransactionType_nsprefix_ = None
+        self.allowedTransactionTypes = allowedTransactionTypes
+        self.allowedTransactionTypes_nsprefix_ = None
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, methodType)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if methodType.subclass:
+            return methodType.subclass(*args_, **kwargs_)
+        else:
+            return methodType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_ns_prefix_(self):
+        return self.ns_prefix_
+    def set_ns_prefix_(self, ns_prefix):
+        self.ns_prefix_ = ns_prefix
+    def get_paymentType(self):
+        return self.paymentType
+    def set_paymentType(self, paymentType):
+        self.paymentType = paymentType
+    def get_selectedTransactionType(self):
+        return self.selectedTransactionType
+    def set_selectedTransactionType(self, selectedTransactionType):
+        self.selectedTransactionType = selectedTransactionType
+    def get_allowedTransactionTypes(self):
+        return self.allowedTransactionTypes
+    def set_allowedTransactionTypes(self, allowedTransactionTypes):
+        self.allowedTransactionTypes = allowedTransactionTypes
+    def has__content(self):
+        if (
+            self.paymentType is not None or
+            self.selectedTransactionType is not None or
+            self.allowedTransactionTypes is not None
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='methodType', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('methodType')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None and name_ == 'methodType':
+            name_ = self.original_tagname_
+        if UseCapturedNS_ and self.ns_prefix_:
+            namespaceprefix_ = self.ns_prefix_ + ':'
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='methodType')
+        if self.has__content():
+            outfile.write('>%s' % (eol_, ))
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='methodType', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='methodType'):
+        pass
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='methodType', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.paymentType is not None:
+            namespaceprefix_ = self.paymentType_nsprefix_ + ':' if (UseCapturedNS_ and self.paymentType_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%spaymentType>%s</%spaymentType>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.paymentType), input_name='paymentType')), namespaceprefix_ , eol_))
+        if self.selectedTransactionType is not None:
+            namespaceprefix_ = self.selectedTransactionType_nsprefix_ + ':' if (UseCapturedNS_ and self.selectedTransactionType_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sselectedTransactionType>%s</%sselectedTransactionType>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.selectedTransactionType), input_name='selectedTransactionType')), namespaceprefix_ , eol_))
+        if self.allowedTransactionTypes is not None:
+            namespaceprefix_ = self.allowedTransactionTypes_nsprefix_ + ':' if (UseCapturedNS_ and self.allowedTransactionTypes_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sallowedTransactionTypes>%s</%sallowedTransactionTypes>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.allowedTransactionTypes), input_name='allowedTransactionTypes')), namespaceprefix_ , eol_))
+    def build(self, node, gds_collector_=None):
+        self.gds_collector_ = gds_collector_
+        if SaveElementTreeNode:
+            self.gds_elementtree_node_ = node
+        already_processed = set()
+        self.ns_prefix_ = node.prefix
+        self._buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+        return self
+    def _buildAttributes(self, node, attrs, already_processed):
+        pass
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+        if nodeName_ == 'paymentType':
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'paymentType')
+            value_ = self.gds_validate_string(value_, node, 'paymentType')
+            self.paymentType = value_
+            self.paymentType_nsprefix_ = child_.prefix
+        elif nodeName_ == 'selectedTransactionType':
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'selectedTransactionType')
+            value_ = self.gds_validate_string(value_, node, 'selectedTransactionType')
+            self.selectedTransactionType = value_
+            self.selectedTransactionType_nsprefix_ = child_.prefix
+        elif nodeName_ == 'allowedTransactionTypes':
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'allowedTransactionTypes')
+            value_ = self.gds_validate_string(value_, node, 'allowedTransactionTypes')
+            self.allowedTransactionTypes = value_
+            self.allowedTransactionTypes_nsprefix_ = child_.prefix
+# end class methodType
 
 
 class paypageCredentialsType(GeneratedsSuper):
@@ -13163,7 +13636,7 @@ class paypageCredentialsType(GeneratedsSuper):
         self.paypageCredential.insert(index, value)
     def replace_paypageCredential_at(self, index, value):
         self.paypageCredential[index] = value
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.paypageCredential
         ):
@@ -13185,17 +13658,17 @@ class paypageCredentialsType(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='paypageCredentialsType')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='paypageCredentialsType')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='paypageCredentialsType', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='paypageCredentialsType', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='paypageCredentialsType'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='paypageCredentialsType'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='paypageCredentialsType', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='paypageCredentialsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -13209,14 +13682,14 @@ class paypageCredentialsType(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'paypageCredential':
             obj_ = paypageCredential.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
@@ -13265,7 +13738,7 @@ class paypageCredentialsType62(GeneratedsSuper):
         self.paypageCredential.insert(index, value)
     def replace_paypageCredential_at(self, index, value):
         self.paypageCredential[index] = value
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.paypageCredential
         ):
@@ -13287,17 +13760,17 @@ class paypageCredentialsType62(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='paypageCredentialsType62')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='paypageCredentialsType62')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='paypageCredentialsType62', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='paypageCredentialsType62', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='paypageCredentialsType62'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='paypageCredentialsType62'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='paypageCredentialsType62', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='paypageCredentialsType62', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -13311,20 +13784,355 @@ class paypageCredentialsType62(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'paypageCredential':
             obj_ = paypageCredential.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
             self.paypageCredential.append(obj_)
             obj_.original_tagname_ = 'paypageCredential'
 # end class paypageCredentialsType62
+
+
+class merchantCategoryTypesType75(GeneratedsSuper):
+    __hash__ = GeneratedsSuper.__hash__
+    subclass = None
+    superclass = None
+    def __init__(self, categoryType=None, gds_collector_=None, **kwargs_):
+        self.gds_collector_ = gds_collector_
+        self.gds_elementtree_node_ = None
+        self.original_tagname_ = None
+        self.parent_object_ = kwargs_.get('parent_object_')
+        self.ns_prefix_ = None
+        if categoryType is None:
+            self.categoryType = []
+        else:
+            self.categoryType = categoryType
+        self.categoryType_nsprefix_ = None
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, merchantCategoryTypesType75)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if merchantCategoryTypesType75.subclass:
+            return merchantCategoryTypesType75.subclass(*args_, **kwargs_)
+        else:
+            return merchantCategoryTypesType75(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_ns_prefix_(self):
+        return self.ns_prefix_
+    def set_ns_prefix_(self, ns_prefix):
+        self.ns_prefix_ = ns_prefix
+    def get_categoryType(self):
+        return self.categoryType
+    def set_categoryType(self, categoryType):
+        self.categoryType = categoryType
+    def add_categoryType(self, value):
+        self.categoryType.append(value)
+    def insert_categoryType_at(self, index, value):
+        self.categoryType.insert(index, value)
+    def replace_categoryType_at(self, index, value):
+        self.categoryType[index] = value
+    def has__content(self):
+        if (
+            self.categoryType
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='merchantCategoryTypesType75', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('merchantCategoryTypesType75')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None and name_ == 'merchantCategoryTypesType75':
+            name_ = self.original_tagname_
+        if UseCapturedNS_ and self.ns_prefix_:
+            namespaceprefix_ = self.ns_prefix_ + ':'
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='merchantCategoryTypesType75')
+        if self.has__content():
+            outfile.write('>%s' % (eol_, ))
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='merchantCategoryTypesType75', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='merchantCategoryTypesType75'):
+        pass
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='merchantCategoryTypesType75', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        for categoryType_ in self.categoryType:
+            namespaceprefix_ = self.categoryType_nsprefix_ + ':' if (UseCapturedNS_ and self.categoryType_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%scategoryType>%s</%scategoryType>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(categoryType_), input_name='categoryType')), namespaceprefix_ , eol_))
+    def build(self, node, gds_collector_=None):
+        self.gds_collector_ = gds_collector_
+        if SaveElementTreeNode:
+            self.gds_elementtree_node_ = node
+        already_processed = set()
+        self.ns_prefix_ = node.prefix
+        self._buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+        return self
+    def _buildAttributes(self, node, attrs, already_processed):
+        pass
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+        if nodeName_ == 'categoryType':
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'categoryType')
+            value_ = self.gds_validate_string(value_, node, 'categoryType')
+            self.categoryType.append(value_)
+            self.categoryType_nsprefix_ = child_.prefix
+# end class merchantCategoryTypesType75
+
+
+class methodOfPaymentsType76(GeneratedsSuper):
+    __hash__ = GeneratedsSuper.__hash__
+    subclass = None
+    superclass = None
+    def __init__(self, method=None, gds_collector_=None, **kwargs_):
+        self.gds_collector_ = gds_collector_
+        self.gds_elementtree_node_ = None
+        self.original_tagname_ = None
+        self.parent_object_ = kwargs_.get('parent_object_')
+        self.ns_prefix_ = None
+        if method is None:
+            self.method = []
+        else:
+            self.method = method
+        self.method_nsprefix_ = None
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, methodOfPaymentsType76)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if methodOfPaymentsType76.subclass:
+            return methodOfPaymentsType76.subclass(*args_, **kwargs_)
+        else:
+            return methodOfPaymentsType76(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_ns_prefix_(self):
+        return self.ns_prefix_
+    def set_ns_prefix_(self, ns_prefix):
+        self.ns_prefix_ = ns_prefix
+    def get_method(self):
+        return self.method
+    def set_method(self, method):
+        self.method = method
+    def add_method(self, value):
+        self.method.append(value)
+    def insert_method_at(self, index, value):
+        self.method.insert(index, value)
+    def replace_method_at(self, index, value):
+        self.method[index] = value
+    def has__content(self):
+        if (
+            self.method
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='methodOfPaymentsType76', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('methodOfPaymentsType76')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None and name_ == 'methodOfPaymentsType76':
+            name_ = self.original_tagname_
+        if UseCapturedNS_ and self.ns_prefix_:
+            namespaceprefix_ = self.ns_prefix_ + ':'
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='methodOfPaymentsType76')
+        if self.has__content():
+            outfile.write('>%s' % (eol_, ))
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='methodOfPaymentsType76', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='methodOfPaymentsType76'):
+        pass
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='methodOfPaymentsType76', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        for method_ in self.method:
+            namespaceprefix_ = self.method_nsprefix_ + ':' if (UseCapturedNS_ and self.method_nsprefix_) else ''
+            method_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='method', pretty_print=pretty_print)
+    def build(self, node, gds_collector_=None):
+        self.gds_collector_ = gds_collector_
+        if SaveElementTreeNode:
+            self.gds_elementtree_node_ = node
+        already_processed = set()
+        self.ns_prefix_ = node.prefix
+        self._buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+        return self
+    def _buildAttributes(self, node, attrs, already_processed):
+        pass
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+        if nodeName_ == 'method':
+            obj_ = methodType77.factory(parent_object_=self)
+            obj_.build(child_, gds_collector_=gds_collector_)
+            self.method.append(obj_)
+            obj_.original_tagname_ = 'method'
+# end class methodOfPaymentsType76
+
+
+class methodType77(GeneratedsSuper):
+    __hash__ = GeneratedsSuper.__hash__
+    subclass = None
+    superclass = None
+    def __init__(self, paymentType=None, selectedTransactionType=None, allowedTransactionTypes=None, gds_collector_=None, **kwargs_):
+        self.gds_collector_ = gds_collector_
+        self.gds_elementtree_node_ = None
+        self.original_tagname_ = None
+        self.parent_object_ = kwargs_.get('parent_object_')
+        self.ns_prefix_ = None
+        self.paymentType = paymentType
+        self.paymentType_nsprefix_ = None
+        self.selectedTransactionType = selectedTransactionType
+        self.selectedTransactionType_nsprefix_ = None
+        self.allowedTransactionTypes = allowedTransactionTypes
+        self.allowedTransactionTypes_nsprefix_ = None
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, methodType77)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if methodType77.subclass:
+            return methodType77.subclass(*args_, **kwargs_)
+        else:
+            return methodType77(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_ns_prefix_(self):
+        return self.ns_prefix_
+    def set_ns_prefix_(self, ns_prefix):
+        self.ns_prefix_ = ns_prefix
+    def get_paymentType(self):
+        return self.paymentType
+    def set_paymentType(self, paymentType):
+        self.paymentType = paymentType
+    def get_selectedTransactionType(self):
+        return self.selectedTransactionType
+    def set_selectedTransactionType(self, selectedTransactionType):
+        self.selectedTransactionType = selectedTransactionType
+    def get_allowedTransactionTypes(self):
+        return self.allowedTransactionTypes
+    def set_allowedTransactionTypes(self, allowedTransactionTypes):
+        self.allowedTransactionTypes = allowedTransactionTypes
+    def has__content(self):
+        if (
+            self.paymentType is not None or
+            self.selectedTransactionType is not None or
+            self.allowedTransactionTypes is not None
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='methodType77', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('methodType77')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None and name_ == 'methodType77':
+            name_ = self.original_tagname_
+        if UseCapturedNS_ and self.ns_prefix_:
+            namespaceprefix_ = self.ns_prefix_ + ':'
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='methodType77')
+        if self.has__content():
+            outfile.write('>%s' % (eol_, ))
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='methodType77', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='methodType77'):
+        pass
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='methodType77', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.paymentType is not None:
+            namespaceprefix_ = self.paymentType_nsprefix_ + ':' if (UseCapturedNS_ and self.paymentType_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%spaymentType>%s</%spaymentType>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.paymentType), input_name='paymentType')), namespaceprefix_ , eol_))
+        if self.selectedTransactionType is not None:
+            namespaceprefix_ = self.selectedTransactionType_nsprefix_ + ':' if (UseCapturedNS_ and self.selectedTransactionType_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sselectedTransactionType>%s</%sselectedTransactionType>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.selectedTransactionType), input_name='selectedTransactionType')), namespaceprefix_ , eol_))
+        if self.allowedTransactionTypes is not None:
+            namespaceprefix_ = self.allowedTransactionTypes_nsprefix_ + ':' if (UseCapturedNS_ and self.allowedTransactionTypes_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sallowedTransactionTypes>%s</%sallowedTransactionTypes>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.allowedTransactionTypes), input_name='allowedTransactionTypes')), namespaceprefix_ , eol_))
+    def build(self, node, gds_collector_=None):
+        self.gds_collector_ = gds_collector_
+        if SaveElementTreeNode:
+            self.gds_elementtree_node_ = node
+        already_processed = set()
+        self.ns_prefix_ = node.prefix
+        self._buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+        return self
+    def _buildAttributes(self, node, attrs, already_processed):
+        pass
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+        if nodeName_ == 'paymentType':
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'paymentType')
+            value_ = self.gds_validate_string(value_, node, 'paymentType')
+            self.paymentType = value_
+            self.paymentType_nsprefix_ = child_.prefix
+        elif nodeName_ == 'selectedTransactionType':
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'selectedTransactionType')
+            value_ = self.gds_validate_string(value_, node, 'selectedTransactionType')
+            self.selectedTransactionType = value_
+            self.selectedTransactionType_nsprefix_ = child_.prefix
+        elif nodeName_ == 'allowedTransactionTypes':
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'allowedTransactionTypes')
+            value_ = self.gds_validate_string(value_, node, 'allowedTransactionTypes')
+            self.allowedTransactionTypes = value_
+            self.allowedTransactionTypes_nsprefix_ = child_.prefix
+# end class methodType77
 
 
 class errorsType(GeneratedsSuper):
@@ -13367,7 +14175,7 @@ class errorsType(GeneratedsSuper):
         self.error.insert(index, value)
     def replace_error_at(self, index, value):
         self.error[index] = value
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.error
         ):
@@ -13389,17 +14197,17 @@ class errorsType(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='errorsType')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='errorsType')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='errorsType', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='errorsType', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='errorsType'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='errorsType'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='errorsType', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='errorsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -13414,14 +14222,14 @@ class errorsType(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'error':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'error')
@@ -13471,7 +14279,7 @@ class approvedMccsType(GeneratedsSuper):
         self.approvedMcc.insert(index, value)
     def replace_approvedMcc_at(self, index, value):
         self.approvedMcc[index] = value
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.approvedMcc
         ):
@@ -13493,17 +14301,17 @@ class approvedMccsType(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='approvedMccsType')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='approvedMccsType')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='approvedMccsType', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='approvedMccsType', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='approvedMccsType'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='approvedMccsType'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='approvedMccsType', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='approvedMccsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -13518,14 +14326,14 @@ class approvedMccsType(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'approvedMcc':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'approvedMcc')
@@ -13575,7 +14383,7 @@ class agreementsType(GeneratedsSuper):
         self.legalEntityAgreement.insert(index, value)
     def replace_legalEntityAgreement_at(self, index, value):
         self.legalEntityAgreement[index] = value
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.legalEntityAgreement
         ):
@@ -13597,17 +14405,17 @@ class agreementsType(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='agreementsType')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='agreementsType')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='agreementsType', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='agreementsType', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='agreementsType'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='agreementsType'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='agreementsType', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='agreementsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -13621,14 +14429,14 @@ class agreementsType(GeneratedsSuper):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'legalEntityAgreement':
             obj_ = legalEntityAgreement.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
@@ -13646,26 +14454,26 @@ class legalEntityResponse(response):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
-        super(legalEntityResponse, self).__init__(transactionId, extensiontype_,  **kwargs_)
+        self.ns_prefix_ = "tns"
+        super(globals().get("legalEntityResponse"), self).__init__(transactionId, extensiontype_,  **kwargs_)
         self.duplicate = _cast(bool, duplicate)
         self.duplicate_nsprefix_ = None
         self.legalEntityId = legalEntityId
         self.validate_legalEntityIdType(self.legalEntityId)
-        self.legalEntityId_nsprefix_ = None
+        self.legalEntityId_nsprefix_ = "tns"
         self.responseCode = responseCode
-        self.responseCode_nsprefix_ = None
+        self.responseCode_nsprefix_ = "tns"
         self.responseDescription = responseDescription
         self.validate_responseDescriptionType(self.responseDescription)
-        self.responseDescription_nsprefix_ = None
+        self.responseDescription_nsprefix_ = "tns"
         self.originalLegalEntityId = originalLegalEntityId
         self.validate_originalLegalEntityIdType(self.originalLegalEntityId)
-        self.originalLegalEntityId_nsprefix_ = None
+        self.originalLegalEntityId_nsprefix_ = "tns"
         self.originalLegalEntityStatus = originalLegalEntityStatus
         self.validate_originalLegalEntityStatusType(self.originalLegalEntityStatus)
-        self.originalLegalEntityStatus_nsprefix_ = None
+        self.originalLegalEntityStatus_nsprefix_ = "tns"
         self.backgroundCheckResults = backgroundCheckResults
-        self.backgroundCheckResults_nsprefix_ = None
+        self.backgroundCheckResults_nsprefix_ = "tns"
         self.extensiontype_ = extensiontype_
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
@@ -13780,7 +14588,7 @@ class legalEntityResponse(response):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on originalLegalEntityStatusType' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.legalEntityId is not None or
             self.responseCode is not None or
@@ -13788,12 +14596,12 @@ class legalEntityResponse(response):
             self.originalLegalEntityId is not None or
             self.originalLegalEntityStatus is not None or
             self.backgroundCheckResults is not None or
-            super(legalEntityResponse, self).hasContent_()
+            super(legalEntityResponse, self).has__content()
         ):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='legalEntityResponse', pretty_print=True):
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='legalEntityResponse', pretty_print=True):
         imported_ns_def_ = GenerateDSNamespaceDefs_.get('legalEntityResponse')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
@@ -13808,16 +14616,16 @@ class legalEntityResponse(response):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityResponse')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityResponse')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='legalEntityResponse', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='legalEntityResponse', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='legalEntityResponse'):
-        super(legalEntityResponse, self).exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityResponse')
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='legalEntityResponse'):
+        super(legalEntityResponse, self)._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityResponse')
         if self.duplicate is not None and 'duplicate' not in already_processed:
             already_processed.add('duplicate')
             outfile.write(' duplicate="%s"' % self.gds_format_boolean(self.duplicate, input_name='duplicate'))
@@ -13829,8 +14637,8 @@ class legalEntityResponse(response):
                 outfile.write(' xsi:type="%s%s"' % (imported_ns_type_prefix_, self.extensiontype_))
             else:
                 outfile.write(' xsi:type="%s"' % self.extensiontype_)
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='legalEntityResponse', fromsubclass_=False, pretty_print=True):
-        super(legalEntityResponse, self).exportChildren(outfile, level, namespaceprefix_, namespacedef_, name_, True, pretty_print=pretty_print)
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='legalEntityResponse', fromsubclass_=False, pretty_print=True):
+        super(legalEntityResponse, self)._exportChildren(outfile, level, namespaceprefix_, namespacedef_, name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
@@ -13864,12 +14672,12 @@ class legalEntityResponse(response):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
+    def _buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('duplicate', node)
         if value is not None and 'duplicate' not in already_processed:
             already_processed.add('duplicate')
@@ -13883,8 +14691,8 @@ class legalEntityResponse(response):
         if value is not None and 'xsi:type' not in already_processed:
             already_processed.add('xsi:type')
             self.extensiontype_ = value
-        super(legalEntityResponse, self).buildAttributes(node, attrs, already_processed)
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+        super(legalEntityResponse, self)._buildAttributes(node, attrs, already_processed)
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'legalEntityId':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'legalEntityId')
@@ -13928,7 +14736,7 @@ class legalEntityResponse(response):
             obj_.build(child_, gds_collector_=gds_collector_)
             self.backgroundCheckResults = obj_
             obj_.original_tagname_ = 'backgroundCheckResults'
-        super(legalEntityResponse, self).buildChildren(child_, node, nodeName_, True)
+        super(legalEntityResponse, self)._buildChildren(child_, node, nodeName_, True)
 # end class legalEntityResponse
 
 
@@ -13941,10 +14749,10 @@ class legalEntityCreateResponse(legalEntityResponse):
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
-        super(legalEntityCreateResponse, self).__init__(transactionId, duplicate, legalEntityId, responseCode, responseDescription, originalLegalEntityId, originalLegalEntityStatus, backgroundCheckResults,  **kwargs_)
+        self.ns_prefix_ = "tns"
+        super(globals().get("legalEntityCreateResponse"), self).__init__(transactionId, duplicate, legalEntityId, responseCode, responseDescription, originalLegalEntityId, originalLegalEntityStatus, backgroundCheckResults,  **kwargs_)
         self.principal = principal
-        self.principal_nsprefix_ = None
+        self.principal_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -13964,15 +14772,15 @@ class legalEntityCreateResponse(legalEntityResponse):
         return self.principal
     def set_principal(self, principal):
         self.principal = principal
-    def hasContent_(self):
+    def has__content(self):
         if (
             self.principal is not None or
-            super(legalEntityCreateResponse, self).hasContent_()
+            super(legalEntityCreateResponse, self).has__content()
         ):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='legalEntityCreateResponse', pretty_print=True):
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='legalEntityCreateResponse', pretty_print=True):
         imported_ns_def_ = GenerateDSNamespaceDefs_.get('legalEntityCreateResponse')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
@@ -13987,18 +14795,18 @@ class legalEntityCreateResponse(legalEntityResponse):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityCreateResponse')
-        if self.hasContent_():
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityCreateResponse')
+        if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='legalEntityCreateResponse', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='legalEntityCreateResponse', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='legalEntityCreateResponse'):
-        super(legalEntityCreateResponse, self).exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityCreateResponse')
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='legalEntityCreateResponse', fromsubclass_=False, pretty_print=True):
-        super(legalEntityCreateResponse, self).exportChildren(outfile, level, namespaceprefix_, namespacedef_, name_, True, pretty_print=pretty_print)
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='legalEntityCreateResponse'):
+        super(legalEntityCreateResponse, self)._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='legalEntityCreateResponse')
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='legalEntityCreateResponse', fromsubclass_=False, pretty_print=True):
+        super(legalEntityCreateResponse, self)._exportChildren(outfile, level, namespaceprefix_, namespacedef_, name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
@@ -14012,21 +14820,26 @@ class legalEntityCreateResponse(legalEntityResponse):
             self.gds_elementtree_node_ = node
         already_processed = set()
         self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
+        self._buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
-    def buildAttributes(self, node, attrs, already_processed):
-        super(legalEntityCreateResponse, self).buildAttributes(node, attrs, already_processed)
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+    def _buildAttributes(self, node, attrs, already_processed):
+        super(legalEntityCreateResponse, self)._buildAttributes(node, attrs, already_processed)
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'principal':
             obj_ = legalEntityPrincipalCreateResponse.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
             self.principal = obj_
             obj_.original_tagname_ = 'principal'
-        super(legalEntityCreateResponse, self).buildChildren(child_, node, nodeName_, True)
+        super(legalEntityCreateResponse, self)._buildChildren(child_, node, nodeName_, True)
 # end class legalEntityCreateResponse
+
+
+#
+# End data representation classes.
+#
 
 
 GDSClassesMapping = {
@@ -14070,9 +14883,10 @@ def usage():
 
 def get_root_tag(node):
     tag = Tag_pattern_.match(node.tag).groups()[-1]
-    rootClass = GDSClassesMapping.get(tag)
+    prefix_tag = TagNamePrefix + tag
+    rootClass = GDSClassesMapping.get(prefix_tag)
     if rootClass is None:
-        rootClass = globals().get(tag)
+        rootClass = globals().get(prefix_tag)
     return tag, rootClass
 
 
@@ -14126,7 +14940,7 @@ def parse(inFileName, silence=False, print_warnings=True):
 
 
 def parseEtree(inFileName, silence=False, print_warnings=True,
-               mapping=None, nsmap=None):
+               mapping=None, reverse_mapping=None, nsmap=None):
     parser = None
     doc = parsexml_(inFileName, parser)
     gds_collector = GdsCollector_()
@@ -14137,12 +14951,15 @@ def parseEtree(inFileName, silence=False, print_warnings=True,
         rootClass = approvedMccResponse
     rootObj = rootClass.factory()
     rootObj.build(rootNode, gds_collector_=gds_collector)
-    # Enable Python to collect the space used by the DOM.
     if mapping is None:
         mapping = {}
+    if reverse_mapping is None:
+        reverse_mapping = {}
     rootElement = rootObj.to_etree(
-        None, name_=rootTag, mapping_=mapping, nsmap_=nsmap)
-    reverse_mapping = rootObj.gds_reverse_node_mapping(mapping)
+        None, name_=rootTag, mapping_=mapping,
+        reverse_mapping_=reverse_mapping, nsmap_=nsmap)
+    reverse_node_mapping = rootObj.gds_reverse_node_mapping(mapping)
+    # Enable Python to collect the space used by the DOM.
     if not SaveElementTreeNode:
         doc = None
         rootNode = None
@@ -14159,7 +14976,7 @@ def parseEtree(inFileName, silence=False, print_warnings=True,
             len(gds_collector.get_messages()), ))
         gds_collector.write_messages(sys.stderr)
         sys.stderr.write(separator)
-    return rootObj, rootElement, mapping, reverse_mapping
+    return rootObj, rootElement, mapping, reverse_node_mapping
 
 
 def parseString(inString, silence=False, print_warnings=True):
@@ -14243,6 +15060,206 @@ if __name__ == '__main__':
 RenameMappings_ = {
 }
 
+#
+# Mapping of namespaces to types defined in them
+# and the file in which each is defined.
+# simpleTypes are marked "ST" and complexTypes "CT".
+NamespaceToDefMappings_ = {'http://payfac.vantivcnp.com/api/merchant/onboard': [('legalEntityType',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'ST'),
+                                                      ('businessOverallScore',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'ST'),
+                                                      ('nameAddressTaxIdAssociationCode',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'ST'),
+                                                      ('businessNameAddressPhoneAssociationCode',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'ST'),
+                                                      ('riskIndicatorCode',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'ST'),
+                                                      ('principalOverallScore',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'ST'),
+                                                      ('nameAddressSsnAssociationCode',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'ST'),
+                                                      ('principalNameAddressPhoneAssociationCode',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'ST'),
+                                                      ('businessToPrincipalScore',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'ST'),
+                                                      ('legalEntityAgreementType',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'ST'),
+                                                      ('legalEntityOwnershipType',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'ST'),
+                                                      ('legalEntityCreateRequest',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('address',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('legalEntityPrincipal',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('principalAddress',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('legalEntityCreateResponse',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('legalEntityResponse',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('response',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('legalEntityPrincipalCreateRequest',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('legalEntityPrincipalCreateResponse',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('legalEntityRetrievalResponse',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('backgroundCheckResults',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('businessResult',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('businessVerificationResult',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('businessScore',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('nameAddressTaxIdAssociation',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('businessNameAddressPhoneAssociation',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('businessVerificationIndicators',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('potentialRiskIndicator',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('principalResult',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('principalVerificationResult',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('principalScore',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('nameAddressSsnAssociation',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('principalNameAddressPhoneAssociation',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('principalVerificationIndicators',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('businessToPrincipalAssociation',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('bankruptcyResult',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('lienResult',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('legalEntityUpdateRequest',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('addressUpdatable',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('legalEntityPrincipalUpdatable',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('principalBackgroundCheckFields',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('legalEntityBackgroundCheckFields',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('subMerchantCreateRequest',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('subMerchantFraudFeature',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('subMerchantAmexAcquiredFeature',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('subMerchantPrimaryContact',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('subMerchantECheckFeature',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('subMerchantFunding',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('subMerchantCreateResponse',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('subMerchantRetrievalResponse',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('subMerchantCredentials',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('paypageCredential',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('subMerchantUpdateRequest',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('subMerchantPrimaryContactUpdatable',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('errorResponse',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('approvedMccResponse',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('legalEntityAgreementCreateRequest',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('legalEntityAgreement',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('legalEntityAgreementCreateResponse',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('legalEntityAgreementRetrievalResponse',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('legalEntityPrincipalDeleteResponse',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('legalEntityPrincipalCreateResponseWithResponseFields',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('principalCreateResponse',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT'),
+                                                      ('principalDeleteResponse',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       'CT')]}
+
 __all__ = [
     "address",
     "addressUpdatable",
@@ -14276,6 +15293,12 @@ __all__ = [
     "legalEntityRetrievalResponse",
     "legalEntityUpdateRequest",
     "lienResult",
+    "merchantCategoryTypesType",
+    "merchantCategoryTypesType75",
+    "methodOfPaymentsType",
+    "methodOfPaymentsType76",
+    "methodType",
+    "methodType77",
     "nameAddressSsnAssociation",
     "nameAddressTaxIdAssociation",
     "paypageCredential",

@@ -1367,6 +1367,28 @@
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
+            <xs:element name="merchantCategoryTypes" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element  maxOccurs="unbounded" name="categoryType" type="xs:string" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="methodOfPayments" minOccurs="0">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" name="method">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="paymentType" type="xs:string"/>
+                                    <xs:element name="selectedTransactionType" type="xs:string"/>
+                                    <xs:element name="allowedTransactionTypes" type="xs:string" minOccurs="0"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
             <xs:element name="sdkVersion" minOccurs="0">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
@@ -1716,6 +1738,28 @@
             <xs:element name="subMerchantFunding" type="tns:subMerchantFunding" minOccurs="0"/>
             <xs:element name="taxAuthority" type="xs:string" minOccurs="0"/>
             <xs:element name="taxAuthorityState" type="xs:string" minOccurs="0"/>
+            <xs:element name="merchantCategoryTypes" minOccurs="0" maxOccurs="1">
+             <xs:complexType>
+                 <xs:sequence>
+                      <xs:element  maxOccurs="unbounded" name="categoryType" type="xs:string" />
+                 </xs:sequence>
+             </xs:complexType>
+              </xs:element>
+              <xs:element name="methodOfPayments" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element maxOccurs="unbounded" name="method">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="paymentType" type="xs:string"/>
+                                        <xs:element name="selectedTransactionType" type="xs:string"/>
+                                        <xs:element name="allowedTransactionTypes" type="xs:string" minOccurs="0"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+              </xs:element>
         </xs:sequence>
     </xs:complexType>
 
