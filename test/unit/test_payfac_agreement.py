@@ -38,7 +38,7 @@ class TestAgreement(unittest.TestCase):
         legalEntityAgreement.set_acceptanceDateTime(parse("2017-02-11T12:00:00-06:00"))
         legalEntityAgreementCreateRequest.set_legalEntityAgreement(legalEntityAgreement)
 
-        expected_request = '<legalEntityAgreementCreateRequest xmlns="http://payfac.vantivcnp.com/api/merchant/onboard"><legalEntityAgreement><legalEntityAgreementType>MERCHANT_AGREEMENT</legalEntityAgreementType><agreementVersion>agreementVersion1</agreementVersion><userFullName>userFullName</userFullName><userSystemName>systemUserName</userSystemName><userIPAddress>196.198.100.100</userIPAddress><manuallyEntered>false</manuallyEntered><acceptanceDateTime>2017-02-11T12:00:00-06:00</acceptanceDateTime></legalEntityAgreement><sdkVersion>14.0.0</sdkVersion><language>python</language></legalEntityAgreementCreateRequest>'
+        expected_request = '<legalEntityAgreementCreateRequest xmlns="http://payfac.vantivcnp.com/api/merchant/onboard"><legalEntityAgreement><legalEntityAgreementType>MERCHANT_AGREEMENT</legalEntityAgreementType><agreementVersion>agreementVersion1</agreementVersion><userFullName>userFullName</userFullName><userSystemName>systemUserName</userSystemName><userIPAddress>196.198.100.100</userIPAddress><manuallyEntered>false</manuallyEntered><acceptanceDateTime>2017-02-11T12:00:00-06:00</acceptanceDateTime></legalEntityAgreement><sdkVersion>15.0.0</sdkVersion><language>python</language></legalEntityAgreementCreateRequest>'
         #hack to get around differences between Python 2 and 3
         if sys.version_info[0] >= 3:
             expected_request = expected_request.encode('utf-8')

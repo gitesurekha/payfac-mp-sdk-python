@@ -2,18 +2,18 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Tue Mar  4 07:03:38 2025 by generateDS.py version 2.44.3.
-# Python 3.11.11 (main, Dec  9 2024, 15:32:27) [GCC 8.5.0 20210514 (Red Hat 8.5.0-22)]
+# Generated Tue Mar 25 03:00:38 2025 by generateDS.py version 2.44.3.
+# Python 3.9.20 (main, Sep 26 2024, 20:59:47)  [GCC 8.5.0 20210514 (Red Hat 8.5.0-22)]
 #
 # Command line options:
 #   ('--namespacedef', 'xmlns:http://payfac.vantivcnp.com/api/merchant/onboard')
 #   ('-o', 'generatedClass.py')
 #
 # Command line arguments:
-#   /usr/local/litle-home/jbhosale/mp-sdk-python-v14/payfacMPSdk/schema/merchant-onboard-api-v14.xsd
+#   /usr/local/litle-home/sgite/SDK_Sandbox/mpSDKPython/payfac-mp-sdk-python/payfacMPSdk/schema/merchant-onboard-api-v15.xsd
 #
 # Command line:
-#   /usr/local/litle-home/jbhosale/mp-sdk-python-v14/.venv/bin/generateDS.py --namespacedef="xmlns:http://payfac.vantivcnp.com/api/merchant/onboard" -o "generatedClass.py" /usr/local/litle-home/jbhosale/mp-sdk-python-v14/payfacMPSdk/schema/merchant-onboard-api-v14.xsd
+#   /usr/local/litle-home/sgite/SDK_Sandbox/mpSDKPython/payfac-mp-sdk-python/.venv/bin/generateDS.py --namespacedef="xmlns:http://payfac.vantivcnp.com/api/merchant/onboard" -o "generatedClass.py" /usr/local/litle-home/sgite/SDK_Sandbox/mpSDKPython/payfac-mp-sdk-python/payfacMPSdk/schema/merchant-onboard-api-v15.xsd
 #
 # Current working directory (os.getcwd()):
 #   tools
@@ -1034,6 +1034,11 @@ class businessToPrincipalScore(str, Enum):
     _5_0='50'
 
 
+class complianceProductCode(str, Enum):
+    SAFERPAYMENT='SAFERPAYMENT'
+    OTHER='OTHER'
+
+
 class legalEntityAgreementType(str, Enum):
     MERCHANT_AGREEMENT='MERCHANT_AGREEMENT'
 
@@ -1080,6 +1085,13 @@ class nameAddressTaxIdAssociationCode(str, Enum):
     NAME_AND_ADDRESS_BAD_TAX_ID='NAME_AND_ADDRESS_BAD_TAX_ID'
     NAME_AND_ADDRESS_NO_TAX_ID='NAME_AND_ADDRESS_NO_TAX_ID'
     NAME_ADDRESS_TAX_ID='NAME_ADDRESS_TAX_ID'
+
+
+class pciLevelScore(str, Enum):
+    _1='1'
+    _2='2'
+    _3='3'
+    _4='4'
 
 
 class principalNameAddressPhoneAssociationCode(str, Enum):
@@ -1210,7 +1222,7 @@ class legalEntityCreateRequest(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, legalEntityName=None, legalEntityType=None, legalEntityOwnershipType=None, doingBusinessAs=None, taxId=None, contactPhone=None, annualCreditCardSalesVolume=None, hasAcceptedCreditCards=None, address=None, principal=None, yearsInBusiness=None, sdkVersion=None, language=None, extensiontype_=None, gds_collector_=None, **kwargs_):
+    def __init__(self, legalEntityName=None, legalEntityType=None, legalEntityOwnershipType=None, doingBusinessAs=None, taxId=None, contactPhone=None, annualCreditCardSalesVolume=None, hasAcceptedCreditCards=None, address=None, principal=None, yearsInBusiness=None, pciLevel=None, sdkVersion=None, language=None, extensiontype_=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -1245,6 +1257,9 @@ class legalEntityCreateRequest(GeneratedsSuper):
         self.yearsInBusiness = yearsInBusiness
         self.validate_yearsInBusinessType(self.yearsInBusiness)
         self.yearsInBusiness_nsprefix_ = "tns"
+        self.pciLevel = pciLevel
+        self.validate_pciLevelScore(self.pciLevel)
+        self.pciLevel_nsprefix_ = "tns"
         self.sdkVersion = sdkVersion
         self.validate_sdkVersionType(self.sdkVersion)
         self.sdkVersion_nsprefix_ = "tns"
@@ -1311,6 +1326,10 @@ class legalEntityCreateRequest(GeneratedsSuper):
         return self.yearsInBusiness
     def set_yearsInBusiness(self, yearsInBusiness):
         self.yearsInBusiness = yearsInBusiness
+    def get_pciLevel(self):
+        return self.pciLevel
+    def set_pciLevel(self, pciLevel):
+        self.pciLevel = pciLevel
     def get_sdkVersion(self):
         return self.sdkVersion
     def set_sdkVersion(self, sdkVersion):
@@ -1446,6 +1465,21 @@ class legalEntityCreateRequest(GeneratedsSuper):
                 result = False
         return result
     validate_yearsInBusinessType_patterns_ = [['^([0-9]{0,3})$']]
+    def validate_pciLevelScore(self, value):
+        result = True
+        # Validate type pciLevelScore, a restriction on xs:int.
+        if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
+            if not isinstance(value, int):
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
+                return False
+            value = value
+            enumerations = [1, 2, 3, 4]
+            if value not in enumerations:
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on pciLevelScore' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                result = False
+        return result
     def validate_sdkVersionType(self, value):
         result = True
         # Validate type sdkVersionType, a restriction on xs:string.
@@ -1503,6 +1537,7 @@ class legalEntityCreateRequest(GeneratedsSuper):
             self.address is not None or
             self.principal is not None or
             self.yearsInBusiness is not None or
+            self.pciLevel is not None or
             self.sdkVersion is not None or
             self.language is not None
         ):
@@ -1589,6 +1624,10 @@ class legalEntityCreateRequest(GeneratedsSuper):
             namespaceprefix_ = self.yearsInBusiness_nsprefix_ + ':' if (UseCapturedNS_ and self.yearsInBusiness_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
             outfile.write('<%syearsInBusiness>%s</%syearsInBusiness>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.yearsInBusiness), input_name='yearsInBusiness')), namespaceprefix_ , eol_))
+        if self.pciLevel is not None:
+            namespaceprefix_ = self.pciLevel_nsprefix_ + ':' if (UseCapturedNS_ and self.pciLevel_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%spciLevel>%s</%spciLevel>%s' % (namespaceprefix_ , self.gds_format_integer(self.pciLevel, input_name='pciLevel'), namespaceprefix_ , eol_))
         if self.sdkVersion is not None:
             namespaceprefix_ = self.sdkVersion_nsprefix_ + ':' if (UseCapturedNS_ and self.sdkVersion_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
@@ -1692,6 +1731,14 @@ class legalEntityCreateRequest(GeneratedsSuper):
             self.yearsInBusiness_nsprefix_ = child_.prefix
             # validate type yearsInBusinessType
             self.validate_yearsInBusinessType(self.yearsInBusiness)
+        elif nodeName_ == 'pciLevel' and child_.text:
+            sval_ = child_.text
+            ival_ = self.gds_parse_integer(sval_, node, 'pciLevel')
+            ival_ = self.gds_validate_integer(ival_, node, 'pciLevel')
+            self.pciLevel = ival_
+            self.pciLevel_nsprefix_ = child_.prefix
+            # validate type pciLevelScore
+            self.validate_pciLevelScore(self.pciLevel)
         elif nodeName_ == 'sdkVersion':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'sdkVersion')
@@ -3252,13 +3299,13 @@ class legalEntityRetrievalResponse(legalEntityCreateRequest):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = legalEntityCreateRequest
-    def __init__(self, legalEntityName=None, legalEntityType=None, legalEntityOwnershipType=None, doingBusinessAs=None, taxId=None, contactPhone=None, annualCreditCardSalesVolume=None, hasAcceptedCreditCards=None, address=None, principal=None, yearsInBusiness=None, sdkVersion=None, language=None, overallStatus=None, legalEntityPrincipal=None, legalEntityId=None, responseCode=None, responseDescription=None, backgroundCheckResults=None, transactionId=None, updateDate=None, decisionDate=None, tinValidationStatus=None, sub_merchant_processing_status=None, gds_collector_=None, **kwargs_):
+    def __init__(self, legalEntityName=None, legalEntityType=None, legalEntityOwnershipType=None, doingBusinessAs=None, taxId=None, contactPhone=None, annualCreditCardSalesVolume=None, hasAcceptedCreditCards=None, address=None, principal=None, yearsInBusiness=None, pciLevel=None, sdkVersion=None, language=None, overallStatus=None, legalEntityPrincipal=None, legalEntityId=None, responseCode=None, responseDescription=None, backgroundCheckResults=None, transactionId=None, updateDate=None, decisionDate=None, tinValidationStatus=None, sub_merchant_processing_status=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
         self.ns_prefix_ = "tns"
-        super(globals().get("legalEntityRetrievalResponse"), self).__init__(legalEntityName, legalEntityType, legalEntityOwnershipType, doingBusinessAs, taxId, contactPhone, annualCreditCardSalesVolume, hasAcceptedCreditCards, address, principal, yearsInBusiness, sdkVersion, language,  **kwargs_)
+        super(globals().get("legalEntityRetrievalResponse"), self).__init__(legalEntityName, legalEntityType, legalEntityOwnershipType, doingBusinessAs, taxId, contactPhone, annualCreditCardSalesVolume, hasAcceptedCreditCards, address, principal, yearsInBusiness, pciLevel, sdkVersion, language,  **kwargs_)
         self.overallStatus = _cast(None, overallStatus)
         self.overallStatus_nsprefix_ = None
         self.legalEntityPrincipal = legalEntityPrincipal
@@ -6733,7 +6780,7 @@ class legalEntityUpdateRequest(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, address=None, contactPhone=None, doingBusinessAs=None, annualCreditCardSalesVolume=None, hasAcceptedCreditCards=None, principal=None, backgroundCheckFields=None, legalEntityOwnershipType=None, yearsInBusiness=None, gds_collector_=None, **kwargs_):
+    def __init__(self, address=None, contactPhone=None, doingBusinessAs=None, annualCreditCardSalesVolume=None, hasAcceptedCreditCards=None, principal=None, backgroundCheckFields=None, legalEntityOwnershipType=None, yearsInBusiness=None, pciLevel=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -6761,6 +6808,9 @@ class legalEntityUpdateRequest(GeneratedsSuper):
         self.yearsInBusiness = yearsInBusiness
         self.validate_yearsInBusinessType35(self.yearsInBusiness)
         self.yearsInBusiness_nsprefix_ = "tns"
+        self.pciLevel = pciLevel
+        self.validate_pciLevelScore(self.pciLevel)
+        self.pciLevel_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -6812,6 +6862,10 @@ class legalEntityUpdateRequest(GeneratedsSuper):
         return self.yearsInBusiness
     def set_yearsInBusiness(self, yearsInBusiness):
         self.yearsInBusiness = yearsInBusiness
+    def get_pciLevel(self):
+        return self.pciLevel
+    def set_pciLevel(self, pciLevel):
+        self.pciLevel = pciLevel
     def validate_contactPhoneType33(self, value):
         result = True
         # Validate type contactPhoneType33, a restriction on xs:string.
@@ -6883,6 +6937,21 @@ class legalEntityUpdateRequest(GeneratedsSuper):
                 result = False
         return result
     validate_yearsInBusinessType35_patterns_ = [['^([0-9]{0,3})$']]
+    def validate_pciLevelScore(self, value):
+        result = True
+        # Validate type pciLevelScore, a restriction on xs:int.
+        if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
+            if not isinstance(value, int):
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
+                return False
+            value = value
+            enumerations = [1, 2, 3, 4]
+            if value not in enumerations:
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on pciLevelScore' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                result = False
+        return result
     def has__content(self):
         if (
             self.address is not None or
@@ -6893,7 +6962,8 @@ class legalEntityUpdateRequest(GeneratedsSuper):
             self.principal is not None or
             self.backgroundCheckFields is not None or
             self.legalEntityOwnershipType is not None or
-            self.yearsInBusiness is not None
+            self.yearsInBusiness is not None or
+            self.pciLevel is not None
         ):
             return True
         else:
@@ -6961,6 +7031,10 @@ class legalEntityUpdateRequest(GeneratedsSuper):
             namespaceprefix_ = self.yearsInBusiness_nsprefix_ + ':' if (UseCapturedNS_ and self.yearsInBusiness_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
             outfile.write('<%syearsInBusiness>%s</%syearsInBusiness>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.yearsInBusiness), input_name='yearsInBusiness')), namespaceprefix_ , eol_))
+        if self.pciLevel is not None:
+            namespaceprefix_ = self.pciLevel_nsprefix_ + ':' if (UseCapturedNS_ and self.pciLevel_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%spciLevel>%s</%spciLevel>%s' % (namespaceprefix_ , self.gds_format_integer(self.pciLevel, input_name='pciLevel'), namespaceprefix_ , eol_))
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
         if SaveElementTreeNode:
@@ -7034,6 +7108,14 @@ class legalEntityUpdateRequest(GeneratedsSuper):
             self.yearsInBusiness_nsprefix_ = child_.prefix
             # validate type yearsInBusinessType35
             self.validate_yearsInBusinessType35(self.yearsInBusiness)
+        elif nodeName_ == 'pciLevel' and child_.text:
+            sval_ = child_.text
+            ival_ = self.gds_parse_integer(sval_, node, 'pciLevel')
+            ival_ = self.gds_validate_integer(ival_, node, 'pciLevel')
+            self.pciLevel = ival_
+            self.pciLevel_nsprefix_ = child_.prefix
+            # validate type pciLevelScore
+            self.validate_pciLevelScore(self.pciLevel)
 # end class legalEntityUpdateRequest
 
 
@@ -8089,7 +8171,7 @@ class subMerchantCreateRequest(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, merchantName=None, amexMid=None, discoverConveyedMid=None, url=None, customerServiceNumber=None, hardCodedBillingDescriptor=None, maxTransactionAmount=None, purchaseCurrency=None, merchantCategoryCode=None, taxAuthority=None, taxAuthorityState=None, bankRoutingNumber=None, bankAccountNumber=None, pspMerchantId=None, fraud=None, amexAcquired=None, address=None, primaryContact=None, createCredentials=None, eCheck=None, subMerchantFunding=None, settlementCurrency=None, merchantCategoryTypes=None, methodOfPayments=None, sdkVersion=None, language=None, extensiontype_=None, gds_collector_=None, **kwargs_):
+    def __init__(self, merchantName=None, amexMid=None, discoverConveyedMid=None, url=None, customerServiceNumber=None, hardCodedBillingDescriptor=None, maxTransactionAmount=None, purchaseCurrency=None, merchantCategoryCode=None, taxAuthority=None, taxAuthorityState=None, bankRoutingNumber=None, bankAccountNumber=None, pspMerchantId=None, fraud=None, amexAcquired=None, address=None, primaryContact=None, createCredentials=None, eCheck=None, subMerchantFunding=None, settlementCurrency=None, merchantCategoryTypes=None, methodOfPayments=None, countryOfOrigin=None, revenueBoost=None, complianceProducts=None, sdkVersion=None, language=None, extensiontype_=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -8156,6 +8238,13 @@ class subMerchantCreateRequest(GeneratedsSuper):
         self.merchantCategoryTypes_nsprefix_ = "tns"
         self.methodOfPayments = methodOfPayments
         self.methodOfPayments_nsprefix_ = "tns"
+        self.countryOfOrigin = countryOfOrigin
+        self.validate_countryOfOriginType(self.countryOfOrigin)
+        self.countryOfOrigin_nsprefix_ = "tns"
+        self.revenueBoost = revenueBoost
+        self.revenueBoost_nsprefix_ = "tns"
+        self.complianceProducts = complianceProducts
+        self.complianceProducts_nsprefix_ = "tns"
         self.sdkVersion = sdkVersion
         self.validate_sdkVersionType53(self.sdkVersion)
         self.sdkVersion_nsprefix_ = "tns"
@@ -8274,6 +8363,18 @@ class subMerchantCreateRequest(GeneratedsSuper):
         return self.methodOfPayments
     def set_methodOfPayments(self, methodOfPayments):
         self.methodOfPayments = methodOfPayments
+    def get_countryOfOrigin(self):
+        return self.countryOfOrigin
+    def set_countryOfOrigin(self, countryOfOrigin):
+        self.countryOfOrigin = countryOfOrigin
+    def get_revenueBoost(self):
+        return self.revenueBoost
+    def set_revenueBoost(self, revenueBoost):
+        self.revenueBoost = revenueBoost
+    def get_complianceProducts(self):
+        return self.complianceProducts
+    def set_complianceProducts(self, complianceProducts):
+        self.complianceProducts = complianceProducts
     def get_sdkVersion(self):
         return self.sdkVersion
     def set_sdkVersion(self, sdkVersion):
@@ -8501,6 +8602,23 @@ class subMerchantCreateRequest(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on settlementCurrencyType' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
+    def validate_countryOfOriginType(self, value):
+        result = True
+        # Validate type countryOfOriginType, a restriction on xs:string.
+        if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
+            if not isinstance(value, str):
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
+                return False
+            if len(value) > 3:
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on countryOfOriginType' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                result = False
+            if len(value) < 0:
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on countryOfOriginType' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                result = False
+        return result
     def validate_sdkVersionType53(self, value):
         result = True
         # Validate type sdkVersionType53, a restriction on xs:string.
@@ -8571,6 +8689,9 @@ class subMerchantCreateRequest(GeneratedsSuper):
             self.settlementCurrency is not None or
             self.merchantCategoryTypes is not None or
             self.methodOfPayments is not None or
+            self.countryOfOrigin is not None or
+            self.revenueBoost is not None or
+            self.complianceProducts is not None or
             self.sdkVersion is not None or
             self.language is not None
         ):
@@ -8703,6 +8824,16 @@ class subMerchantCreateRequest(GeneratedsSuper):
         if self.methodOfPayments is not None:
             namespaceprefix_ = self.methodOfPayments_nsprefix_ + ':' if (UseCapturedNS_ and self.methodOfPayments_nsprefix_) else ''
             self.methodOfPayments.export(outfile, level, namespaceprefix_, namespacedef_='', name_='methodOfPayments', pretty_print=pretty_print)
+        if self.countryOfOrigin is not None:
+            namespaceprefix_ = self.countryOfOrigin_nsprefix_ + ':' if (UseCapturedNS_ and self.countryOfOrigin_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%scountryOfOrigin>%s</%scountryOfOrigin>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.countryOfOrigin), input_name='countryOfOrigin')), namespaceprefix_ , eol_))
+        if self.revenueBoost is not None:
+            namespaceprefix_ = self.revenueBoost_nsprefix_ + ':' if (UseCapturedNS_ and self.revenueBoost_nsprefix_) else ''
+            self.revenueBoost.export(outfile, level, namespaceprefix_, namespacedef_='', name_='revenueBoost', pretty_print=pretty_print)
+        if self.complianceProducts is not None:
+            namespaceprefix_ = self.complianceProducts_nsprefix_ + ':' if (UseCapturedNS_ and self.complianceProducts_nsprefix_) else ''
+            self.complianceProducts.export(outfile, level, namespaceprefix_, namespacedef_='', name_='complianceProducts', pretty_print=pretty_print)
         if self.sdkVersion is not None:
             namespaceprefix_ = self.sdkVersion_nsprefix_ + ':' if (UseCapturedNS_ and self.sdkVersion_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
@@ -8890,6 +9021,24 @@ class subMerchantCreateRequest(GeneratedsSuper):
             obj_.build(child_, gds_collector_=gds_collector_)
             self.methodOfPayments = obj_
             obj_.original_tagname_ = 'methodOfPayments'
+        elif nodeName_ == 'countryOfOrigin':
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'countryOfOrigin')
+            value_ = self.gds_validate_string(value_, node, 'countryOfOrigin')
+            self.countryOfOrigin = value_
+            self.countryOfOrigin_nsprefix_ = child_.prefix
+            # validate type countryOfOriginType
+            self.validate_countryOfOriginType(self.countryOfOrigin)
+        elif nodeName_ == 'revenueBoost':
+            obj_ = subMerchantRevenueBoostFeature.factory(parent_object_=self)
+            obj_.build(child_, gds_collector_=gds_collector_)
+            self.revenueBoost = obj_
+            obj_.original_tagname_ = 'revenueBoost'
+        elif nodeName_ == 'complianceProducts':
+            obj_ = complianceProducts.factory(parent_object_=self)
+            obj_.build(child_, gds_collector_=gds_collector_)
+            self.complianceProducts = obj_
+            obj_.original_tagname_ = 'complianceProducts'
         elif nodeName_ == 'sdkVersion':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'sdkVersion')
@@ -9915,13 +10064,13 @@ class subMerchantRetrievalResponse(subMerchantCreateRequest):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = subMerchantCreateRequest
-    def __init__(self, merchantName=None, amexMid=None, discoverConveyedMid=None, url=None, customerServiceNumber=None, hardCodedBillingDescriptor=None, maxTransactionAmount=None, purchaseCurrency=None, merchantCategoryCode=None, taxAuthority=None, taxAuthorityState=None, bankRoutingNumber=None, bankAccountNumber=None, pspMerchantId=None, fraud=None, amexAcquired=None, address=None, primaryContact=None, createCredentials=None, eCheck=None, subMerchantFunding=None, settlementCurrency=None, merchantCategoryTypes=None, methodOfPayments=None, sdkVersion=None, language=None, subMerchantId=None, amexSellerId=None, disabled=None, transactionId=None, merchantIdentString=None, credentials=None, paypageCredentials=None, updateDate=None, gds_collector_=None, **kwargs_):
+    def __init__(self, merchantName=None, amexMid=None, discoverConveyedMid=None, url=None, customerServiceNumber=None, hardCodedBillingDescriptor=None, maxTransactionAmount=None, purchaseCurrency=None, merchantCategoryCode=None, taxAuthority=None, taxAuthorityState=None, bankRoutingNumber=None, bankAccountNumber=None, pspMerchantId=None, fraud=None, amexAcquired=None, address=None, primaryContact=None, createCredentials=None, eCheck=None, subMerchantFunding=None, settlementCurrency=None, merchantCategoryTypes=None, methodOfPayments=None, countryOfOrigin=None, revenueBoost=None, complianceProducts=None, sdkVersion=None, language=None, subMerchantId=None, amexSellerId=None, disabled=None, transactionId=None, merchantIdentString=None, credentials=None, paypageCredentials=None, updateDate=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
         self.ns_prefix_ = "tns"
-        super(globals().get("subMerchantRetrievalResponse"), self).__init__(merchantName, amexMid, discoverConveyedMid, url, customerServiceNumber, hardCodedBillingDescriptor, maxTransactionAmount, purchaseCurrency, merchantCategoryCode, taxAuthority, taxAuthorityState, bankRoutingNumber, bankAccountNumber, pspMerchantId, fraud, amexAcquired, address, primaryContact, createCredentials, eCheck, subMerchantFunding, settlementCurrency, merchantCategoryTypes, methodOfPayments, sdkVersion, language,  **kwargs_)
+        super(globals().get("subMerchantRetrievalResponse"), self).__init__(merchantName, amexMid, discoverConveyedMid, url, customerServiceNumber, hardCodedBillingDescriptor, maxTransactionAmount, purchaseCurrency, merchantCategoryCode, taxAuthority, taxAuthorityState, bankRoutingNumber, bankAccountNumber, pspMerchantId, fraud, amexAcquired, address, primaryContact, createCredentials, eCheck, subMerchantFunding, settlementCurrency, merchantCategoryTypes, methodOfPayments, countryOfOrigin, revenueBoost, complianceProducts, sdkVersion, language,  **kwargs_)
         self.subMerchantId = subMerchantId
         self.validate_subMerchantIdType58(self.subMerchantId)
         self.subMerchantId_nsprefix_ = "tns"
@@ -10536,7 +10685,7 @@ class subMerchantUpdateRequest(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, merchantName=None, amexMid=None, discoverConveyedMid=None, url=None, customerServiceNumber=None, hardCodedBillingDescriptor=None, maxTransactionAmount=None, bankRoutingNumber=None, bankAccountNumber=None, pspMerchantId=None, purchaseCurrency=None, address=None, primaryContact=None, disable=None, fraud=None, amexAcquired=None, eCheck=None, subMerchantFunding=None, taxAuthority=None, taxAuthorityState=None, merchantCategoryTypes=None, methodOfPayments=None, gds_collector_=None, **kwargs_):
+    def __init__(self, merchantName=None, amexMid=None, discoverConveyedMid=None, url=None, customerServiceNumber=None, hardCodedBillingDescriptor=None, maxTransactionAmount=None, bankRoutingNumber=None, bankAccountNumber=None, pspMerchantId=None, purchaseCurrency=None, address=None, primaryContact=None, disable=None, fraud=None, amexAcquired=None, eCheck=None, subMerchantFunding=None, taxAuthority=None, taxAuthorityState=None, merchantCategoryTypes=None, methodOfPayments=None, countryOfOrigin=None, revenueBoost=None, complianceProducts=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -10597,6 +10746,13 @@ class subMerchantUpdateRequest(GeneratedsSuper):
         self.merchantCategoryTypes_nsprefix_ = "tns"
         self.methodOfPayments = methodOfPayments
         self.methodOfPayments_nsprefix_ = "tns"
+        self.countryOfOrigin = countryOfOrigin
+        self.validate_countryOfOriginType78(self.countryOfOrigin)
+        self.countryOfOrigin_nsprefix_ = "tns"
+        self.revenueBoost = revenueBoost
+        self.revenueBoost_nsprefix_ = "tns"
+        self.complianceProducts = complianceProducts
+        self.complianceProducts_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -10700,6 +10856,18 @@ class subMerchantUpdateRequest(GeneratedsSuper):
         return self.methodOfPayments
     def set_methodOfPayments(self, methodOfPayments):
         self.methodOfPayments = methodOfPayments
+    def get_countryOfOrigin(self):
+        return self.countryOfOrigin
+    def set_countryOfOrigin(self, countryOfOrigin):
+        self.countryOfOrigin = countryOfOrigin
+    def get_revenueBoost(self):
+        return self.revenueBoost
+    def set_revenueBoost(self, revenueBoost):
+        self.revenueBoost = revenueBoost
+    def get_complianceProducts(self):
+        return self.complianceProducts
+    def set_complianceProducts(self, complianceProducts):
+        self.complianceProducts = complianceProducts
     def validate_merchantNameType64(self, value):
         result = True
         # Validate type merchantNameType64, a restriction on xs:string.
@@ -10883,6 +11051,23 @@ class subMerchantUpdateRequest(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on purchaseCurrencyType74' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
+    def validate_countryOfOriginType78(self, value):
+        result = True
+        # Validate type countryOfOriginType78, a restriction on xs:string.
+        if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
+            if not isinstance(value, str):
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
+                return False
+            if len(value) > 3:
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on countryOfOriginType78' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                result = False
+            if len(value) < 0:
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on countryOfOriginType78' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                result = False
+        return result
     def has__content(self):
         if (
             self.merchantName is not None or
@@ -10906,7 +11091,10 @@ class subMerchantUpdateRequest(GeneratedsSuper):
             self.taxAuthority is not None or
             self.taxAuthorityState is not None or
             self.merchantCategoryTypes is not None or
-            self.methodOfPayments is not None
+            self.methodOfPayments is not None or
+            self.countryOfOrigin is not None or
+            self.revenueBoost is not None or
+            self.complianceProducts is not None
         ):
             return True
         else:
@@ -11021,6 +11209,16 @@ class subMerchantUpdateRequest(GeneratedsSuper):
         if self.methodOfPayments is not None:
             namespaceprefix_ = self.methodOfPayments_nsprefix_ + ':' if (UseCapturedNS_ and self.methodOfPayments_nsprefix_) else ''
             self.methodOfPayments.export(outfile, level, namespaceprefix_, namespacedef_='', name_='methodOfPayments', pretty_print=pretty_print)
+        if self.countryOfOrigin is not None:
+            namespaceprefix_ = self.countryOfOrigin_nsprefix_ + ':' if (UseCapturedNS_ and self.countryOfOrigin_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%scountryOfOrigin>%s</%scountryOfOrigin>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.countryOfOrigin), input_name='countryOfOrigin')), namespaceprefix_ , eol_))
+        if self.revenueBoost is not None:
+            namespaceprefix_ = self.revenueBoost_nsprefix_ + ':' if (UseCapturedNS_ and self.revenueBoost_nsprefix_) else ''
+            self.revenueBoost.export(outfile, level, namespaceprefix_, namespacedef_='', name_='revenueBoost', pretty_print=pretty_print)
+        if self.complianceProducts is not None:
+            namespaceprefix_ = self.complianceProducts_nsprefix_ + ':' if (UseCapturedNS_ and self.complianceProducts_nsprefix_) else ''
+            self.complianceProducts.export(outfile, level, namespaceprefix_, namespacedef_='', name_='complianceProducts', pretty_print=pretty_print)
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
         if SaveElementTreeNode:
@@ -11181,6 +11379,24 @@ class subMerchantUpdateRequest(GeneratedsSuper):
             obj_.build(child_, gds_collector_=gds_collector_)
             self.methodOfPayments = obj_
             obj_.original_tagname_ = 'methodOfPayments'
+        elif nodeName_ == 'countryOfOrigin':
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'countryOfOrigin')
+            value_ = self.gds_validate_string(value_, node, 'countryOfOrigin')
+            self.countryOfOrigin = value_
+            self.countryOfOrigin_nsprefix_ = child_.prefix
+            # validate type countryOfOriginType78
+            self.validate_countryOfOriginType78(self.countryOfOrigin)
+        elif nodeName_ == 'revenueBoost':
+            obj_ = subMerchantRevenueBoostFeature.factory(parent_object_=self)
+            obj_.build(child_, gds_collector_=gds_collector_)
+            self.revenueBoost = obj_
+            obj_.original_tagname_ = 'revenueBoost'
+        elif nodeName_ == 'complianceProducts':
+            obj_ = complianceProducts.factory(parent_object_=self)
+            obj_.build(child_, gds_collector_=gds_collector_)
+            self.complianceProducts = obj_
+            obj_.original_tagname_ = 'complianceProducts'
 # end class subMerchantUpdateRequest
 
 
@@ -11195,16 +11411,16 @@ class subMerchantPrimaryContactUpdatable(GeneratedsSuper):
         self.parent_object_ = kwargs_.get('parent_object_')
         self.ns_prefix_ = "tns"
         self.firstName = firstName
-        self.validate_firstNameType78(self.firstName)
+        self.validate_firstNameType79(self.firstName)
         self.firstName_nsprefix_ = "tns"
         self.lastName = lastName
-        self.validate_lastNameType79(self.lastName)
+        self.validate_lastNameType80(self.lastName)
         self.lastName_nsprefix_ = "tns"
         self.emailAddress = emailAddress
-        self.validate_emailAddressType80(self.emailAddress)
+        self.validate_emailAddressType81(self.emailAddress)
         self.emailAddress_nsprefix_ = "tns"
         self.phone = phone
-        self.validate_phoneType81(self.phone)
+        self.validate_phoneType82(self.phone)
         self.phone_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
@@ -11237,9 +11453,9 @@ class subMerchantPrimaryContactUpdatable(GeneratedsSuper):
         return self.phone
     def set_phone(self, phone):
         self.phone = phone
-    def validate_firstNameType78(self, value):
+    def validate_firstNameType79(self, value):
         result = True
-        # Validate type firstNameType78, a restriction on xs:string.
+        # Validate type firstNameType79, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -11247,16 +11463,16 @@ class subMerchantPrimaryContactUpdatable(GeneratedsSuper):
                 return False
             if len(value) > 20:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on firstNameType78' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on firstNameType79' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if len(value) < 1:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on firstNameType78' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on firstNameType79' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def validate_lastNameType79(self, value):
+    def validate_lastNameType80(self, value):
         result = True
-        # Validate type lastNameType79, a restriction on xs:string.
+        # Validate type lastNameType80, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -11264,16 +11480,16 @@ class subMerchantPrimaryContactUpdatable(GeneratedsSuper):
                 return False
             if len(value) > 20:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on lastNameType79' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on lastNameType80' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if len(value) < 1:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on lastNameType79' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on lastNameType80' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def validate_emailAddressType80(self, value):
+    def validate_emailAddressType81(self, value):
         result = True
-        # Validate type emailAddressType80, a restriction on xs:string.
+        # Validate type emailAddressType81, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -11281,16 +11497,16 @@ class subMerchantPrimaryContactUpdatable(GeneratedsSuper):
                 return False
             if len(value) > 100:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on emailAddressType80' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on emailAddressType81' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if len(value) < 1:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on emailAddressType80' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on emailAddressType81' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def validate_phoneType81(self, value):
+    def validate_phoneType82(self, value):
         result = True
-        # Validate type phoneType81, a restriction on xs:string.
+        # Validate type phoneType82, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -11298,11 +11514,11 @@ class subMerchantPrimaryContactUpdatable(GeneratedsSuper):
                 return False
             if len(value) > 13:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on phoneType81' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on phoneType82' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if len(value) < 1:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on phoneType81' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on phoneType82' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
     def has__content(self):
@@ -11381,32 +11597,32 @@ class subMerchantPrimaryContactUpdatable(GeneratedsSuper):
             value_ = self.gds_validate_string(value_, node, 'firstName')
             self.firstName = value_
             self.firstName_nsprefix_ = child_.prefix
-            # validate type firstNameType78
-            self.validate_firstNameType78(self.firstName)
+            # validate type firstNameType79
+            self.validate_firstNameType79(self.firstName)
         elif nodeName_ == 'lastName':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'lastName')
             value_ = self.gds_validate_string(value_, node, 'lastName')
             self.lastName = value_
             self.lastName_nsprefix_ = child_.prefix
-            # validate type lastNameType79
-            self.validate_lastNameType79(self.lastName)
+            # validate type lastNameType80
+            self.validate_lastNameType80(self.lastName)
         elif nodeName_ == 'emailAddress':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'emailAddress')
             value_ = self.gds_validate_string(value_, node, 'emailAddress')
             self.emailAddress = value_
             self.emailAddress_nsprefix_ = child_.prefix
-            # validate type emailAddressType80
-            self.validate_emailAddressType80(self.emailAddress)
+            # validate type emailAddressType81
+            self.validate_emailAddressType81(self.emailAddress)
         elif nodeName_ == 'phone':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'phone')
             value_ = self.gds_validate_string(value_, node, 'phone')
             self.phone = value_
             self.phone_nsprefix_ = child_.prefix
-            # validate type phoneType81
-            self.validate_phoneType81(self.phone)
+            # validate type phoneType82
+            self.validate_phoneType82(self.phone)
 # end class subMerchantPrimaryContactUpdatable
 
 
@@ -11617,10 +11833,10 @@ class legalEntityAgreementCreateRequest(GeneratedsSuper):
         self.legalEntityAgreement = legalEntityAgreement
         self.legalEntityAgreement_nsprefix_ = "tns"
         self.sdkVersion = sdkVersion
-        self.validate_sdkVersionType82(self.sdkVersion)
+        self.validate_sdkVersionType83(self.sdkVersion)
         self.sdkVersion_nsprefix_ = "tns"
         self.language = language
-        self.validate_languageType83(self.language)
+        self.validate_languageType84(self.language)
         self.language_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
@@ -11649,9 +11865,9 @@ class legalEntityAgreementCreateRequest(GeneratedsSuper):
         return self.language
     def set_language(self, language):
         self.language = language
-    def validate_sdkVersionType82(self, value):
+    def validate_sdkVersionType83(self, value):
         result = True
-        # Validate type sdkVersionType82, a restriction on xs:string.
+        # Validate type sdkVersionType83, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -11659,21 +11875,21 @@ class legalEntityAgreementCreateRequest(GeneratedsSuper):
                 return False
             if len(value) > 60:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on sdkVersionType82' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on sdkVersionType83' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if len(value) < 1:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on sdkVersionType82' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on sdkVersionType83' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if not self.gds_validate_simple_patterns(
-                    self.validate_sdkVersionType82_patterns_, value):
-                self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_sdkVersionType82_patterns_, ))
+                    self.validate_sdkVersionType83_patterns_, value):
+                self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_sdkVersionType83_patterns_, ))
                 result = False
         return result
-    validate_sdkVersionType82_patterns_ = [['^(\x00-\x7f*)$']]
-    def validate_languageType83(self, value):
+    validate_sdkVersionType83_patterns_ = [['^(\x00-\x7f*)$']]
+    def validate_languageType84(self, value):
         result = True
-        # Validate type languageType83, a restriction on xs:string.
+        # Validate type languageType84, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -11681,18 +11897,18 @@ class legalEntityAgreementCreateRequest(GeneratedsSuper):
                 return False
             if len(value) > 60:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on languageType83' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on languageType84' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if len(value) < 1:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on languageType83' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on languageType84' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if not self.gds_validate_simple_patterns(
-                    self.validate_languageType83_patterns_, value):
-                self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_languageType83_patterns_, ))
+                    self.validate_languageType84_patterns_, value):
+                self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_languageType84_patterns_, ))
                 result = False
         return result
-    validate_languageType83_patterns_ = [['^(\x00-\x7f*)$']]
+    validate_languageType84_patterns_ = [['^(\x00-\x7f*)$']]
     def has__content(self):
         if (
             self.legalEntityAgreement is not None or
@@ -11768,16 +11984,16 @@ class legalEntityAgreementCreateRequest(GeneratedsSuper):
             value_ = self.gds_validate_string(value_, node, 'sdkVersion')
             self.sdkVersion = value_
             self.sdkVersion_nsprefix_ = child_.prefix
-            # validate type sdkVersionType82
-            self.validate_sdkVersionType82(self.sdkVersion)
+            # validate type sdkVersionType83
+            self.validate_sdkVersionType83(self.sdkVersion)
         elif nodeName_ == 'language':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'language')
             value_ = self.gds_validate_string(value_, node, 'language')
             self.language = value_
             self.language_nsprefix_ = child_.prefix
-            # validate type languageType83
-            self.validate_languageType83(self.language)
+            # validate type languageType84
+            self.validate_languageType84(self.language)
 # end class legalEntityAgreementCreateRequest
 
 
@@ -12192,7 +12408,7 @@ class legalEntityAgreementRetrievalResponse(GeneratedsSuper):
         self.parent_object_ = kwargs_.get('parent_object_')
         self.ns_prefix_ = "tns"
         self.legalEntityId = legalEntityId
-        self.validate_legalEntityIdType84(self.legalEntityId)
+        self.validate_legalEntityIdType85(self.legalEntityId)
         self.legalEntityId_nsprefix_ = "tns"
         self.transactionId = transactionId
         self.transactionId_nsprefix_ = "tns"
@@ -12225,9 +12441,9 @@ class legalEntityAgreementRetrievalResponse(GeneratedsSuper):
         return self.agreements
     def set_agreements(self, agreements):
         self.agreements = agreements
-    def validate_legalEntityIdType84(self, value):
+    def validate_legalEntityIdType85(self, value):
         result = True
-        # Validate type legalEntityIdType84, a restriction on xs:string.
+        # Validate type legalEntityIdType85, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -12235,11 +12451,11 @@ class legalEntityAgreementRetrievalResponse(GeneratedsSuper):
                 return False
             if len(value) > 19:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on legalEntityIdType84' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on legalEntityIdType85' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if len(value) < 1:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on legalEntityIdType84' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on legalEntityIdType85' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
     def has__content(self):
@@ -12312,8 +12528,8 @@ class legalEntityAgreementRetrievalResponse(GeneratedsSuper):
             value_ = self.gds_validate_string(value_, node, 'legalEntityId')
             self.legalEntityId = value_
             self.legalEntityId_nsprefix_ = child_.prefix
-            # validate type legalEntityIdType84
-            self.validate_legalEntityIdType84(self.legalEntityId)
+            # validate type legalEntityIdType85
+            self.validate_legalEntityIdType85(self.legalEntityId)
         elif nodeName_ == 'transactionId' and child_.text:
             sval_ = child_.text
             ival_ = self.gds_parse_integer(sval_, node, 'transactionId')
@@ -12340,12 +12556,12 @@ class legalEntityPrincipalDeleteResponse(response):
         self.ns_prefix_ = "tns"
         super(globals().get("legalEntityPrincipalDeleteResponse"), self).__init__(transactionId,  **kwargs_)
         self.legalEntityId = legalEntityId
-        self.validate_legalEntityIdType85(self.legalEntityId)
+        self.validate_legalEntityIdType86(self.legalEntityId)
         self.legalEntityId_nsprefix_ = "tns"
         self.principalId = principalId
         self.principalId_nsprefix_ = "tns"
         self.responseDescription = responseDescription
-        self.validate_responseDescriptionType86(self.responseDescription)
+        self.validate_responseDescriptionType87(self.responseDescription)
         self.responseDescription_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
@@ -12374,9 +12590,9 @@ class legalEntityPrincipalDeleteResponse(response):
         return self.responseDescription
     def set_responseDescription(self, responseDescription):
         self.responseDescription = responseDescription
-    def validate_legalEntityIdType85(self, value):
+    def validate_legalEntityIdType86(self, value):
         result = True
-        # Validate type legalEntityIdType85, a restriction on xs:string.
+        # Validate type legalEntityIdType86, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -12384,16 +12600,16 @@ class legalEntityPrincipalDeleteResponse(response):
                 return False
             if len(value) > 19:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on legalEntityIdType85' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on legalEntityIdType86' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if len(value) < 1:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on legalEntityIdType85' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on legalEntityIdType86' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def validate_responseDescriptionType86(self, value):
+    def validate_responseDescriptionType87(self, value):
         result = True
-        # Validate type responseDescriptionType86, a restriction on xs:string.
+        # Validate type responseDescriptionType87, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -12401,11 +12617,11 @@ class legalEntityPrincipalDeleteResponse(response):
                 return False
             if len(value) > 100:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on responseDescriptionType86' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on responseDescriptionType87' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if len(value) < 1:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on responseDescriptionType86' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on responseDescriptionType87' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
     def has__content(self):
@@ -12481,8 +12697,8 @@ class legalEntityPrincipalDeleteResponse(response):
             value_ = self.gds_validate_string(value_, node, 'legalEntityId')
             self.legalEntityId = value_
             self.legalEntityId_nsprefix_ = child_.prefix
-            # validate type legalEntityIdType85
-            self.validate_legalEntityIdType85(self.legalEntityId)
+            # validate type legalEntityIdType86
+            self.validate_legalEntityIdType86(self.legalEntityId)
         elif nodeName_ == 'principalId' and child_.text:
             sval_ = child_.text
             ival_ = self.gds_parse_integer(sval_, node, 'principalId')
@@ -12495,8 +12711,8 @@ class legalEntityPrincipalDeleteResponse(response):
             value_ = self.gds_validate_string(value_, node, 'responseDescription')
             self.responseDescription = value_
             self.responseDescription_nsprefix_ = child_.prefix
-            # validate type responseDescriptionType86
-            self.validate_responseDescriptionType86(self.responseDescription)
+            # validate type responseDescriptionType87
+            self.validate_responseDescriptionType87(self.responseDescription)
         super(legalEntityPrincipalDeleteResponse, self)._buildChildren(child_, node, nodeName_, True)
 # end class legalEntityPrincipalDeleteResponse
 
@@ -12514,15 +12730,15 @@ class legalEntityPrincipalCreateResponseWithResponseFields(GeneratedsSuper):
         self.principalId = principalId
         self.principalId_nsprefix_ = "tns"
         self.firstName = firstName
-        self.validate_firstNameType87(self.firstName)
+        self.validate_firstNameType88(self.firstName)
         self.firstName_nsprefix_ = "tns"
         self.lastName = lastName
-        self.validate_lastNameType88(self.lastName)
+        self.validate_lastNameType89(self.lastName)
         self.lastName_nsprefix_ = "tns"
         self.responseCode = responseCode
         self.responseCode_nsprefix_ = "tns"
         self.responseDescription = responseDescription
-        self.validate_responseDescriptionType89(self.responseDescription)
+        self.validate_responseDescriptionType90(self.responseDescription)
         self.responseDescription_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
@@ -12559,9 +12775,9 @@ class legalEntityPrincipalCreateResponseWithResponseFields(GeneratedsSuper):
         return self.responseDescription
     def set_responseDescription(self, responseDescription):
         self.responseDescription = responseDescription
-    def validate_firstNameType87(self, value):
+    def validate_firstNameType88(self, value):
         result = True
-        # Validate type firstNameType87, a restriction on xs:string.
+        # Validate type firstNameType88, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -12569,16 +12785,16 @@ class legalEntityPrincipalCreateResponseWithResponseFields(GeneratedsSuper):
                 return False
             if len(value) > 20:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on firstNameType87' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on firstNameType88' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if len(value) < 1:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on firstNameType87' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on firstNameType88' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def validate_lastNameType88(self, value):
+    def validate_lastNameType89(self, value):
         result = True
-        # Validate type lastNameType88, a restriction on xs:string.
+        # Validate type lastNameType89, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -12586,16 +12802,16 @@ class legalEntityPrincipalCreateResponseWithResponseFields(GeneratedsSuper):
                 return False
             if len(value) > 20:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on lastNameType88' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on lastNameType89' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if len(value) < 1:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on lastNameType88' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on lastNameType89' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def validate_responseDescriptionType89(self, value):
+    def validate_responseDescriptionType90(self, value):
         result = True
-        # Validate type responseDescriptionType89, a restriction on xs:string.
+        # Validate type responseDescriptionType90, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -12603,11 +12819,11 @@ class legalEntityPrincipalCreateResponseWithResponseFields(GeneratedsSuper):
                 return False
             if len(value) > 100:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on responseDescriptionType89' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on responseDescriptionType90' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if len(value) < 1:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on responseDescriptionType89' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on responseDescriptionType90' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
     def has__content(self):
@@ -12697,16 +12913,16 @@ class legalEntityPrincipalCreateResponseWithResponseFields(GeneratedsSuper):
             value_ = self.gds_validate_string(value_, node, 'firstName')
             self.firstName = value_
             self.firstName_nsprefix_ = child_.prefix
-            # validate type firstNameType87
-            self.validate_firstNameType87(self.firstName)
+            # validate type firstNameType88
+            self.validate_firstNameType88(self.firstName)
         elif nodeName_ == 'lastName':
             value_ = child_.text
             value_ = self.gds_parse_string(value_, node, 'lastName')
             value_ = self.gds_validate_string(value_, node, 'lastName')
             self.lastName = value_
             self.lastName_nsprefix_ = child_.prefix
-            # validate type lastNameType88
-            self.validate_lastNameType88(self.lastName)
+            # validate type lastNameType89
+            self.validate_lastNameType89(self.lastName)
         elif nodeName_ == 'responseCode' and child_.text:
             sval_ = child_.text
             ival_ = self.gds_parse_integer(sval_, node, 'responseCode')
@@ -12719,8 +12935,8 @@ class legalEntityPrincipalCreateResponseWithResponseFields(GeneratedsSuper):
             value_ = self.gds_validate_string(value_, node, 'responseDescription')
             self.responseDescription = value_
             self.responseDescription_nsprefix_ = child_.prefix
-            # validate type responseDescriptionType89
-            self.validate_responseDescriptionType89(self.responseDescription)
+            # validate type responseDescriptionType90
+            self.validate_responseDescriptionType90(self.responseDescription)
 # end class legalEntityPrincipalCreateResponseWithResponseFields
 
 
@@ -12735,7 +12951,7 @@ class principalCreateResponse(GeneratedsSuper):
         self.parent_object_ = kwargs_.get('parent_object_')
         self.ns_prefix_ = "tns"
         self.legalEntityId = legalEntityId
-        self.validate_legalEntityIdType90(self.legalEntityId)
+        self.validate_legalEntityIdType91(self.legalEntityId)
         self.legalEntityId_nsprefix_ = "tns"
         self.principal = principal
         self.principal_nsprefix_ = "tns"
@@ -12768,9 +12984,9 @@ class principalCreateResponse(GeneratedsSuper):
         return self.transactionId
     def set_transactionId(self, transactionId):
         self.transactionId = transactionId
-    def validate_legalEntityIdType90(self, value):
+    def validate_legalEntityIdType91(self, value):
         result = True
-        # Validate type legalEntityIdType90, a restriction on xs:string.
+        # Validate type legalEntityIdType91, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -12778,11 +12994,11 @@ class principalCreateResponse(GeneratedsSuper):
                 return False
             if len(value) > 19:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on legalEntityIdType90' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on legalEntityIdType91' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if len(value) < 1:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on legalEntityIdType90' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on legalEntityIdType91' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
     def has__content(self):
@@ -12855,8 +13071,8 @@ class principalCreateResponse(GeneratedsSuper):
             value_ = self.gds_validate_string(value_, node, 'legalEntityId')
             self.legalEntityId = value_
             self.legalEntityId_nsprefix_ = child_.prefix
-            # validate type legalEntityIdType90
-            self.validate_legalEntityIdType90(self.legalEntityId)
+            # validate type legalEntityIdType91
+            self.validate_legalEntityIdType91(self.legalEntityId)
         elif nodeName_ == 'principal':
             obj_ = legalEntityPrincipalCreateResponseWithResponseFields.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
@@ -12884,12 +13100,12 @@ class principalDeleteResponse(GeneratedsSuper):
         self.transactionId = transactionId
         self.transactionId_nsprefix_ = "tns"
         self.legalEntityId = legalEntityId
-        self.validate_legalEntityIdType91(self.legalEntityId)
+        self.validate_legalEntityIdType92(self.legalEntityId)
         self.legalEntityId_nsprefix_ = "tns"
         self.principalId = principalId
         self.principalId_nsprefix_ = "tns"
         self.responseDescription = responseDescription
-        self.validate_responseDescriptionType92(self.responseDescription)
+        self.validate_responseDescriptionType93(self.responseDescription)
         self.responseDescription_nsprefix_ = "tns"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
@@ -12922,9 +13138,9 @@ class principalDeleteResponse(GeneratedsSuper):
         return self.responseDescription
     def set_responseDescription(self, responseDescription):
         self.responseDescription = responseDescription
-    def validate_legalEntityIdType91(self, value):
+    def validate_legalEntityIdType92(self, value):
         result = True
-        # Validate type legalEntityIdType91, a restriction on xs:string.
+        # Validate type legalEntityIdType92, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -12932,16 +13148,16 @@ class principalDeleteResponse(GeneratedsSuper):
                 return False
             if len(value) > 19:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on legalEntityIdType91' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on legalEntityIdType92' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if len(value) < 1:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on legalEntityIdType91' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on legalEntityIdType92' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
-    def validate_responseDescriptionType92(self, value):
+    def validate_responseDescriptionType93(self, value):
         result = True
-        # Validate type responseDescriptionType92, a restriction on xs:string.
+        # Validate type responseDescriptionType93, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -12949,11 +13165,11 @@ class principalDeleteResponse(GeneratedsSuper):
                 return False
             if len(value) > 100:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on responseDescriptionType92' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on responseDescriptionType93' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
             if len(value) < 1:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on responseDescriptionType92' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on responseDescriptionType93' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
         return result
     def has__content(self):
@@ -13038,8 +13254,8 @@ class principalDeleteResponse(GeneratedsSuper):
             value_ = self.gds_validate_string(value_, node, 'legalEntityId')
             self.legalEntityId = value_
             self.legalEntityId_nsprefix_ = child_.prefix
-            # validate type legalEntityIdType91
-            self.validate_legalEntityIdType91(self.legalEntityId)
+            # validate type legalEntityIdType92
+            self.validate_legalEntityIdType92(self.legalEntityId)
         elif nodeName_ == 'principalId' and child_.text:
             sval_ = child_.text
             ival_ = self.gds_parse_integer(sval_, node, 'principalId')
@@ -13052,9 +13268,203 @@ class principalDeleteResponse(GeneratedsSuper):
             value_ = self.gds_validate_string(value_, node, 'responseDescription')
             self.responseDescription = value_
             self.responseDescription_nsprefix_ = child_.prefix
-            # validate type responseDescriptionType92
-            self.validate_responseDescriptionType92(self.responseDescription)
+            # validate type responseDescriptionType93
+            self.validate_responseDescriptionType93(self.responseDescription)
 # end class principalDeleteResponse
+
+
+class subMerchantRevenueBoostFeature(GeneratedsSuper):
+    __hash__ = GeneratedsSuper.__hash__
+    subclass = None
+    superclass = None
+    def __init__(self, enabled=None, gds_collector_=None, **kwargs_):
+        self.gds_collector_ = gds_collector_
+        self.gds_elementtree_node_ = None
+        self.original_tagname_ = None
+        self.parent_object_ = kwargs_.get('parent_object_')
+        self.ns_prefix_ = "tns"
+        self.enabled = _cast(bool, enabled)
+        self.enabled_nsprefix_ = None
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, subMerchantRevenueBoostFeature)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if subMerchantRevenueBoostFeature.subclass:
+            return subMerchantRevenueBoostFeature.subclass(*args_, **kwargs_)
+        else:
+            return subMerchantRevenueBoostFeature(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_ns_prefix_(self):
+        return self.ns_prefix_
+    def set_ns_prefix_(self, ns_prefix):
+        self.ns_prefix_ = ns_prefix
+    def get_enabled(self):
+        return self.enabled
+    def set_enabled(self, enabled):
+        self.enabled = enabled
+    def has__content(self):
+        if (
+
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='subMerchantRevenueBoostFeature', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('subMerchantRevenueBoostFeature')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None and name_ == 'subMerchantRevenueBoostFeature':
+            name_ = self.original_tagname_
+        if UseCapturedNS_ and self.ns_prefix_:
+            namespaceprefix_ = self.ns_prefix_ + ':'
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='subMerchantRevenueBoostFeature')
+        if self.has__content():
+            outfile.write('>%s' % (eol_, ))
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='subMerchantRevenueBoostFeature', pretty_print=pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='subMerchantRevenueBoostFeature'):
+        if self.enabled is not None and 'enabled' not in already_processed:
+            already_processed.add('enabled')
+            outfile.write(' enabled="%s"' % self.gds_format_boolean(self.enabled, input_name='enabled'))
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='subMerchantRevenueBoostFeature', fromsubclass_=False, pretty_print=True):
+        pass
+    def build(self, node, gds_collector_=None):
+        self.gds_collector_ = gds_collector_
+        if SaveElementTreeNode:
+            self.gds_elementtree_node_ = node
+        already_processed = set()
+        self.ns_prefix_ = node.prefix
+        self._buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+        return self
+    def _buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('enabled', node)
+        if value is not None and 'enabled' not in already_processed:
+            already_processed.add('enabled')
+            if value in ('true', '1'):
+                self.enabled = True
+            elif value in ('false', '0'):
+                self.enabled = False
+            else:
+                raise_parse_error(node, 'Bad boolean attribute')
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+        pass
+# end class subMerchantRevenueBoostFeature
+
+
+class complianceProducts(GeneratedsSuper):
+    __hash__ = GeneratedsSuper.__hash__
+    subclass = None
+    superclass = None
+    def __init__(self, product=None, gds_collector_=None, **kwargs_):
+        self.gds_collector_ = gds_collector_
+        self.gds_elementtree_node_ = None
+        self.original_tagname_ = None
+        self.parent_object_ = kwargs_.get('parent_object_')
+        self.ns_prefix_ = "tns"
+        if product is None:
+            self.product = []
+        else:
+            self.product = product
+        self.product_nsprefix_ = "tns"
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, complianceProducts)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if complianceProducts.subclass:
+            return complianceProducts.subclass(*args_, **kwargs_)
+        else:
+            return complianceProducts(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_ns_prefix_(self):
+        return self.ns_prefix_
+    def set_ns_prefix_(self, ns_prefix):
+        self.ns_prefix_ = ns_prefix
+    def get_product(self):
+        return self.product
+    def set_product(self, product):
+        self.product = product
+    def add_product(self, value):
+        self.product.append(value)
+    def insert_product_at(self, index, value):
+        self.product.insert(index, value)
+    def replace_product_at(self, index, value):
+        self.product[index] = value
+    def has__content(self):
+        if (
+            self.product
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='complianceProducts', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('complianceProducts')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None and name_ == 'complianceProducts':
+            name_ = self.original_tagname_
+        if UseCapturedNS_ and self.ns_prefix_:
+            namespaceprefix_ = self.ns_prefix_ + ':'
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='complianceProducts')
+        if self.has__content():
+            outfile.write('>%s' % (eol_, ))
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='complianceProducts', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='complianceProducts'):
+        pass
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='complianceProducts', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        for product_ in self.product:
+            namespaceprefix_ = self.product_nsprefix_ + ':' if (UseCapturedNS_ and self.product_nsprefix_) else ''
+            product_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='product', pretty_print=pretty_print)
+    def build(self, node, gds_collector_=None):
+        self.gds_collector_ = gds_collector_
+        if SaveElementTreeNode:
+            self.gds_elementtree_node_ = node
+        already_processed = set()
+        self.ns_prefix_ = node.prefix
+        self._buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+        return self
+    def _buildAttributes(self, node, attrs, already_processed):
+        pass
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+        if nodeName_ == 'product':
+            obj_ = productType.factory(parent_object_=self)
+            obj_.build(child_, gds_collector_=gds_collector_)
+            self.product.append(obj_)
+            obj_.original_tagname_ = 'product'
+# end class complianceProducts
 
 
 class riskIndicatorsType(GeneratedsSuper):
@@ -14445,6 +14855,230 @@ class agreementsType(GeneratedsSuper):
 # end class agreementsType
 
 
+class productType(GeneratedsSuper):
+    __hash__ = GeneratedsSuper.__hash__
+    subclass = None
+    superclass = None
+    def __init__(self, code=None, name=None, active=None, activationDate=None, deActivationDate=None, complianceStatus=None, complianceStatusDate=None, gds_collector_=None, **kwargs_):
+        self.gds_collector_ = gds_collector_
+        self.gds_elementtree_node_ = None
+        self.original_tagname_ = None
+        self.parent_object_ = kwargs_.get('parent_object_')
+        self.ns_prefix_ = None
+        self.code = code
+        self.validate_complianceProductCode(self.code)
+        self.code_nsprefix_ = None
+        self.name = name
+        self.name_nsprefix_ = None
+        self.active = active
+        self.active_nsprefix_ = None
+        if isinstance(activationDate, BaseStrType_):
+            initvalue_ = datetime_.datetime.strptime(activationDate, '%Y-%m-%d').date()
+        else:
+            initvalue_ = activationDate
+        self.activationDate = initvalue_
+        self.activationDate_nsprefix_ = None
+        if isinstance(deActivationDate, BaseStrType_):
+            initvalue_ = datetime_.datetime.strptime(deActivationDate, '%Y-%m-%d').date()
+        else:
+            initvalue_ = deActivationDate
+        self.deActivationDate = initvalue_
+        self.deActivationDate_nsprefix_ = None
+        self.complianceStatus = complianceStatus
+        self.complianceStatus_nsprefix_ = None
+        if isinstance(complianceStatusDate, BaseStrType_):
+            initvalue_ = datetime_.datetime.strptime(complianceStatusDate, '%Y-%m-%d').date()
+        else:
+            initvalue_ = complianceStatusDate
+        self.complianceStatusDate = initvalue_
+        self.complianceStatusDate_nsprefix_ = None
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, productType)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if productType.subclass:
+            return productType.subclass(*args_, **kwargs_)
+        else:
+            return productType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_ns_prefix_(self):
+        return self.ns_prefix_
+    def set_ns_prefix_(self, ns_prefix):
+        self.ns_prefix_ = ns_prefix
+    def get_code(self):
+        return self.code
+    def set_code(self, code):
+        self.code = code
+    def get_name(self):
+        return self.name
+    def set_name(self, name):
+        self.name = name
+    def get_active(self):
+        return self.active
+    def set_active(self, active):
+        self.active = active
+    def get_activationDate(self):
+        return self.activationDate
+    def set_activationDate(self, activationDate):
+        self.activationDate = activationDate
+    def get_deActivationDate(self):
+        return self.deActivationDate
+    def set_deActivationDate(self, deActivationDate):
+        self.deActivationDate = deActivationDate
+    def get_complianceStatus(self):
+        return self.complianceStatus
+    def set_complianceStatus(self, complianceStatus):
+        self.complianceStatus = complianceStatus
+    def get_complianceStatusDate(self):
+        return self.complianceStatusDate
+    def set_complianceStatusDate(self, complianceStatusDate):
+        self.complianceStatusDate = complianceStatusDate
+    def validate_complianceProductCode(self, value):
+        result = True
+        # Validate type complianceProductCode, a restriction on xs:string.
+        if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
+            if not isinstance(value, str):
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
+                return False
+            value = value
+            enumerations = ['SAFERPAYMENT', 'OTHER']
+            if value not in enumerations:
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on complianceProductCode' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                result = False
+        return result
+    def has__content(self):
+        if (
+            self.code is not None or
+            self.name is not None or
+            self.active is not None or
+            self.activationDate is not None or
+            self.deActivationDate is not None or
+            self.complianceStatus is not None or
+            self.complianceStatusDate is not None
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='productType', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('productType')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None and name_ == 'productType':
+            name_ = self.original_tagname_
+        if UseCapturedNS_ and self.ns_prefix_:
+            namespaceprefix_ = self.ns_prefix_ + ':'
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='productType')
+        if self.has__content():
+            outfile.write('>%s' % (eol_, ))
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='productType', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='productType'):
+        pass
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='xmlns:tns="http://payfac.vantivcnp.com/api/merchant/onboard"', name_='productType', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.code is not None:
+            namespaceprefix_ = self.code_nsprefix_ + ':' if (UseCapturedNS_ and self.code_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%scode>%s</%scode>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.code), input_name='code')), namespaceprefix_ , eol_))
+        if self.name is not None:
+            namespaceprefix_ = self.name_nsprefix_ + ':' if (UseCapturedNS_ and self.name_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sname>%s</%sname>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.name), input_name='name')), namespaceprefix_ , eol_))
+        if self.active is not None:
+            namespaceprefix_ = self.active_nsprefix_ + ':' if (UseCapturedNS_ and self.active_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sactive>%s</%sactive>%s' % (namespaceprefix_ , self.gds_format_boolean(self.active, input_name='active'), namespaceprefix_ , eol_))
+        if self.activationDate is not None:
+            namespaceprefix_ = self.activationDate_nsprefix_ + ':' if (UseCapturedNS_ and self.activationDate_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sactivationDate>%s</%sactivationDate>%s' % (namespaceprefix_ , self.gds_format_date(self.activationDate, input_name='activationDate'), namespaceprefix_ , eol_))
+        if self.deActivationDate is not None:
+            namespaceprefix_ = self.deActivationDate_nsprefix_ + ':' if (UseCapturedNS_ and self.deActivationDate_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sdeActivationDate>%s</%sdeActivationDate>%s' % (namespaceprefix_ , self.gds_format_date(self.deActivationDate, input_name='deActivationDate'), namespaceprefix_ , eol_))
+        if self.complianceStatus is not None:
+            namespaceprefix_ = self.complianceStatus_nsprefix_ + ':' if (UseCapturedNS_ and self.complianceStatus_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%scomplianceStatus>%s</%scomplianceStatus>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.complianceStatus), input_name='complianceStatus')), namespaceprefix_ , eol_))
+        if self.complianceStatusDate is not None:
+            namespaceprefix_ = self.complianceStatusDate_nsprefix_ + ':' if (UseCapturedNS_ and self.complianceStatusDate_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%scomplianceStatusDate>%s</%scomplianceStatusDate>%s' % (namespaceprefix_ , self.gds_format_date(self.complianceStatusDate, input_name='complianceStatusDate'), namespaceprefix_ , eol_))
+    def build(self, node, gds_collector_=None):
+        self.gds_collector_ = gds_collector_
+        if SaveElementTreeNode:
+            self.gds_elementtree_node_ = node
+        already_processed = set()
+        self.ns_prefix_ = node.prefix
+        self._buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+        return self
+    def _buildAttributes(self, node, attrs, already_processed):
+        pass
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+        if nodeName_ == 'code':
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'code')
+            value_ = self.gds_validate_string(value_, node, 'code')
+            self.code = value_
+            self.code_nsprefix_ = child_.prefix
+            # validate type complianceProductCode
+            self.validate_complianceProductCode(self.code)
+        elif nodeName_ == 'name':
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'name')
+            value_ = self.gds_validate_string(value_, node, 'name')
+            self.name = value_
+            self.name_nsprefix_ = child_.prefix
+        elif nodeName_ == 'active':
+            sval_ = child_.text
+            ival_ = self.gds_parse_boolean(sval_, node, 'active')
+            ival_ = self.gds_validate_boolean(ival_, node, 'active')
+            self.active = ival_
+            self.active_nsprefix_ = child_.prefix
+        elif nodeName_ == 'activationDate':
+            sval_ = child_.text
+            dval_ = self.gds_parse_date(sval_)
+            self.activationDate = dval_
+            self.activationDate_nsprefix_ = child_.prefix
+        elif nodeName_ == 'deActivationDate':
+            sval_ = child_.text
+            dval_ = self.gds_parse_date(sval_)
+            self.deActivationDate = dval_
+            self.deActivationDate_nsprefix_ = child_.prefix
+        elif nodeName_ == 'complianceStatus':
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'complianceStatus')
+            value_ = self.gds_validate_string(value_, node, 'complianceStatus')
+            self.complianceStatus = value_
+            self.complianceStatus_nsprefix_ = child_.prefix
+        elif nodeName_ == 'complianceStatusDate':
+            sval_ = child_.text
+            dval_ = self.gds_parse_date(sval_)
+            self.complianceStatusDate = dval_
+            self.complianceStatusDate_nsprefix_ = child_.prefix
+# end class productType
+
+
 class legalEntityResponse(response):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -14867,6 +15501,7 @@ GDSClassesMapping = {
     'subMerchantECheckFeature': subMerchantECheckFeature,
     'subMerchantFraudFeature': subMerchantFraudFeature,
     'subMerchantRetrievalResponse': subMerchantRetrievalResponse,
+    'subMerchantRevenueBoostFeature': subMerchantRevenueBoostFeature,
     'subMerchantUpdateRequest': subMerchantUpdateRequest,
 }
 
@@ -15065,199 +15700,211 @@ RenameMappings_ = {
 # and the file in which each is defined.
 # simpleTypes are marked "ST" and complexTypes "CT".
 NamespaceToDefMappings_ = {'http://payfac.vantivcnp.com/api/merchant/onboard': [('legalEntityType',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'ST'),
                                                       ('businessOverallScore',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'ST'),
                                                       ('nameAddressTaxIdAssociationCode',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'ST'),
                                                       ('businessNameAddressPhoneAssociationCode',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'ST'),
                                                       ('riskIndicatorCode',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'ST'),
                                                       ('principalOverallScore',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'ST'),
                                                       ('nameAddressSsnAssociationCode',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'ST'),
                                                       ('principalNameAddressPhoneAssociationCode',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'ST'),
                                                       ('businessToPrincipalScore',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'ST'),
                                                       ('legalEntityAgreementType',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'ST'),
                                                       ('legalEntityOwnershipType',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
+                                                       'ST'),
+                                                      ('pciLevelScore',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
+                                                       'ST'),
+                                                      ('complianceProductCode',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'ST'),
                                                       ('legalEntityCreateRequest',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('address',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('legalEntityPrincipal',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('principalAddress',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('legalEntityCreateResponse',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('legalEntityResponse',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('response',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('legalEntityPrincipalCreateRequest',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('legalEntityPrincipalCreateResponse',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('legalEntityRetrievalResponse',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('backgroundCheckResults',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('businessResult',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('businessVerificationResult',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('businessScore',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('nameAddressTaxIdAssociation',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('businessNameAddressPhoneAssociation',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('businessVerificationIndicators',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('potentialRiskIndicator',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('principalResult',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('principalVerificationResult',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('principalScore',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('nameAddressSsnAssociation',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('principalNameAddressPhoneAssociation',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('principalVerificationIndicators',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('businessToPrincipalAssociation',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('bankruptcyResult',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('lienResult',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('legalEntityUpdateRequest',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('addressUpdatable',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('legalEntityPrincipalUpdatable',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('principalBackgroundCheckFields',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('legalEntityBackgroundCheckFields',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('subMerchantCreateRequest',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('subMerchantFraudFeature',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('subMerchantAmexAcquiredFeature',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('subMerchantPrimaryContact',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('subMerchantECheckFeature',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('subMerchantFunding',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('subMerchantCreateResponse',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('subMerchantRetrievalResponse',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('subMerchantCredentials',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('paypageCredential',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('subMerchantUpdateRequest',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('subMerchantPrimaryContactUpdatable',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('errorResponse',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('approvedMccResponse',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('legalEntityAgreementCreateRequest',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('legalEntityAgreement',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('legalEntityAgreementCreateResponse',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('legalEntityAgreementRetrievalResponse',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('legalEntityPrincipalDeleteResponse',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('legalEntityPrincipalCreateResponseWithResponseFields',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('principalCreateResponse',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT'),
                                                       ('principalDeleteResponse',
-                                                       '../payfacMPSdk/schema/merchant-onboard-api-v14.xsd',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
+                                                       'CT'),
+                                                      ('subMerchantRevenueBoostFeature',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
+                                                       'CT'),
+                                                      ('complianceProducts',
+                                                       '../payfacMPSdk/schema/merchant-onboard-api-v15.xsd',
                                                        'CT')]}
 
 __all__ = [
@@ -15274,6 +15921,7 @@ __all__ = [
     "businessToPrincipalAssociation",
     "businessVerificationIndicators",
     "businessVerificationResult",
+    "complianceProducts",
     "errorResponse",
     "errorsType",
     "legalEntityAgreement",
@@ -15314,6 +15962,7 @@ __all__ = [
     "principalScore",
     "principalVerificationIndicators",
     "principalVerificationResult",
+    "productType",
     "response",
     "riskIndicatorsType",
     "riskIndicatorsType18",
@@ -15327,5 +15976,6 @@ __all__ = [
     "subMerchantPrimaryContact",
     "subMerchantPrimaryContactUpdatable",
     "subMerchantRetrievalResponse",
+    "subMerchantRevenueBoostFeature",
     "subMerchantUpdateRequest"
 ]

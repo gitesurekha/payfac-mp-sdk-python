@@ -6,7 +6,7 @@ import sys
 
 package_root = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 sys.path.insert(0, package_root)
-version = u'14'
+version = u'15'
 xsd_name = 'merchant-onboard-api-v%s.xsd' % version
 #retrieve xsd file using package manager
 xsd_path = pkg_resources.resource_filename('payfacMPSdk', 'schema/' + xsd_name)

@@ -1,5 +1,6 @@
 import unittest
 from payfacMPSdk import payfac_submerchant, generatedClass, utils
+from payfacMPSdk.generatedClass import complianceProducts, productType
 
 
 class TestSubMerchant(unittest.TestCase):
@@ -55,6 +56,20 @@ class TestSubMerchant(unittest.TestCase):
         method.set_paymentType("AMERICAN_EXPRESS")
         methodOfPayments.add_method(method)
         subMerchantUpdateRequest.set_methodOfPayments(methodOfPayments)
+        # v15 changes -COO, revenueBoost, complianceProducts
+        subMerchantUpdateRequest.set_countryOfOrigin("USA")
+
+        revenueBoost = generatedClass.subMerchantRevenueBoostFeature.factory()
+        revenueBoost.set_enabled(True)
+        subMerchantUpdateRequest.set_revenueBoost(revenueBoost)
+
+        complianceProduct=generatedClass.complianceProducts.factory()
+        product =generatedClass.productType.factory()
+        product.set_code("SAFERPAYMENT")
+        product.set_name("safer payment name")
+        product.set_active(True)
+        complianceProduct.product=[product]
+        subMerchantUpdateRequest.set_complianceProducts(complianceProduct)
 
         response = payfac_submerchant.put_by_subMerchantId("2018","123456", subMerchantUpdateRequest)
         self.assertIsNotNone(response["transactionId"])
@@ -116,6 +131,20 @@ class TestSubMerchant(unittest.TestCase):
         categoryCode.add_categoryType("GC")
         # categoryCode.add_categoryType("CLEAR")  #to validate other scenario
         subMerchantCreateRequest.set_merchantCategoryTypes(categoryCode)
+        #v15 changes -COO, revenueBoost, complianceProducts
+        subMerchantCreateRequest.set_countryOfOrigin("USA")
+
+        revenueBoost = generatedClass.subMerchantRevenueBoostFeature.factory()
+        revenueBoost.set_enabled(True)
+        subMerchantCreateRequest.set_revenueBoost(revenueBoost)
+
+        complianceProduct = generatedClass.complianceProducts.factory()
+        product = generatedClass.productType.factory()
+        product.set_code("SAFERPAYMENT")
+        product.set_name("safer payment name")
+        product.set_active(True)
+        complianceProduct.product = [product]
+        subMerchantCreateRequest.set_complianceProducts(complianceProduct)
 
         response = payfac_submerchant.post_by_legalEntity("2018",subMerchantCreateRequest)
         self.assertIsNotNone(response["subMerchantId"])

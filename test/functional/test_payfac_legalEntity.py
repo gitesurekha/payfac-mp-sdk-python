@@ -52,6 +52,7 @@ class TestLegalEntity(unittest.TestCase):
         legalEntityUpdateRequest.set_backgroundCheckFields(backgroundCheckFields)
         legalEntityUpdateRequest.set_legalEntityOwnershipType("PUBLIC")
         legalEntityUpdateRequest.set_yearsInBusiness("10")
+        legalEntityUpdateRequest.set_pciLevel("2") #v15 changes pciLevel
 
         response = payfac_legalEntity.put_by_legalEntityId("1000293", legalEntityUpdateRequest)
 
@@ -103,6 +104,7 @@ class TestLegalEntity(unittest.TestCase):
         principal.set_stakePercent(33)
         legalEntityCreateRequest.set_principal(principal)
         legalEntityCreateRequest.set_yearsInBusiness("12")
+        legalEntityCreateRequest.set_pciLevel("1")   #v15 changes pciLevel
 
         response = payfac_legalEntity.post_by_legalEntity(legalEntityCreateRequest)
         self.assertIsNotNone(response["legalEntityId"])

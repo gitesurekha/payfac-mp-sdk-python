@@ -24,7 +24,7 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 
 # XML Version
-VERSION = u'14'
+VERSION = u'15'
 # SDK release
-RELEASE = u'14.0.0'
+RELEASE = u'15.0.0'
 LANGUAGE = u'python'
