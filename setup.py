@@ -10,7 +10,7 @@ if (sys.version_info[:3] < (2, 7, 9)) or ((sys.version_info[0] == 3) and sys.ver
 (You have %s.)''' % (sys.version,))
 
 setup(
-    name='PayfacMpSDK',
+    name='payfacmpsdk',
     version='15.0.0',
     description='Worldpay payfac SDK',
     author='Worldpay',
