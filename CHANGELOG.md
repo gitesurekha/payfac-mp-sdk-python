@@ -10,8 +10,7 @@ CHANGELOG
 + countryOfOrigin with type String with min and max length of 3
 + revenueBoost of type subMerchantRevenueBoostFeature
 + subMerchantRevenueBoostFeature of type boolean with enabled would be True/false
-+ complianceProducts contain elements with their type:code of type complianceProductCode,name of type string,active of type boolean,activation  of type date
-  ,deActivation of type date,complianceStatus of type string,complianceStatusDate of type date
++ complianceProducts contain elements with their type:code of type complianceProductCode,name of type string,active of type boolean,activation  of type date ,deActivation of type date,complianceStatus of type string,complianceStatusDate of type date
 
 ## 14.0.0
 * **Feature** Support for Payfac MP API version 14.0
