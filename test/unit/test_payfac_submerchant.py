@@ -69,8 +69,22 @@ class TestSubmerchant(unittest.TestCase):
         categoryCode.add_categoryType("SM")
         # categoryCode.add_categoryType("CLEAR")  #to validate other scenario
         subMerchantCreateRequest.set_merchantCategoryTypes(categoryCode)
+        # v15 changes -COO, revenueBoost, complianceProducts
+        subMerchantCreateRequest.set_countryOfOrigin("USA")
 
-        expected_request = '<subMerchantCreateRequest xmlns="http://payfac.vantivcnp.com/api/merchant/onboard"><merchantName>Merchant Name</merchantName><amexMid>1234567890</amexMid><discoverConveyedMid>12345678901235</discoverConveyedMid><url>http://merchantUrl</url><customerServiceNumber>8407809000</customerServiceNumber><hardCodedBillingDescriptor>billing Descriptor</hardCodedBillingDescriptor><maxTransactionAmount>8400</maxTransactionAmount><purchaseCurrency>USD</purchaseCurrency><merchantCategoryCode>5964</merchantCategoryCode><bankRoutingNumber>840123124</bankRoutingNumber><bankAccountNumber>84012312415</bankAccountNumber><pspMerchantId>123456</pspMerchantId><fraud enabled="true"/><amexAcquired enabled="false"/><address><streetAddress1>Street Address 1</streetAddress1><streetAddress2>Street Address 2</streetAddress2><city>City</city><stateProvince>MA</stateProvince><postalCode>01970</postalCode><countryCode>USA</countryCode></address><primaryContact><firstName>John</firstName><lastName>Doe</lastName><emailAddress>John.Doe@company.com</emailAddress><phone>978555222</phone></primaryContact><createCredentials>true</createCredentials><eCheck enabled="true"><eCheckCompanyName>Company Name</eCheckCompanyName><eCheckBillingDescriptor>978555222</eCheckBillingDescriptor></eCheck><subMerchantFunding enabled="false"/><settlementCurrency>USD</settlementCurrency><merchantCategoryTypes><categoryType>SM</categoryType></merchantCategoryTypes><sdkVersion>15.0.0</sdkVersion><language>python</language></subMerchantCreateRequest>'
+        revenueBoost = generatedClass.subMerchantRevenueBoostFeature.factory()
+        revenueBoost.set_enabled(True)
+        subMerchantCreateRequest.set_revenueBoost(revenueBoost)
+
+        complianceProduct = generatedClass.complianceProducts.factory()
+        product = generatedClass.productType.factory()
+        product.set_code("SAFERPAYMENT")
+        product.set_name("safer payment name")
+        product.set_active(True)
+        complianceProduct.product = [product]
+        subMerchantCreateRequest.set_complianceProducts(complianceProduct)
+
+        expected_request = '<subMerchantCreateRequest xmlns="http://payfac.vantivcnp.com/api/merchant/onboard"><merchantName>Merchant Name</merchantName><amexMid>1234567890</amexMid><discoverConveyedMid>12345678901235</discoverConveyedMid><url>http://merchantUrl</url><customerServiceNumber>8407809000</customerServiceNumber><hardCodedBillingDescriptor>billing Descriptor</hardCodedBillingDescriptor><maxTransactionAmount>8400</maxTransactionAmount><purchaseCurrency>USD</purchaseCurrency><merchantCategoryCode>5964</merchantCategoryCode><bankRoutingNumber>840123124</bankRoutingNumber><bankAccountNumber>84012312415</bankAccountNumber><pspMerchantId>123456</pspMerchantId><fraud enabled="true"/><amexAcquired enabled="false"/><address><streetAddress1>Street Address 1</streetAddress1><streetAddress2>Street Address 2</streetAddress2><city>City</city><stateProvince>MA</stateProvince><postalCode>01970</postalCode><countryCode>USA</countryCode></address><primaryContact><firstName>John</firstName><lastName>Doe</lastName><emailAddress>John.Doe@company.com</emailAddress><phone>978555222</phone></primaryContact><createCredentials>true</createCredentials><eCheck enabled="true"><eCheckCompanyName>Company Name</eCheckCompanyName><eCheckBillingDescriptor>978555222</eCheckBillingDescriptor></eCheck><subMerchantFunding enabled="false"/><settlementCurrency>USD</settlementCurrency><merchantCategoryTypes><categoryType>SM</categoryType></merchantCategoryTypes><countryOfOrigin>USA</countryOfOrigin><revenueBoost enabled="true"/><complianceProducts><product><code>SAFERPAYMENT</code><name>safer payment name</name><active>true</active></product></complianceProducts><sdkVersion>15.0.0</sdkVersion><language>python</language></subMerchantCreateRequest>'
 
         #hack to get around differences between Python 2 and 3
         if sys.version_info[0] >= 3:
@@ -126,6 +140,20 @@ class TestSubmerchant(unittest.TestCase):
         method.set_paymentType("AMERICAN_EXPRESS")
         methodOfPayments.add_method(method)
         subMerchantUpdateRequest.set_methodOfPayments(methodOfPayments)
+        # v15 changes -COO, revenueBoost, complianceProducts
+        subMerchantUpdateRequest.set_countryOfOrigin("USA")
+
+        revenueBoost = generatedClass.subMerchantRevenueBoostFeature.factory()
+        revenueBoost.set_enabled(True)
+        subMerchantUpdateRequest.set_revenueBoost(revenueBoost)
+
+        complianceProduct = generatedClass.complianceProducts.factory()
+        product = generatedClass.productType.factory()
+        product.set_code("SAFERPAYMENT")
+        product.set_name("safer payment name")
+        product.set_active(True)
+        complianceProduct.product = [product]
+        subMerchantUpdateRequest.set_complianceProducts(complianceProduct)
 
         payfac_submerchant.put_by_subMerchantId("2018", "123456", subMerchantUpdateRequest)
         expected_url_suffix = "/legalentity/2018/submerchant/123456".encode('utf-8')
